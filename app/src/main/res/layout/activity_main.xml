@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/imageView3"
@@ -51,12 +53,12 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/editText9"
+                    android:id="@+id/field_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.00"
                     android:background="@drawable/rounded_edittext"
-                    android:hint="Password"
+                    android:hint="E-mail"
                     android:padding="5dip"
                     android:singleLine="true" />
 
@@ -66,13 +68,14 @@
                     android:layout_weight="2.17" />
 
                 <EditText
-                    android:id="@+id/editText8"
+                    android:id="@+id/field_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_edittext"
-                    android:hint="E-mail"
+                    android:hint="Password"
                     android:padding="5dip"
+                    android:password="true"
                     android:singleLine="true" />
             </LinearLayout>
 
@@ -88,10 +91,11 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/mSignIn"
+                android:id="@+id/signIn_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/buttonshape"
+                android:onClick="signIn()"
                 android:text="Sign In"
                 android:textAllCaps="false"
                 android:textSize="24sp" />
@@ -101,7 +105,7 @@
                 android:layout_height="10dp" />
 
             <Button
-                android:id="@+id/mSignUp"
+                android:id="@+id/signUp_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/buttonshape"
