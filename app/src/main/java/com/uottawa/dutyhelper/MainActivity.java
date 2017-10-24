@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //sign in method
     public void signIn(){
         //forebase sign in function
-        mAuth.signInWithEmailAndPassword(mEmailField.toString(),mPasswordField.toString())
+        mAuth.signInWithEmailAndPassword(mEmailField.getText().toString(),mPasswordField.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.makeText(MainActivity.this, task.getException().toString()+mEmailField.toString(),
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }

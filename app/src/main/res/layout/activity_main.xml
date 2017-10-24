@@ -56,11 +56,12 @@
                     android:id="@+id/field_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.00"
+                    android:layout_weight="1"
                     android:background="@drawable/rounded_edittext"
+                    android:ems="10"
                     android:hint="E-mail"
-                    android:padding="5dip"
-                    android:singleLine="true" />
+                    android:inputType="textEmailAddress"
+                    android:padding="5dip" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -77,6 +78,7 @@
                     android:padding="5dip"
                     android:password="true"
                     android:singleLine="true" />
+
             </LinearLayout>
 
         </LinearLayout>
