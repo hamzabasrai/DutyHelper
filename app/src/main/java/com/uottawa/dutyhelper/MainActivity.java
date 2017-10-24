@@ -13,17 +13,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import android.util.Log;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
     //initialzie Firebase Auth
     private FirebaseAuth mAuth;
     //create edit text field for user and pass
     private EditText mEmailField;
     private EditText mPasswordField;
-
 
 
     @Override
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.signIn_btn).setOnClickListener(this);
         findViewById(R.id.signUp_btn).setOnClickListener(this);
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
+
     //need to update this to change activities probably
     private void updateUI(FirebaseUser currentUser) {
         return;
@@ -55,9 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     //sign in method
-    public void signIn(){
+    public void signIn() {
         //forebase sign in function
-        mAuth.signInWithEmailAndPassword(mEmailField.getText().toString(),mPasswordField.getText().toString())
+        mAuth.signInWithEmailAndPassword(mEmailField.getText().toString(), mPasswordField.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -69,20 +71,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, task.getException().toString()+mEmailField.toString(),
+                            Toast.makeText(MainActivity.this, task.getException().toString() + mEmailField.toString(),
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
                 });
     }
+
     //create an account we should maybe make an intent to a new activity to fill out all user info
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
             return;
-        }mAuth.createUserWithEmailAndPassword(email,password);
+        }
+        mAuth.createUserWithEmailAndPassword(email, password);
     }
+
     //makes sure the inputed text is correctly inputed
     private boolean validateForm() {
         boolean valid = true;
@@ -93,8 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             valid = false;
         } else {
             mEmailField.setError(null);
-        }return valid;
+        }
+        return valid;
     }
+
     @Override
     public void onClick(View v) {
         int i = v.getId();
@@ -103,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (i == R.id.signIn_btn) {
             signIn();
         } //else if (i == R.id.sign_out_button) {
-            //signOut();
+        //signOut();
         //}
     }
 }
