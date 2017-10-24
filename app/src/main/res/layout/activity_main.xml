@@ -12,11 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:weightSum="1">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageView3"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_alignParentTop="true"
@@ -34,34 +33,83 @@
             tools:layout_editor_absoluteY="40dp" />
 
         <Space
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-
-        <Button
-            android:id="@+id/angry_btn"
-
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/buttonshape"
+            android:layout_height="38dp"
+            android:layout_alignParentStart="true" />
 
-            android:text="Sign In"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp" />
+        <LinearLayout
+            android:id="@+id/editTextFields"
+            android:layout_width="match_parent"
+            android:layout_height="109dp"
+            android:layout_below="@+id/imageView3"
+            android:layout_marginTop="26dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="103dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/editText9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.00"
+                    android:background="@drawable/rounded_edittext"
+                    android:hint="Password"
+                    android:padding="5dip"
+                    android:singleLine="true" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.17" />
+
+                <EditText
+                    android:id="@+id/editText8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_edittext"
+                    android:hint="E-mail"
+                    android:padding="5dip"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="22dp" />
 
-        <Button
-            android:id="@+id/button"
-
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/buttonshape"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            android:text="Sign Up!"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp" />
+            <Button
+                android:id="@+id/mSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/buttonshape"
+                android:text="Sign In"
+                android:textAllCaps="false"
+                android:textSize="24sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <Button
+                android:id="@+id/mSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/buttonshape"
+                android:text="Sign Up!"
+                android:textAllCaps="false"
+                android:textSize="24sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
