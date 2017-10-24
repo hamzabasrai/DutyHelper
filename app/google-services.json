@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "261461721532",
+    "firebase_url": "https://dutyhelper-ecf7e.firebaseio.com",
+    "project_id": "dutyhelper-ecf7e",
+    "storage_bucket": "dutyhelper-ecf7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261461721532:android:906495e0bf045da6",
+        "android_client_info": {
+          "package_name": "com.uottawa.dutyhelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261461721532-ps4cr1874scu0526voru065o19o2p69d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uottawa.dutyhelper",
+            "certificate_hash": "d65446dbcac6a3e9ee58bdc3cecece90d212a522"
+          }
+        },
+        {
+          "client_id": "261461721532-4eo5d4959d1gdfceb9gv5fre936e2fi1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqRQ6kNqyWnYWoDfjv2VZuBeSJe27TfPg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261461721532-4eo5d4959d1gdfceb9gv5fre936e2fi1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
