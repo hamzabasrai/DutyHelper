@@ -1,5 +1,6 @@
 package com.uottawa.dutyhelper;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,7 +26,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //create edit text field for user and pass
     private EditText mEmailField;
     private EditText mPasswordField;
+    //sign-up button
+    public Button signUpButton;
 
+    //a method that defines the functionality of the sign-up button in the main activity
+    //called in onCreate method of MainActivity.java
+    public void init(){
+        signUpButton = (Button) findViewById(R.id.signUp_btn);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signUpScreen = new Intent(MainActivity.this, signup.class);
+                startActivity(signUpScreen);
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //initializing Onclick listener which is implemented in this class
         findViewById(R.id.signIn_btn).setOnClickListener(this);
         findViewById(R.id.signUp_btn).setOnClickListener(this);
+        init();
     }
 
 

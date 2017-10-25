@@ -1,20 +1,27 @@
 package com.uottawa.dutyhelper;
 
-/**
- * Created by pfara on 10/24/2017.
- */
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-public class User {
+public class signup extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
+    }
+
+
     String userID;
     String firstName;
     String lastName;
     String age;
 
-    public User(){
+    public signup(){
 
     }
 
-    public User(String userID, String firstName, String lastName, String age) {
+    public signup(String userID, String firstName, String lastName, String age) {
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
