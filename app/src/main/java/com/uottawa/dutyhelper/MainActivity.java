@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 import android.util.Log;
 import android.widget.Toast;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
     //initialzie Firebase Auth
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.signIn_btn).setOnClickListener(this);
         findViewById(R.id.signUp_btn).setOnClickListener(this);
     }
+
 
     @Override
     public void onStart() {
