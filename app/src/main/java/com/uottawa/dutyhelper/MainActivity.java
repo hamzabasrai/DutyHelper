@@ -31,16 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //a method that defines the functionality of the sign-up button in the main activity
     //called in onCreate method of MainActivity.java
-    public void init(){
-        signUpButton = (Button) findViewById(R.id.signUp_btn);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signUpScreen = new Intent(MainActivity.this, signup.class);
-                startActivity(signUpScreen);
-            }
-        });
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //initializing Onclick listener which is implemented in this class
         findViewById(R.id.signIn_btn).setOnClickListener(this);
         findViewById(R.id.signUp_btn).setOnClickListener(this);
-        init();
+
     }
 
 
@@ -98,16 +88,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //create an account we should maybe make an intent to a new activity to fill out all user info
-    private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
-        if (!validateForm()) {
-            return;
-        }
-        mAuth.createUserWithEmailAndPassword(email, password);
-    }
+
 
     //makes sure the inputed text is correctly inputed
-    private boolean validateForm() {
+    public  boolean validateForm() {
         boolean valid = true;
 
         String email = mEmailField.getText().toString();
@@ -124,7 +108,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.signUp_btn) {
-            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+            Intent signUpScreen = new Intent(MainActivity.this, signup.class);
+            startActivity(signUpScreen);
         } else if (i == R.id.signIn_btn) {
             signIn();
         } //else if (i == R.id.sign_out_button) {
