@@ -79,8 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, task.getException().toString() + mEmailField.toString(),
-                                    Toast.LENGTH_SHORT).show();
+                            mPasswordField.setError("Incorrect E-mail or Password");
                             updateUI(null);
                         }
                     }
