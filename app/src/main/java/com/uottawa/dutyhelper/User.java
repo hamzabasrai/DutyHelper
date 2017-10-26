@@ -5,13 +5,13 @@ package com.uottawa.dutyhelper;
  */
 
 public class User {
-    private String uid;
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
 
-    public User(String uid, String firstName, String lastName, String email) {
-        this.uid = uid;
+    public User(String id, String firstName, String lastName, String email) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -20,12 +20,8 @@ public class User {
         ;
     }
 
-    private String getUid() {
-        return uid;
-    }
-
-    private void setUid(String uid) {
-        this.uid = uid;
+    public String getid() {
+        return id;
     }
 
     public String getFirstName() {

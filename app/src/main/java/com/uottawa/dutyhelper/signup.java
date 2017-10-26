@@ -62,7 +62,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
             return;
-        }
+        }else{
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -77,12 +77,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(signup.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
-
-                        // [START_EXCLUDE]
-                        //hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
 
@@ -90,7 +85,10 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
         String uid = mRef.push().getKey();
         User user = new User(uid, mFirstName.getText().toString(), mLastName.getText().toString(),
                 email);
-        mRef.child(uid).setValue("user");
+            Toast.makeText(signup.this, user.getid(),
+                    Toast.LENGTH_SHORT).show();
+        mRef.child(uid).setValue(user);
+        }
     }
 
     public boolean validateForm() {
@@ -101,8 +99,18 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
             mEmailField.setError("Required.");
             valid = false;
         }
+        if (TextUtils.isEmpty(mFirstName.getText().toString())) {
+            mFirstName.setError("Required.");
+            valid = false;
+        }
+        if (TextUtils.isEmpty(mLastName.getText().toString())) {
+            mLastName.setError("Required.");
+            valid = false;
+        }
+
         if (mPasswordField.getText().toString().length() < 8) {
             mPasswordField.setError("Must be longer than 8 characters");
+            valid = false;
         } else {
             mEmailField.setError(null);
             mPasswordField.setError(null);
@@ -114,8 +122,6 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.signUp_btn_1) {
-            Toast.makeText(signup.this, "test",
-                    Toast.LENGTH_SHORT).show();
             createAccount();
         }
     }
