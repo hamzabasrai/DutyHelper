@@ -1,6 +1,5 @@
 package com.uottawa.dutyhelper;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class signup extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "EmailPassword";
 
     private EditText mEmailField;
@@ -75,7 +74,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(signup.this, "Authentication failed.",
+                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -85,7 +84,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
         String uid = mRef.push().getKey();
         User user = new User(uid, mFirstName.getText().toString(), mLastName.getText().toString(),
                 email);
-            Toast.makeText(signup.this, user.getid(),
+            Toast.makeText(SignUpActivity.this, user.getid(),
                     Toast.LENGTH_SHORT).show();
         mRef.child(uid).setValue(user);
         }
