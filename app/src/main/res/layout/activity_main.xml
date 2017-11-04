@@ -1,117 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
-    tools:context="com.uottawa.dutyhelper.MainActivity">
+    android:background="#455a64">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <android.support.constraint.Guideline
+        android:id="@+id/start_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:weightSum="1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        app:layout_constraintGuide_begin="16dp"/>
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="21dp"
-            android:filterTouchesWhenObscured="false"
-            android:focusable="false"
-            android:forceHasOverlappingRendering="false"
-            app:srcCompat="@drawable/logo"
-            tools:layout_conversion_absoluteHeight="200dp"
-            tools:layout_conversion_absoluteWidth="384dp"
-            tools:layout_conversion_absoluteX="0dp"
-            tools:layout_conversion_absoluteY="40dp"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="40dp" />
+    <android.support.constraint.Guideline
+        android:id="@+id/end_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp"/>
 
-        <LinearLayout
-            android:id="@+id/editTextFields"
-            android:layout_width="match_parent"
-            android:layout_height="109dp"
-            android:layout_below="@+id/imageView3"
-            android:layout_marginTop="26dp"
-            android:orientation="horizontal">
+    <android.support.constraint.Guideline
+        android:id="@+id/top_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="16dp"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="103dp"
-                android:orientation="vertical">
+    <android.support.constraint.Guideline
+        android:id="@+id/bottom_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="16dp"/>
 
-                <EditText
-                    android:id="@+id/field_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_edittext"
-                    android:ems="10"
-                    android:hint="E-mail"
-                    android:inputType="textEmailAddress"
-                    android:padding="5dip" />
+    <android.support.constraint.Guideline
+        android:id="@+id/title_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="48dp"/>
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2.17" />
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="#ffffff"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toTopOf="@id/title_edge"/>
 
-                <EditText
-                    android:id="@+id/field_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_edittext"
-                    android:hint="Password"
-                    android:padding="5dip"
-                    android:password="true"
-                    android:singleLine="true" />
 
-            </LinearLayout>
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/splash_icon"
+        app:layout_constraintEnd_toStartOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/title_text_view"/>
 
-        </LinearLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/email_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="#ffffff"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/logo">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="22dp" />
-
-        <LinearLayout
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:backgroundTint="#ffffff"
+            android:hint="@string/email_hint"
+            android:textColor="#ffffff"/>
+    </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/signIn_btn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/buttonshape"
-                android:onClick="signIn()"
-                android:text="Sign In"
-                android:textAllCaps="false"
-                android:textSize="24sp" />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/password_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="#ffffff"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/email_input_layout">
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:hint="@string/password_hint"
+            android:textColor="#ffffff"/>
+    </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/signUp_btn"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/buttonshape"
-                android:text="Sign Up!"
-                android:textAllCaps="false"
-                android:textSize="24sp" />
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_login"
+        android:translationZ="15dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/password_input_layout"
+        app:layout_constraintVertical_chainStyle="packed"/>
 
-        </LinearLayout>
+    <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_sign_up"
+        android:translationZ="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_edge"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/btn_login"/>
 
-    </LinearLayout>
-
-</android.widget.RelativeLayout>
+</android.support.constraint.ConstraintLayout>
