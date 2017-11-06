@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uottawa.dutyhelper.signup"
+    tools:context="com.uottawa.dutyhelper.SignUpActivity"
     android:background="@drawable/chores_background">
 
 

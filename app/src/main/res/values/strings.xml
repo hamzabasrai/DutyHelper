@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DutyHelper</string>
+    <string name="btn_sign_up">Sign Up</string>
+    <string name="btn_login">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="email_hint">Email</string>
 </resources>
