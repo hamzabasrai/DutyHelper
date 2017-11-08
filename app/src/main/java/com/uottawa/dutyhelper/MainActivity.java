@@ -3,6 +3,7 @@ package com.uottawa.dutyhelper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -54,7 +55,18 @@ public class MainActivity extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                //login();
+                TextInputLayout emailLayout = (TextInputLayout) findViewById(R.id.email_input_layout);
+                TextInputLayout passwordLayout = (TextInputLayout) findViewById(R.id.password_input_layout);
+                String email = mEmailField.getText().toString();
+                String password = mPasswordField.getText().toString();
+                if(TextUtils.isEmpty(email)) {
+                    emailLayout.setError("Required Field");
+                }
+
+                if(TextUtils.isEmpty(password)) {
+                    passwordLayout.setError("Required Field");
+                }
             }
         });
 
@@ -71,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     //need to update this to change activities probably
     private void updateUI(FirebaseUser currentUser) {
-        return;
+        Toast.makeText(this, "User Dashboard should be shown", Toast.LENGTH_SHORT).show();;
     }
 
     private void login() {
