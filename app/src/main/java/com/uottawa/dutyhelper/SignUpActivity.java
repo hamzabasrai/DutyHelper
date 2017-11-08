@@ -18,11 +18,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity  {
     private static final String TAG = "EmailPassword";
 
     private EditText mEmailField;
     private EditText mPasswordField;
+    private EditText mPasswordConfirmField;
     private EditText mFirstName;
     private EditText mLastName;
     private String uid;
@@ -42,16 +43,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mRef = mFirebaseDatabase.getReference("users");
 
+        mFirstName = (EditText) findViewById(R.id.first_name_edit_text);
+        mLastName = (EditText) findViewById(R.id.last_name_edit_text);
+        mEmailField = (EditText) findViewById(R.id.email_edit_text);
+        mPasswordField = (EditText) findViewById(R.id.password_edit_text);
+        mPasswordConfirmField = (EditText) findViewById(R.id.password_confirm_edit_text);
+        mSignUp = (Button) findViewById(R.id.btn_sign_up);
 
-        mEmailField = (EditText) findViewById(R.id.field_email_1);
-        mPasswordField = (EditText) findViewById(R.id.field_password_1);
-
-        mFirstName = (EditText) findViewById(R.id.field_firstname);
-        mLastName = (EditText) findViewById(R.id.field_lastname);
-        mSignUp = (Button) findViewById(R.id.signUp_btn_1);
-
-        findViewById(R.id.signUp_btn_1).setOnClickListener(this);
-
+        mSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAccount();
+            }
+        });
 
     }
 
@@ -84,7 +88,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String uid = mRef.push().getKey();
         User user = new User(uid, mFirstName.getText().toString(), mLastName.getText().toString(),
                 email);
-            Toast.makeText(SignUpActivity.this, user.getid(),
+            Toast.makeText(SignUpActivity.this, user.getId(),
                     Toast.LENGTH_SHORT).show();
         mRef.child(uid).setValue(user);
         }
@@ -115,13 +119,5 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             mPasswordField.setError(null);
         }
         return valid;
-    }
-
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.signUp_btn_1) {
-            createAccount();
-        }
     }
 }

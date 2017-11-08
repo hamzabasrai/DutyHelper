@@ -1,127 +1,146 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uottawa.dutyhelper.SignUpActivity"
-    android:background="@drawable/chores_background">
+    android:background="#455a64">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <android.support.constraint.Guideline
+        android:id="@+id/start_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:weightSum="1"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        app:layout_constraintGuide_begin="16dp"/>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight="0.35"
-            app:srcCompat="@android:drawable/ic_lock_lock" />
+    <android.support.constraint.Guideline
+        android:id="@+id/end_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp"/>
 
-        <LinearLayout
-            android:id="@+id/editTextFields"
-            android:layout_width="match_parent"
-            android:layout_height="109dp"
-            android:layout_below="@+id/imageView3"
-            android:layout_marginTop="26dp"
-            android:layout_weight="0.35"
-            android:orientation="horizontal"
-            android:weightSum="1">
+    <android.support.constraint.Guideline
+        android:id="@+id/top_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="16dp"/>
 
-            <Space
-                android:layout_width="77dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.17" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/field_firstname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_edittext"
-                    android:ems="10"
-                    android:hint="First Name"
-                    android:inputType="text"
-                    android:padding="10dp"
-                    android:singleLine="true" />
-
-                <EditText
-                    android:id="@+id/field_lastname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_edittext"
-                    android:ems="10"
-                    android:hint="Last Name"
-                    android:inputType="text"
-                    android:padding="10dp"
-                    android:singleLine="true" />
-
-                <EditText
-                    android:id="@+id/field_email_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_edittext"
-                    android:ems="10"
-                    android:hint="E-mail:"
-                    android:inputType="textEmailAddress"
-                    android:padding="10dp" />
+    <android.support.constraint.Guideline
+        android:id="@+id/bottom_edge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="16dp"/>
 
 
-                <EditText
-                    android:id="@+id/field_password_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/rounded_edittext"
-                    android:hint="Password: "
-                    android:inputType="textPassword"
-                    android:padding="10dp"
-                    android:singleLine="true" />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/first_name_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="#ffffff"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/top_edge"
+        app:layout_constraintBottom_toTopOf="@id/last_name_input_layout"
+        app:layout_constraintVertical_chainStyle="packed">
 
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <Space
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/first_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.19" />
+            android:backgroundTint="#ffffff"
+            android:hint="@string/first_name_hint"
+            android:textColor="#ffffff"/>
+    </android.support.design.widget.TextInputLayout>
 
-        <LinearLayout
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/last_name_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="#ffffff"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/first_name_input_layout"
+        app:layout_constraintBottom_toTopOf="@id/email_input_layout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/last_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:backgroundTint="#ffffff"
+            android:hint="@string/last_name_hint"
+            android:textColor="#ffffff"/>
+    </android.support.design.widget.TextInputLayout>
 
 
-            <Button
-                android:id="@+id/signUp_btn_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/buttonshape"
-                android:text="Sign Up!"
-                android:textAllCaps="false"
-                android:textSize="24sp" />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/email_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="#ffffff"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/last_name_input_layout"
+        app:layout_constraintBottom_toTopOf="@id/password_input_layout">
 
-        </LinearLayout>
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:hint="@string/email_hint"
+            android:textColor="#ffffff"/>
+    </android.support.design.widget.TextInputLayout>
 
-    </LinearLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/password_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="#ffffff"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/email_input_layout"
+        app:layout_constraintBottom_toTopOf="@id/password_confirm_input_layout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:hint="@string/password_hint"
+            android:textColor="#ffffff"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/password_confirm_input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="#ffffff"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/password_input_layout"
+        app:layout_constraintBottom_toTopOf="@id/btn_sign_up">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/password_confirm_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:hint="@string/confirm_password_hint"
+            android:textColor="#ffffff"/>
+    </android.support.design.widget.TextInputLayout>
 
 
+    <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_sign_up"
+        android:translationZ="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_edge"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toBottomOf="@id/password_confirm_input_layout"/>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

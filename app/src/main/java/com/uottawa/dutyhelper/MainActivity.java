@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //sign in method
     public void signIn() {
-        //forebase sign in function
+        //Firebase sign in function
         mAuth.signInWithEmailAndPassword(mEmailField.getText().toString(), mPasswordField.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
