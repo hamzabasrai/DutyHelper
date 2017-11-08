@@ -20,7 +20,7 @@ public class User {
         ;
     }
 
-    public String getid() {
+    public String getId() {
         return id;
     }
 
@@ -48,3 +48,4 @@ public class User {
         this.email = email;
     }
 }
+

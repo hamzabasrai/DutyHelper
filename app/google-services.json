@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "261461721532-dhnt99o9ip7htoq82g8odboijdi65ih9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uottawa.dutyhelper",
+            "certificate_hash": "58838fbe2b56275438ddec8f5395f1fbd9647e1d"
+          }
+        },
+        {
+          "client_id": "261461721532-cmmnsdchtman0ieoqgd40snvrh8u93fb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uottawa.dutyhelper",
+            "certificate_hash": "86eb978d8c2c5959437f0976a804726aa594a6dc"
+          }
+        },
+        {
           "client_id": "261461721532-ps4cr1874scu0526voru065o19o2p69d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

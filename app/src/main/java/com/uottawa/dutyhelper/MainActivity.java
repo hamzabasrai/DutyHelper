@@ -3,12 +3,14 @@ package com.uottawa.dutyhelper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,33 +19,56 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
-    //initialzie Firebase Auth
+    
     private FirebaseAuth mAuth;
-    //create edit text field for user and pass
+    
     private EditText mEmailField;
     private EditText mPasswordField;
-    //sign-up button
-    public Button signUpButton;
-
-    //a method that defines the functionality of the sign-up button in the main activity
-    //called in onCreate method of MainActivity.java
+    private Button mLoginButton;
+    private Button mSignUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test);
+        setContentView(R.layout.activity_main);
+        
         //initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
         // Initializing user and password
-        mEmailField = (EditText) findViewById(R.id.field_email);
-        mPasswordField = (EditText) findViewById(R.id.field_password);
+        mEmailField = (EditText) findViewById(R.id.email_edit_text);
+        mPasswordField = (EditText) findViewById(R.id.password_edit_text);
+        mLoginButton = (Button) findViewById(R.id.btn_login); 
+        mSignUpButton = (Button) findViewById(R.id.btn_sign_up);
 
         //initializing Onclick listener which is implemented in this class
-//        findViewById(R.id.signIn_btn).setOnClickListener(this);
-//        findViewById(R.id.signUp_btn).setOnClickListener(this);
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signUpScreen = new Intent(MainActivity.this, SignUpActivity.class);
+                startActivity(signUpScreen);
+            }
+        });
+        
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //login();
+                TextInputLayout emailLayout = (TextInputLayout) findViewById(R.id.email_input_layout);
+                TextInputLayout passwordLayout = (TextInputLayout) findViewById(R.id.password_input_layout);
+                String email = mEmailField.getText().toString();
+                String password = mPasswordField.getText().toString();
+                if(TextUtils.isEmpty(email)) {
+                    emailLayout.setError("Required Field");
+                }
+
+                if(TextUtils.isEmpty(password)) {
+                    passwordLayout.setError("Required Field");
+                }
+            }
+        });
 
     }
 
@@ -58,13 +83,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //need to update this to change activities probably
     private void updateUI(FirebaseUser currentUser) {
-        return;
+        Toast.makeText(this, "User Dashboard should be shown", Toast.LENGTH_SHORT).show();;
     }
 
-
+    private void login() {
+        Toast.makeText(this, "Logging...", Toast.LENGTH_SHORT).show();
+    }
     //sign in method
     public void signIn() {
-        //forebase sign in function
+        //Firebase sign in function
         mAuth.signInWithEmailAndPassword(mEmailField.getText().toString(), mPasswordField.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -99,18 +126,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mEmailField.setError(null);
         }
         return valid;
-    }
-
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
-        if (i == R.id.signUp_btn) {
-            Intent signUpScreen = new Intent(MainActivity.this, SignUpActivity.class);
-            startActivity(signUpScreen);
-        } else if (i == R.id.signIn_btn) {
-            signIn();
-        } //else if (i == R.id.sign_out_button) {
-        //signOut();
-        //}
     }
 }
