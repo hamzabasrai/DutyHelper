@@ -21,11 +21,13 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
-    
+
     private FirebaseAuth mAuth;
-    
+
     private EditText mEmailField;
     private EditText mPasswordField;
+    private TextInputLayout mEmailLayout;
+    private TextInputLayout mPasswordLayout;
     private Button mLoginButton;
     private Button mSignUpButton;
 
@@ -33,14 +35,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         //initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
         // Initializing user and password
         mEmailField = (EditText) findViewById(R.id.email_edit_text);
         mPasswordField = (EditText) findViewById(R.id.password_edit_text);
-        mLoginButton = (Button) findViewById(R.id.btn_login); 
+        mLoginButton = (Button) findViewById(R.id.btn_login);
         mSignUpButton = (Button) findViewById(R.id.btn_sign_up);
 
         //initializing Onclick listener which is implemented in this class
@@ -51,21 +53,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(signUpScreen);
             }
         });
-        
+
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //login();
-                TextInputLayout emailLayout = (TextInputLayout) findViewById(R.id.email_input_layout);
-                TextInputLayout passwordLayout = (TextInputLayout) findViewById(R.id.password_input_layout);
+                mEmailLayout = (TextInputLayout) findViewById(R.id.email_input_layout);
+                mPasswordLayout = (TextInputLayout) findViewById(R.id.password_input_layout);
                 String email = mEmailField.getText().toString();
                 String password = mPasswordField.getText().toString();
-                if(TextUtils.isEmpty(email)) {
-                    emailLayout.setError("Required Field");
+                if (TextUtils.isEmpty(email)) {
+                    mEmailLayout.setError("Required Field");
                 }
 
-                if(TextUtils.isEmpty(password)) {
-                    passwordLayout.setError("Required Field");
+                if (TextUtils.isEmpty(password)) {
+                    mPasswordLayout.setError("Required Field");
                 }
             }
         });
@@ -83,12 +85,14 @@ public class MainActivity extends AppCompatActivity {
 
     //need to update this to change activities probably
     private void updateUI(FirebaseUser currentUser) {
-        Toast.makeText(this, "User Dashboard should be shown", Toast.LENGTH_SHORT).show();;
+        Toast.makeText(this, "User Dashboard should be shown", Toast.LENGTH_SHORT).show();
+
     }
 
     private void login() {
         Toast.makeText(this, "Logging...", Toast.LENGTH_SHORT).show();
     }
+
     //sign in method
     public void signIn() {
         //Firebase sign in function
@@ -115,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //makes sure the inputed text is correctly inputed
-    public  boolean validateForm() {
+    public boolean validateForm() {
         boolean valid = true;
 
         String email = mEmailField.getText().toString();
