@@ -1,6 +1,7 @@
 package com.uottawa.dutyhelper;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Amar Jasarbasic on 2017-11-10.
@@ -8,8 +9,8 @@ import java.util.LinkedList;
 
 
 public class Group {
-    private LinkedList<User> users;
-    private LinkedList<Task> tasks;
+    private List<User> users;
+    private List<Task> tasks;
     private String groupName;
 
     public Group(String groupName){
