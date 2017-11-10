@@ -8,16 +8,15 @@ import java.util.LinkedList;
 
 
 public class Group {
-    protected LinkedList<User> users;
-    protected LinkedList<Task> tasks;
-    protected String groupName;
+    private LinkedList<User> users;
+    private LinkedList<Task> tasks;
+    private String groupName;
 
     public Group(String groupName){
 
         this.users = new LinkedList<User>();
         this.tasks = new LinkedList<Task>();
         this.groupName = groupName;
-
 
     }
 
