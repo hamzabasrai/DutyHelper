@@ -2,8 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#455a64">
+    android:layout_height="match_parent">
 
     <android.support.constraint.Guideline
         android:id="@+id/start_edge"
@@ -38,7 +37,6 @@
         android:id="@+id/first_name_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="#ffffff"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
         app:layout_constraintStart_toStartOf="@id/start_edge"
         app:layout_constraintTop_toBottomOf="@id/top_edge"
@@ -49,16 +47,13 @@
             android:id="@+id/first_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#ffffff"
-            android:hint="@string/first_name_hint"
-            android:textColor="#ffffff"/>
+            android:hint="@string/first_name_hint"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/last_name_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="#ffffff"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
         app:layout_constraintStart_toStartOf="@id/start_edge"
         app:layout_constraintTop_toBottomOf="@id/first_name_input_layout"
@@ -68,9 +63,7 @@
             android:id="@+id/last_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#ffffff"
-            android:hint="@string/last_name_hint"
-            android:textColor="#ffffff"/>
+            android:hint="@string/last_name_hint"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -78,7 +71,6 @@
         android:id="@+id/email_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="#ffffff"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
         app:layout_constraintStart_toStartOf="@id/start_edge"
         app:layout_constraintTop_toBottomOf="@id/last_name_input_layout"
@@ -88,16 +80,14 @@
             android:id="@+id/email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#ffffff"
-            android:hint="@string/email_hint"
-            android:textColor="#ffffff"/>
+            android:inputType="textEmailAddress"
+            android:hint="@string/email_hint"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/password_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="#ffffff"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
         app:layout_constraintStart_toStartOf="@id/start_edge"
         app:layout_constraintTop_toBottomOf="@id/email_input_layout"
@@ -107,16 +97,14 @@
             android:id="@+id/password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#ffffff"
-            android:hint="@string/password_hint"
-            android:textColor="#ffffff"/>
+            android:inputType="textPassword"
+            android:hint="@string/password_hint"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/password_confirm_input_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColorHint="#ffffff"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
         app:layout_constraintStart_toStartOf="@id/start_edge"
         app:layout_constraintTop_toBottomOf="@id/password_input_layout"
@@ -126,9 +114,8 @@
             android:id="@+id/password_confirm_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#ffffff"
-            android:hint="@string/confirm_password_hint"
-            android:textColor="#ffffff"/>
+            android:inputType="textPassword"
+            android:hint="@string/confirm_password_hint"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -137,7 +124,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/btn_sign_up"
-        android:translationZ="15dp"
         app:layout_constraintBottom_toBottomOf="@id/bottom_edge"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
         app:layout_constraintStart_toStartOf="@id/start_edge"
