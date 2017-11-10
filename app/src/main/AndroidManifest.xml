@@ -21,6 +21,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignUpActivity"/>
+        <activity
+            android:name=".NavigationActivity"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>
