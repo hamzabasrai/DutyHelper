@@ -21,11 +21,11 @@ public class Group {
 
     }
 
-    public LinkedList<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public LinkedList<Task> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
