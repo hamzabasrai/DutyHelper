@@ -10,19 +10,29 @@ import java.util.UUID;
 
 public class Task {
     private UUID mId;
+    private String mTitle;
     private String mDescription;
     private Date mDeadline;
     private List<User> mAssignedUsers;
 
-    public Task(String description, Date deadline, List<User> assignedUsers) {
+
+
+    public Task(String title, String description) {
         mId = UUID.randomUUID();
+        mTitle = title;
         mDescription = description;
-        mDeadline = deadline;
-        mAssignedUsers = assignedUsers;
     }
 
     public UUID getId() {
         return mId;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
     public String getDescription() {

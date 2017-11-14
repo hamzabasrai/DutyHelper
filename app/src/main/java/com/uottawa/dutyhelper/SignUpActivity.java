@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
@@ -179,7 +180,11 @@ public class SignUpActivity extends AppCompatActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success");
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Intent intent = NavigationActivity.newInstance(getApplicationContext(), user);
+                        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(mFirstName.getText().toString())
+                                .build();
+                        user.updateProfile(request);
+                        Intent intent = NavigationActivity.newIntent(getApplicationContext(), user);
                         startActivity(intent);
                     } else {
                         // If sign in fails, display a message to the user.

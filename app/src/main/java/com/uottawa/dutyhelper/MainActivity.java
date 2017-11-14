@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         //initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Initializing user and password
+        // Initializing layout views
         mEmailField = (EditText) findViewById(R.id.email_edit_text);
         mPasswordField = (EditText) findViewById(R.id.password_edit_text);
         mEmailLayout = (TextInputLayout) findViewById(R.id.email_input_layout);
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         mLoginButton = (Button) findViewById(R.id.btn_login);
         mSignUpButton = (Button) findViewById(R.id.btn_sign_up);
 
-        //initializing Onclick listener which is implemented in this class
+        //Initializing OnClickListener
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,11 +105,13 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if(currentUser != null) {
+//            updateUI(currentUser);
+        }
     }
 
     private void updateUI(FirebaseUser currentUser) {
-       Intent intent = NavigationActivity.newInstance(getApplicationContext(), currentUser);
+       Intent intent = NavigationActivity.newIntent(getApplicationContext(), currentUser);
        startActivity(intent);
     }
 
