@@ -10,6 +10,8 @@
     <string name="task_name_hint"> Task Name </string>
     <string name="btn_Add_task"> Add Task </string>
 
+    <string name = "task_description_hint"> Task Description </string>
+
 
     <string name="title_activity_navigation">NavigationActivity</string>
 
