@@ -34,7 +34,7 @@
 
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/first_name_input_layout"
+        android:id="@+id/task_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
         app:layout_constraintStart_toStartOf="@id/start_edge"
-        app:layout_constraintTop_toBottomOf="@id/first_name_input_layout"
+        app:layout_constraintTop_toBottomOf="@id/task_name"
         app:layout_constraintBottom_toTopOf="@id/email_input_layout">
 
         <android.support.design.widget.TextInputEditText

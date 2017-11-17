@@ -7,6 +7,8 @@
     <string name="first_name_hint">First Name</string>
     <string name="last_name_hint">Last Name</string>
     <string name="confirm_password_hint">Confirm Password</string>
+    <string name="task_name_hint"> Task Name </string>
+    <string name="btn_Add_task"> Add Task </string>
 
 
     <string name="title_activity_navigation">NavigationActivity</string>

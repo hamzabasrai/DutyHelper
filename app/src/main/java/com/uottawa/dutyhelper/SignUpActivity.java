@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
         mEmailLayout = (TextInputLayout) findViewById(R.id.email_input_layout);
         mPasswordLayout = (TextInputLayout) findViewById(R.id.password_input_layout);
         mPasswordConfirmLayout = (TextInputLayout) findViewById(R.id.password_confirm_input_layout);
-        mFirstNameLayout = (TextInputLayout) findViewById(R.id.first_name_input_layout);
+        mFirstNameLayout = (TextInputLayout) findViewById(R.id.task_name);
         mLastNameLayout = (TextInputLayout) findViewById(R.id.last_name_input_layout);
 
         mSignUp = (Button) findViewById(R.id.btn_sign_up);

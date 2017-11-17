@@ -48,8 +48,10 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent createNewTask =new Intent (NavigationActivity.this, NewTaskActivity.class);
+                startActivity(createNewTask);
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
             }
         });
 
