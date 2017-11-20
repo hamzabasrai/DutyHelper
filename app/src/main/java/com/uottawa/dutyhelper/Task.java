@@ -9,23 +9,25 @@ import java.util.UUID;
  */
 
 public class Task {
-    private UUID mId;
+    //private UUID mId;
     private String mTitle;
     private String mDescription;
     private Date mDeadline;
     private List<User> mAssignedUsers;
 
-
+    public Task(){
+        //blank constructor
+    }
 
     public Task(String title, String description) {
-        mId = UUID.randomUUID();
+        //mId = UUID.randomUUID();
         mTitle = title;
         mDescription = description;
     }
 
-    public UUID getId() {
-        return mId;
-    }
+    //public UUID getId() {
+        //return mId;
+    //}
 
     public String getTitle() {
         return mTitle;
