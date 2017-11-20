@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
 
     private FirebaseAuth mAuth;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         //initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signUpScreen = new Intent(MainActivity.this, SignUpActivity.class);
+                Intent signUpScreen = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(signUpScreen);
             }
         });
@@ -97,9 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
-
 
     @Override
     public void onStart() {
@@ -111,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-       Intent intent = NavigationActivity.newIntent(getApplicationContext(), currentUser);
-       startActivity(intent);
+       //
     }
 
     private void login() {
@@ -124,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        updateUI(user);
+                        Intent intent = new Intent(LoginActivity.this, TaskListActivity.class);
+                        startActivity(intent);
                     } else {
                         mEmailLayout.setError("Incorrect Email or Password");
                         mPasswordLayout.setError("Incorrect Email or Password");

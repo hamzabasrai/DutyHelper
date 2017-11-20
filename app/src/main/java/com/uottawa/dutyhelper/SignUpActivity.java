@@ -1,6 +1,5 @@
 package com.uottawa.dutyhelper;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -184,8 +183,6 @@ public class SignUpActivity extends AppCompatActivity {
                                 .setDisplayName(mFirstName.getText().toString())
                                 .build();
                         user.updateProfile(request);
-                        Intent intent = NavigationActivity.newIntent(getApplicationContext(), user);
-                        startActivity(intent);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
