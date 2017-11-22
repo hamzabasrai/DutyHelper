@@ -2,32 +2,31 @@ package com.uottawa.dutyhelper;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Hamza on 11/7/2017.
  */
 
 public class Task {
-    //private UUID mId;
+    private String mId;
     private String mTitle;
     private String mDescription;
     private Date mDeadline;
     private List<User> mAssignedUsers;
 
-    public Task(){
-        //blank constructor
+    public Task() {
+        //necessary blank constructor
     }
 
-    public Task(String title, String description) {
-        //mId = UUID.randomUUID();
+    public Task(String id, String title, String description) {
+        mId = id;
         mTitle = title;
         mDescription = description;
     }
 
-    //public UUID getId() {
-        //return mId;
-    //}
+    public String getId() {
+        return mId;
+    }
 
     public String getTitle() {
         return mTitle;
