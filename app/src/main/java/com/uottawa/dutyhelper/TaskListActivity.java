@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,11 +22,16 @@ import java.util.List;
 
 public class TaskListActivity extends AppCompatActivity {
 
-    DatabaseReference mDatabaseTasks;
-    FloatingActionButton mFAB;
-    ListView mTasksListView;
+    private DatabaseReference mDatabaseTasks;
 
-    List<Task> tasks;
+    private FloatingActionButton mFAB;
+    private LinearLayout addTaskLayout;
+    private LinearLayout newGroupLayout;
+
+    private ListView mTasksListView;
+    private boolean subMenuExpanded = false;
+
+    private List<Task> tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +44,41 @@ public class TaskListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mTasksListView = (ListView) findViewById(R.id.task_list_view);
+        addTaskLayout = (LinearLayout) findViewById(R.id.layout_add_task);
+        newGroupLayout = (LinearLayout) findViewById(R.id.layout_new_group);
 
         tasks = new ArrayList<>();
 
-        mFAB = (FloatingActionButton) findViewById(R.id.fab);
+        mFAB = (FloatingActionButton) findViewById(R.id.main_fab);
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent addTaskIntent = new Intent(view.getContext(), NewTaskActivity.class);
-                startActivity(addTaskIntent);
+                if (subMenuExpanded) {
+                    closeSubMenu();
+                } else {
+                    openSubMenu();
+                }
             }
         });
+
+        FloatingActionButton addTaskFab = (FloatingActionButton) findViewById(R.id.fab_add_task);
+        addTaskFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TaskListActivity.this, NewTaskActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        FloatingActionButton newGroupFab = (FloatingActionButton) findViewById(R.id.fab_new_group);
+        newGroupFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(TaskListActivity.this, "Will lead to new page", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        closeSubMenu();
     }
 
     @Override
@@ -79,5 +110,20 @@ public class TaskListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_task_list, menu);
         return true;
     }
+
+    private void closeSubMenu() {
+        addTaskLayout.setVisibility(View.INVISIBLE);
+        newGroupLayout.setVisibility(View.INVISIBLE);
+        mFAB.setImageResource(R.drawable.ic_add);
+        subMenuExpanded = false;
+    }
+
+    private void openSubMenu() {
+        addTaskLayout.setVisibility(View.VISIBLE);
+        newGroupLayout.setVisibility(View.VISIBLE);
+        mFAB.setImageResource(R.drawable.ic_clear);
+        subMenuExpanded = true;
+    }
+
 
 }
