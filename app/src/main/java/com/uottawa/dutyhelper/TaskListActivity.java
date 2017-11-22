@@ -53,7 +53,6 @@ public class TaskListActivity extends AppCompatActivity {
         newGroupLayout = (LinearLayout) findViewById(R.id.layout_new_group);
 
         tasks = new ArrayList<>();
-        closeSubMenu();
 
         mFAB = (FloatingActionButton) findViewById(R.id.main_fab);
         mFAB.setOnClickListener(new View.OnClickListener() {
@@ -87,8 +86,7 @@ public class TaskListActivity extends AppCompatActivity {
 
         mTasksListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int pos, long id) {
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
 
                 AlertDialog.Builder builder;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -114,6 +112,8 @@ public class TaskListActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        closeSubMenu();
     }
 
     @Override
