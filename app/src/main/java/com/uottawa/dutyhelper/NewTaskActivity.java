@@ -44,10 +44,10 @@ public class NewTaskActivity extends AppCompatActivity {
         return true;
     }
 
+
     public void addTask() {
         String name = mTaskTitle.getText().toString().trim();
         String description = mTaskDescription.getText().toString().trim();
-
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(description)) {
             Task task = new Task(name, description);
             String id = databaseTasks.push().getKey();
