@@ -1,5 +1,6 @@
 package com.uottawa.dutyhelper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -31,6 +32,8 @@ public class NewTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addTask();
+                Intent sendBackToActivityList = new Intent(NewTaskActivity.this, TaskListActivity.class);
+                startActivity(sendBackToActivityList);
             }
         });
 
