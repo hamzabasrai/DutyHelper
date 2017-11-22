@@ -1,11 +1,13 @@
 package com.uottawa.dutyhelper;
 
 import android.content.Intent;
+import android.media.audiofx.Equalizer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -71,6 +73,21 @@ public class TaskListActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_group){
+            Intent addMemberToGroup = new Intent(TaskListActivity.this, addUserToGroup.class);
+            startActivity(addMemberToGroup);
+        }
+        if(id == R.id.action_settings){
+            Intent sendToSettings = new Intent(TaskListActivity.this, SettingsActivity.class);
+            startActivity(sendToSettings);
+
+        }
+        return true;
     }
 
     @Override
