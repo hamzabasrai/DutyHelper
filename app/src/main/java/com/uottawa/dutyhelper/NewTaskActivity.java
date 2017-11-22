@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class NewTaskActivity extends AppCompatActivity {
 
-    private DatabaseReference databaseTasks;
+    private DatabaseReference mDatabaseTasks;
     private EditText mTaskTitle;
     private EditText mTaskDescription;
     private Button mAddTask;
@@ -26,7 +26,7 @@ public class NewTaskActivity extends AppCompatActivity {
         mTaskTitle = (EditText) findViewById(R.id.task_name);
         mTaskDescription = (EditText) findViewById(R.id.task_description);
         mAddTask = (Button) findViewById(R.id.btn_Add_Task);
-        databaseTasks = FirebaseDatabase.getInstance().getReference("Tasks");
+        mDatabaseTasks = FirebaseDatabase.getInstance().getReference("Tasks");
 
         mAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,9 +49,9 @@ public class NewTaskActivity extends AppCompatActivity {
         String name = mTaskTitle.getText().toString().trim();
         String description = mTaskDescription.getText().toString().trim();
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(description)) {
-            String id = databaseTasks.push().getKey();
+            String id = mDatabaseTasks.push().getKey();
             Task task = new Task(id, name, description);
-            databaseTasks.child(id).setValue(task);
+            mDatabaseTasks.child(id).setValue(task);
             Toast.makeText(this, "The desired task has been added", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "You should enter the right info.", Toast.LENGTH_LONG).show();
