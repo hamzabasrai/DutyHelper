@@ -49,8 +49,8 @@ public class NewTaskActivity extends AppCompatActivity {
         String name = mTaskTitle.getText().toString().trim();
         String description = mTaskDescription.getText().toString().trim();
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(description)) {
-            Task task = new Task(name, description);
             String id = databaseTasks.push().getKey();
+            Task task = new Task(id, name, description);
             databaseTasks.child(id).setValue(task);
             Toast.makeText(this, "The desired task has been added", Toast.LENGTH_LONG).show();
         } else {
