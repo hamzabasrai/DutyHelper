@@ -1,12 +1,12 @@
 package com.uottawa.dutyhelper;
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -15,20 +15,20 @@ import com.google.firebase.database.FirebaseDatabase;
 public class NewTaskActivity extends AppCompatActivity {
 
     private DatabaseReference databaseTasks;
-    private TextInputEditText mTask_Name;
-    private TextInputEditText mTask_description;
-    private Button mAdd_Task;
+    private EditText mTaskTitle;
+    private EditText mTaskDescription;
+    private Button mAddTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
-        mTask_Name = (TextInputEditText) findViewById(R.id.task_name);
-        mTask_description = (TextInputEditText) findViewById(R.id.task_description);
-        mAdd_Task = (Button) findViewById(R.id.btn_Add_Task);
+        mTaskTitle = (EditText) findViewById(R.id.task_name);
+        mTaskDescription = (EditText) findViewById(R.id.task_description);
+        mAddTask = (Button) findViewById(R.id.btn_Add_Task);
         databaseTasks = FirebaseDatabase.getInstance().getReference("Tasks");
 
-        mAdd_Task.setOnClickListener(new View.OnClickListener() {
+        mAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addTask();
@@ -45,8 +45,8 @@ public class NewTaskActivity extends AppCompatActivity {
     }
 
     public void addTask(){
-        String name = mTask_Name.getText().toString().trim();
-        String description = mTask_description.getText().toString().trim();
+        String name = mTaskTitle.getText().toString().trim();
+        String description = mTaskDescription.getText().toString().trim();
 
         if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(description)){
            Task task = new Task(name,description);
