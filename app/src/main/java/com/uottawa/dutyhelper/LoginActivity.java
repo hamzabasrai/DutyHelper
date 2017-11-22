@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "EmailPassword";
 
     private FirebaseAuth mAuth;
 
