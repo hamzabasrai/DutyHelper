@@ -3,9 +3,9 @@ package com.uottawa.dutyhelper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 
@@ -25,10 +25,8 @@ public class TaskListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent addTaskIntent = new Intent(TaskListActivity.this, NewTaskActivity.class);
+                Intent addTaskIntent = new Intent(view.getContext(), NewTaskActivity.class);
                 startActivity(addTaskIntent);
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
             }
         });
 
@@ -42,6 +40,13 @@ public class TaskListActivity extends AppCompatActivity {
         TaskAdapter adapter = new TaskAdapter(getApplicationContext(), tasks);
         ListView listView = (ListView) findViewById(R.id.task_list_view);
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
 }
