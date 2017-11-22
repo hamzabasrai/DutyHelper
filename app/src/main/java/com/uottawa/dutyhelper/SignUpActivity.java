@@ -1,5 +1,6 @@
 package com.uottawa.dutyhelper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -63,6 +64,8 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createAccount();
+                Intent sendToCurrentTaskList = new Intent(SignUpActivity.this, TaskListActivity.class);
+                startActivity(sendToCurrentTaskList);
             }
         });
 

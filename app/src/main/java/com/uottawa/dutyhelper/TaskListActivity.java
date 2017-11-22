@@ -1,13 +1,18 @@
 package com.uottawa.dutyhelper;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -48,6 +53,7 @@ public class TaskListActivity extends AppCompatActivity {
         newGroupLayout = (LinearLayout) findViewById(R.id.layout_new_group);
 
         tasks = new ArrayList<>();
+        closeSubMenu();
 
         mFAB = (FloatingActionButton) findViewById(R.id.main_fab);
         mFAB.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +84,36 @@ public class TaskListActivity extends AppCompatActivity {
             }
         });
 
-        closeSubMenu();
+
+        mTasksListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(TaskListActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(TaskListActivity.this);
+                }
+                builder.setTitle("Delete Task")
+                        .setMessage("Are you sure you want to delete task?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -102,6 +137,21 @@ public class TaskListActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_group) {
+            Intent addMemberToGroup = new Intent(TaskListActivity.this, addUserToGroup.class);
+            startActivity(addMemberToGroup);
+        }
+        if (id == R.id.action_settings) {
+            Intent sendToSettings = new Intent(TaskListActivity.this, SettingsActivity.class);
+            startActivity(sendToSettings);
+
+        }
+        return true;
     }
 
     @Override

@@ -67,8 +67,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/task_description_hint" />
+
+
     </android.support.design.widget.TextInputLayout>
 
+    <Spinner
+        android:id="@+id/user_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="@id/task_description_layout"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintTop_toTopOf="@id/bottom_edge" />
 
 
     <Button
