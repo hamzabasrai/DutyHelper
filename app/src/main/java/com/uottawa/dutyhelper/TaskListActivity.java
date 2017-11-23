@@ -171,7 +171,7 @@ public class TaskListActivity extends AppCompatActivity {
     private void openSubMenu() {
         addTaskLayout.setVisibility(View.VISIBLE);
         newGroupLayout.setVisibility(View.VISIBLE);
-        mFAB.setImageResource(R.drawable.ic_clear);
+        mFAB.setImageResource(R.drawable.ic_cancel);
         subMenuExpanded = true;
     }
 
