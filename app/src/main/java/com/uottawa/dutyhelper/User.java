@@ -9,12 +9,15 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private int points;
 
     public User(String id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.points = 100;
+
     }
     public User(){
         ;
@@ -47,5 +50,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+
 }
 
