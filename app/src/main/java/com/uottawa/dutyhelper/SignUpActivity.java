@@ -198,8 +198,7 @@ public class SignUpActivity extends AppCompatActivity {
                         //IF it worked to sign up switch to next activity
                         Intent sendToCurrentTaskList = new Intent(SignUpActivity.this, TaskListActivity.class);
                         startActivity(sendToCurrentTaskList);
-                        finish();//added finish so u cant log out after clicking back
-
+                        finish();
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
