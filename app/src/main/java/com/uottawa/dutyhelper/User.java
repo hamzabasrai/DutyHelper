@@ -10,6 +10,7 @@ public class User {
     private String lastName;
     private String email;
     private int points;
+    private String imgUrl;
 
     public User(String id, String firstName, String lastName, String email) {
         this.id = id;
@@ -17,6 +18,7 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.points = 100;
+        imgUrl = null;
 
     }
     public User(){
