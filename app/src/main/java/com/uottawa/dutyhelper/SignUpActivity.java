@@ -18,8 +18,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -39,8 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputLayout mLastNameLayout;
 
     private FirebaseAuth mAuth;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mRef;
+    private DatabaseReference mDataBaseUsers;
 
 
     private Button mSignUp;
@@ -51,8 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mRef = mFirebaseDatabase.getReference("users");
+        mDataBaseUsers = FirebaseDatabase.getInstance().getReference("users");
 
 
         mFirstName = (EditText) findViewById(R.id.first_name_edit_text);
@@ -105,25 +101,28 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void createAccount() {
         if (isValidForm()) {
-            String email = mEmailField.getText().toString();
-            String password = mPasswordField.getText().toString();
+
+            final String email = mEmailField.getText().toString();
+            final String password = mPasswordField.getText().toString();
+            final String firstName = mFirstName.getText().toString();
+            final String lastName = mLastName.getText().toString();
+
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
+                        // Sign up success, sign-in with new user
+                        mAuth.signInWithEmailAndPassword(email,password);
 
-                        Log.d(TAG, "createUserWithEmail:success");
+                        //Add user to database
+                        String id = mAuth.getCurrentUser().getUid();
+                        User user = new User(id, firstName, lastName, email);
+                        mDataBaseUsers.child(id).setValue(user);
 
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(mFirstName.getText().toString())
-                                .build();
-                        user.updateProfile(request);
-
-                        //IF it worked to sign up switch to next activity
+                        //Send user to task list
                         Intent sendToCurrentTaskList = new Intent(SignUpActivity.this, TaskListActivity.class);
                         startActivity(sendToCurrentTaskList);
+                        Toast.makeText(SignUpActivity.this, "Welcome "+ firstName, Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         // If sign in fails, display a message to the user.
@@ -132,17 +131,11 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 }
             });
-            //if it worked to sign up push user to database
-            String uid = mRef.push().getKey();
-            User user = new User(uid, mFirstName.getText().toString(), mLastName.getText().toString(),
-                    email);
-            Toast.makeText(SignUpActivity.this, "Welcome "+email ,
-                    Toast.LENGTH_SHORT).show();
-            mRef.child(uid).setValue(user);
         }
     }
 
     public boolean isValidForm() {
+
         boolean isValid = true;
 
         String email = mEmailField.getText().toString();
