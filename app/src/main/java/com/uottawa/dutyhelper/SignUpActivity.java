@@ -75,7 +75,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        mFirstName.addTextChangedListener(new TextWatcher() {
+        TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -94,91 +94,17 @@ public class SignUpActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
             }
-        });
-        mLastName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        };
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mFirstNameLayout.setError(null);
-                mLastNameLayout.setError(null);
-                mEmailLayout.setError(null);
-                mPasswordLayout.setError(null);
-                mPasswordConfirmLayout.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        mEmailField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mFirstNameLayout.setError(null);
-                mLastNameLayout.setError(null);
-                mEmailLayout.setError(null);
-                mPasswordLayout.setError(null);
-                mPasswordConfirmLayout.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        mPasswordField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mFirstNameLayout.setError(null);
-                mLastNameLayout.setError(null);
-                mEmailLayout.setError(null);
-                mPasswordLayout.setError(null);
-                mPasswordConfirmLayout.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        mPasswordConfirmField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mFirstNameLayout.setError(null);
-                mLastNameLayout.setError(null);
-                mEmailLayout.setError(null);
-                mPasswordLayout.setError(null);
-                mPasswordConfirmLayout.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        mFirstName.addTextChangedListener(textWatcher);
+        mLastName.addTextChangedListener(textWatcher);
+        mEmailField.addTextChangedListener(textWatcher);
+        mPasswordField.addTextChangedListener(textWatcher);
+        mPasswordConfirmField.addTextChangedListener(textWatcher);
     }
 
     private void createAccount() {
-        if (validateForm()) {
+        if (isValidForm()) {
             String email = mEmailField.getText().toString();
             String password = mPasswordField.getText().toString();
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -216,7 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public boolean validateForm() {
+    public boolean isValidForm() {
         boolean isValid = true;
 
         String email = mEmailField.getText().toString();

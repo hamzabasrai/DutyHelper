@@ -62,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
-        mEmailField.addTextChangedListener(new TextWatcher() {
+
+        TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -78,24 +79,9 @@ public class LoginActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
             }
-        });
-        mPasswordField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mEmailLayout.setError(null);
-                mPasswordLayout.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        };
+        mEmailField.addTextChangedListener(textWatcher);
+        mPasswordField.addTextChangedListener(textWatcher);
     }
 
     @Override

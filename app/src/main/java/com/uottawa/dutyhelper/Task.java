@@ -28,6 +28,10 @@ public class Task {
         return mId;
     }
 
+    public void setId(String Id) {
+        mId = Id;
+    }
+
     public String getTitle() {
         return mTitle;
     }

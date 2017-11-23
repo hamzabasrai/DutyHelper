@@ -34,17 +34,17 @@
 
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/task_name_layout"
+        android:id="@+id/edit_task_name_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
         app:layout_constraintStart_toStartOf="@id/start_edge"
-        app:layout_constraintBottom_toTopOf="@id/task_description_layout">
+        app:layout_constraintBottom_toTopOf="@id/edit_task_description_layout">
 
         <EditText
-            android:id="@+id/task_name"
+            android:id="@+id/edit_task_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/task_name_hint"
@@ -55,16 +55,16 @@
 
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/task_description_layout"
+        android:id="@+id/edit_task_description_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
         app:layout_constraintStart_toStartOf="@id/start_edge"
-        app:layout_constraintTop_toBottomOf="@id/task_name_layout">
+        app:layout_constraintTop_toBottomOf="@id/edit_task_name_layout">
 
         <EditText
-            android:id="@+id/task_description"
+            android:id="@+id/edit_task_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/task_description_hint" />
