@@ -147,7 +147,7 @@ public class TaskListActivity extends AppCompatActivity {
             startActivity(addMemberToGroup);
         }
         if (id == R.id.action_settings) {
-            Intent sendToSettings = new Intent(TaskListActivity.this, SettingsActivity.class);
+            Intent sendToSettings = new Intent(TaskListActivity.this, ProfileSettingActivity.class);
             startActivity(sendToSettings);
 
         }

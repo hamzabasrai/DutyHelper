@@ -122,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         Intent intent = new Intent(LoginActivity.this, TaskListActivity.class);
                         startActivity(intent);
+                        finish();//added finish so u cant log out after clicking back
                     } else {
                         mEmailLayout.setError("Incorrect Email or Password");
                         mPasswordLayout.setError("Incorrect Email or Password");
