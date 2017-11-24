@@ -35,13 +35,13 @@ public class NewTaskActivity extends AppCompatActivity {
         mTaskTitle = (EditText) findViewById(R.id.task_name);
         mTaskDescription = (EditText) findViewById(R.id.task_description);
         mDatabaseTasks = FirebaseDatabase.getInstance().getReference("Tasks");
-        mCalendar = (CalendarView) findViewById(R.id.calendarView);
-        mCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        //mCalendar = (CalendarView) findViewById(R.id.calendarView);
+        /*mCalendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 date = String.valueOf(dayOfMonth)+"-"+ String.valueOf(month+1)+"-"+String.valueOf(year);
             }
-        });
+        });*/
     }
 
     @Override

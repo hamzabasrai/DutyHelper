@@ -13,12 +13,20 @@ public class Task {
     private String mDescription;
     private Date mDeadline;
     private List<User> mAssignedUsers;
+    private String date;
 
     public Task() {
         //necessary blank constructor
     }
 
-    public Task(String id, String title, String description) {
+    public Task(String id, String title, String description, String date) {
+        mId = id;
+        mTitle = title;
+        mDescription = description;
+        this.date = date;
+    }
+
+    public Task(String id, String title, String description){
         mId = id;
         mTitle = title;
         mDescription = description;
