@@ -11,6 +11,6 @@
     <item
         android:id="@+id/action_group"
         android:icon="@drawable/ic_group"
-        android:title="Group"
+        android:title="@string/action_show_group"
         app:showAsAction="always"/>
 </menu>

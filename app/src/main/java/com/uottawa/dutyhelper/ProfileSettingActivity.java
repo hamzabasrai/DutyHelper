@@ -5,50 +5,76 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.MediaStoreSignature;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 
 public class ProfileSettingActivity extends AppCompatActivity {
 
-    private Button mSelectImage;
-    private StorageReference mStorage;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabaseUsers;
     private static final int GALLERY_INTENT = 2;
-    private ImageView mProfileImage;
+
+    private DatabaseReference mUserData;
+    private StorageReference mStorage;
+    private String mUserId;
+
+    private CircularImageView mProfileImage;
+    private TextView mNameTextView;
+    private TextView mEmailTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_setting);
 
-        mProfileImage = (ImageView) findViewById(R.id.profilePic);
-        mAuth = FirebaseAuth.getInstance();
-        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
-
+        mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mUserData = FirebaseDatabase.getInstance().getReference("users").child(mUserId);
         mStorage = FirebaseStorage.getInstance().getReference();
 
-        mSelectImage = (Button) findViewById(R.id.changePicture);
-        loadPicture();
-        mSelectImage.setOnClickListener(new View.OnClickListener() {
+        mNameTextView = (TextView) findViewById(R.id.user_name);
+        mEmailTextView = (TextView) findViewById(R.id.user_email);
+
+        mProfileImage = (CircularImageView) findViewById(R.id.profile_image);
+        mProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent selectPicture = new Intent(Intent.ACTION_PICK);
                 selectPicture.setType("image/*");
                 startActivityForResult(selectPicture, GALLERY_INTENT);
+            }
+        });
+
+        loadPicture();
+
+        mUserData.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String name = dataSnapshot.child("firstName").getValue(String.class) + " ";
+                name += dataSnapshot.child("lastName").getValue(String.class);
+                String email = dataSnapshot.child("email").getValue(String.class);
+
+                mNameTextView.setText(name);
+                mEmailTextView.setText(email);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
@@ -59,27 +85,25 @@ public class ProfileSettingActivity extends AppCompatActivity {
 
         if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
             Uri uri = data.getData();
-            String id = mAuth.getCurrentUser().getEmail();
-            StorageReference filepath = mStorage.child("ProfilePicture").child(id);
+            StorageReference filepath = mStorage.child("ProfilePicture").child(mUserId);
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(ProfileSettingActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                     loadPicture();
+                    Toast.makeText(ProfileSettingActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
-    public void loadPicture() {
-
-        String id = mAuth.getCurrentUser().getEmail();
-        StorageReference filepath = mStorage.child("ProfilePicture").child(id);
+    private void loadPicture() {
+        StorageReference filepath = mStorage.child("ProfilePicture").child(mUserId);
         Glide.with(getApplicationContext())
                 .using(new FirebaseImageLoader())
                 .load(filepath)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
+                .signature(new MediaStoreSignature("image/*", System.currentTimeMillis(), 0))
+                .error(R.drawable.default_avatar)
                 .centerCrop()
                 .into(mProfileImage);
     }
