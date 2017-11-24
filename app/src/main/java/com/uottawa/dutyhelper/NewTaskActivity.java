@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -20,7 +18,6 @@ public class NewTaskActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseTasks;
     private EditText mTaskTitle;
     private EditText mTaskDescription;
-    private Button mAddTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +25,7 @@ public class NewTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_task);
         mTaskTitle = (EditText) findViewById(R.id.task_name);
         mTaskDescription = (EditText) findViewById(R.id.task_description);
-        mAddTask = (Button) findViewById(R.id.btn_Add_Task);
         mDatabaseTasks = FirebaseDatabase.getInstance().getReference("Tasks");
-
-        mAddTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addTask();
-                Intent sendBackToActivityList = new Intent(NewTaskActivity.this, TaskListActivity.class);
-                startActivity(sendBackToActivityList);
-            }
-        });
-
     }
 
     @Override
