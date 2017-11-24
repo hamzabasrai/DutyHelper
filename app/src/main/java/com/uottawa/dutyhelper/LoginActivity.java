@@ -89,12 +89,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
-//            updateUI(currentUser);
+            updateUI();
         }
     }
 
-    private void updateUI(FirebaseUser currentUser) {
-       //
+    private void updateUI() {
+       Intent intent = new Intent(LoginActivity.this, TaskListActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void login() {
@@ -105,10 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Intent intent = new Intent(LoginActivity.this, TaskListActivity.class);
-                        startActivity(intent);
-                        finish();//added finish so u cant log out after clicking back
+                        updateUI();
                     } else {
                         mEmailLayout.setError("Incorrect Email or Password");
                         mPasswordLayout.setError("Incorrect Email or Password");
