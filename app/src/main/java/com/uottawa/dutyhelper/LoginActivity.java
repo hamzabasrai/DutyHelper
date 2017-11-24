@@ -88,13 +88,13 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null) {
+        if (currentUser != null) {
             updateUI();
         }
     }
 
     private void updateUI() {
-       Intent intent = new Intent(LoginActivity.this, TaskListActivity.class);
+        Intent intent = new Intent(LoginActivity.this, TaskListActivity.class);
         startActivity(intent);
         finish();
     }
