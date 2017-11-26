@@ -8,6 +8,9 @@
     <string name="title_activity_profile_settings">Profile</string>
     <string name="title_activity_edit_task">Edit Task</string>
 
+    <!-- Arrays -->
+    <string-array name="appUsers"> appUsers </string-array>
+
     <!--Button Text-->
     <string name="btn_sign_up">Sign Up</string>
     <string name="btn_login">Login</string>
