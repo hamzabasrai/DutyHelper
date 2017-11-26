@@ -11,7 +11,7 @@ public class Task {
     private String mId;
     private String mTitle;
     private String mDescription;
-    private Date mDeadline;
+    private String mDeadline;
     private List<User> mAssignedUsers;
     private String date;
 
@@ -56,11 +56,11 @@ public class Task {
         mDescription = description;
     }
 
-    public Date getDeadline() {
+    public String getDeadline() {
         return mDeadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(String deadline) {
         mDeadline = deadline;
     }
 
