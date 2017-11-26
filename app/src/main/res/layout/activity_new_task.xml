@@ -1,6 +1,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -39,9 +40,9 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@id/task_description_layout"
         app:layout_constraintEnd_toEndOf="@id/end_edge"
-        app:layout_constraintStart_toStartOf="@id/start_edge"
-        app:layout_constraintBottom_toTopOf="@id/task_description_layout">
+        app:layout_constraintStart_toStartOf="@id/start_edge">
 
         <EditText
             android:id="@+id/task_name"
@@ -49,7 +50,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_task_name"
             android:inputType="textCapSentences"
-            android:singleLine="true" />
+            android:singleLine="true"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -67,18 +68,70 @@
             android:id="@+id/task_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_task_description" />
+            android:hint="@string/hint_task_description"/>
     </android.support.design.widget.TextInputLayout>
 
-    <Spinner
-        android:id="@+id/user_spinner"
-        android:layout_width="match_parent"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/due_date_layout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        app:layout_constraintBottom_toBottomOf="@id/task_description_layout"
-        app:layout_constraintEnd_toEndOf="@id/end_edge"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:errorEnabled="true"
         app:layout_constraintStart_toStartOf="@id/start_edge"
-        app:layout_constraintTop_toTopOf="@id/bottom_edge" />
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintTop_toBottomOf="@id/task_description_layout">
 
+        <EditText
+            android:id="@+id/due_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:focusable="false"
+            android:hint="@string/hint_due_date"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <RadioGroup
+        android:id="@+id/status_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintTop_toBottomOf="@id/due_date_layout">
+
+        <RadioButton
+            android:id="@+id/radio_incomplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_incomplete"/>
+
+        <RadioButton
+            android:id="@+id/radio_in_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_in_progress"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_add_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_add_items"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintEnd_toStartOf="@id/btn_assign_user"
+        app:layout_constraintTop_toBottomOf="@id/status_radio_group"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_edge"/>
+
+    <Button
+        android:id="@+id/btn_assign_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_assign"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toEndOf="@id/btn_add_items"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintTop_toBottomOf="@id/status_radio_group"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_edge"/>
 </android.support.constraint.ConstraintLayout>

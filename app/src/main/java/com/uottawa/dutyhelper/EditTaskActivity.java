@@ -135,7 +135,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
     private void updateTask(String id, String name, String description) {
         DatabaseReference dR = databaseTasks.child(id);
-        Task updatedTask = new Task(id, name, description);
+        Task updatedTask = new Task(id, name, description, "");
         dR.setValue(updatedTask);
     }
 

@@ -31,4 +31,9 @@
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_show_group">Show Group</string>
+    <string name="hint_due_date">Due Date</string>
+    <string name="label_incomplete">Incomplete</string>
+    <string name="label_in_progress">In Progress</string>
+    <string name="btn_add_items">Add Items</string>
+    <string name="btn_assign">Assign</string>
 </resources>
