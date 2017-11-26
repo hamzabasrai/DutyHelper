@@ -1,5 +1,8 @@
 package com.uottawa.dutyhelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by pfara on 10/25/2017.
  */
@@ -10,23 +13,27 @@ public class User {
     private String lastName;
     private String email;
     private int points;
-    private String imgUrl;
+    private List<String> assignedTasks;
 
     public User(String id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.points = 100;
-        imgUrl = null;
-
+        this.points = 0;
+        this.assignedTasks = new ArrayList<>();
     }
-    public User(){
-        ;
+
+    public User() {
+
     }
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -53,7 +60,20 @@ public class User {
         this.email = email;
     }
 
+    public int getPoints() {
+        return points;
+    }
 
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
+    public List<String> getAssignedTasks() {
+        return assignedTasks;
+    }
+
+    public void setAssignedTasks(List<String> assignedTasks) {
+        this.assignedTasks = assignedTasks;
+    }
 }
 

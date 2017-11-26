@@ -1,6 +1,6 @@
 package com.uottawa.dutyhelper;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,36 +8,35 @@ import java.util.List;
  */
 
 public class Task {
+
     private String mId;
     private String mTitle;
     private String mDescription;
-    private String mDeadline;
-    private List<User> mAssignedUsers;
-    private String date;
+    private String mDueDate;
+    private String mStatus;
+    private List<String> mAssignedUsers;
+    private List<String> mItemsNeeded;
 
     public Task() {
         //necessary blank constructor
     }
 
-    public Task(String id, String title, String description, String date) {
+    public Task(String id, String title, String description, String dueDate) {
         mId = id;
         mTitle = title;
         mDescription = description;
-        this.date = date;
-    }
-
-    public Task(String id, String title, String description){
-        mId = id;
-        mTitle = title;
-        mDescription = description;
+        mDueDate = dueDate;
+        mStatus = "incomplete";
+        mAssignedUsers = new ArrayList<>();
+        mItemsNeeded = new ArrayList<>();
     }
 
     public String getId() {
         return mId;
     }
 
-    public void setId(String Id) {
-        mId = Id;
+    public void setId(String id) {
+        mId = id;
     }
 
     public String getTitle() {
@@ -56,19 +55,35 @@ public class Task {
         mDescription = description;
     }
 
-    public String getDeadline() {
-        return mDeadline;
+    public String getDueDate() {
+        return mDueDate;
     }
 
-    public void setDeadline(String deadline) {
-        mDeadline = deadline;
+    public void setDueDate(String dueDate) {
+        mDueDate = dueDate;
     }
 
-    public List<User> getAssignedUsers() {
+    public String getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(String status) {
+        mStatus = status;
+    }
+
+    public List<String> getAssignedUsers() {
         return mAssignedUsers;
     }
 
-    public void setAssignedUsers(List<User> assignedUsers) {
+    public void setAssignedUsers(List<String> assignedUsers) {
         mAssignedUsers = assignedUsers;
+    }
+
+    public List<String> getItemsNeeded() {
+        return mItemsNeeded;
+    }
+
+    public void setItemsNeeded(List<String> itemsNeeded) {
+        mItemsNeeded = itemsNeeded;
     }
 }
