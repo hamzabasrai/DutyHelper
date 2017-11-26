@@ -103,13 +103,19 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
 
+                final int position = pos;
+
                 AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(TaskListActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
                 builder.setTitle("Delete Task")
                         .setMessage("Are you sure you want to delete task?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // continue with delete
+                                //deletes entry from database
+                                String taskId = tasks.get(position).getId();
+                                DatabaseReference dR = mDatabaseTasks.child(taskId);
+                                dR.removeValue();
+
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
