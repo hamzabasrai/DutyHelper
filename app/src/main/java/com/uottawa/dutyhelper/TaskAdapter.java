@@ -62,8 +62,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                     dR.child("status").setValue("incomplete");
                 }
             }
-        }
-        );
+        });
 
         return rowView;
     }
