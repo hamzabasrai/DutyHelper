@@ -36,4 +36,5 @@
     <string name="label_in_progress">In Progress</string>
     <string name="btn_add_items">Add Items</string>
     <string name="btn_assign">Assign</string>
+    <string name="radio_complete">Complete</string>
 </resources>

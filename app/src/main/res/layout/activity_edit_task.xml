@@ -71,4 +71,50 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/edit_due_date_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintTop_toBottomOf="@id/edit_task_description_layout">
+
+        <EditText
+            android:id="@+id/edit_due_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:focusable="false"
+            android:hint="@string/hint_due_date"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <RadioGroup
+        android:id="@+id/status_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintTop_toBottomOf="@id/edit_due_date_layout">
+
+        <RadioButton
+            android:id="@+id/radio_incomplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_incomplete"/>
+
+        <RadioButton
+            android:id="@+id/radio_in_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_in_progress"/>
+
+        <RadioButton
+            android:id="@+id/radio_complete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_complete"/>
+    </RadioGroup>
+
 </android.support.constraint.ConstraintLayout>
