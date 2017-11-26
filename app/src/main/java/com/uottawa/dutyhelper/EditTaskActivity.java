@@ -23,10 +23,13 @@ public class EditTaskActivity extends AppCompatActivity {
     private static final String EXTRA_TASK_ID = "com.uottawa.dutyhelper.task_id";
     private static final String EXTRA_TASK_NAME = "com.uottawa.dutyhelper.task_name";
     private static final String EXTRA_TASK_DESC = "com.uottawa.dutyhelper.task_desc";
+    private static final String EXTRA_TASK_DATE = "com.uottawa.dutyhelper.task_date";
+    private static final String EXTRA_TASK_STATUS = "com.uottawa.dutyhelper.task_status";
 
 
     private EditText mTaskName;
     private EditText mTaskDescription;
+    private EditText mTaskDate;
     private TextInputLayout mTaskNameLayout;
     private TextInputLayout mTaskDescLayout;
 
@@ -35,13 +38,16 @@ public class EditTaskActivity extends AppCompatActivity {
     private String extraTaskId;
     private String extraTaskName;
     private String extraTaskDescription;
+    private String extraTaskDate;
 
 
-    public static Intent newIntent(Context packageContext, String taskId, String taskName, String taskDescription) {
+
+    public static Intent newIntent(Context packageContext, String taskId, String taskName, String taskDescription, String taskDate) {
         Intent intent = new Intent(packageContext, EditTaskActivity.class);
         intent.putExtra(EXTRA_TASK_ID, taskId);
         intent.putExtra(EXTRA_TASK_NAME, taskName);
         intent.putExtra(EXTRA_TASK_DESC, taskDescription);
+        intent.putExtra(EXTRA_TASK_DATE, taskDate);
         return intent;
     }
 
@@ -55,14 +61,17 @@ public class EditTaskActivity extends AppCompatActivity {
         extraTaskId = getIntent().getStringExtra(EXTRA_TASK_ID);
         extraTaskName = getIntent().getStringExtra(EXTRA_TASK_NAME);
         extraTaskDescription = getIntent().getStringExtra(EXTRA_TASK_DESC);
+        extraTaskDate = getIntent().getStringExtra(EXTRA_TASK_DATE);
 
         mTaskName = (EditText) findViewById(R.id.edit_task_name);
         mTaskDescription = (EditText) findViewById(R.id.edit_task_description);
+        mTaskDate = (EditText) findViewById(R.id.edit_due_date);
         mTaskNameLayout = (TextInputLayout) findViewById(R.id.edit_task_name_layout);
         mTaskDescLayout = (TextInputLayout) findViewById(R.id.edit_task_description_layout);
 
         mTaskName.setText(extraTaskName);
         mTaskDescription.setText(extraTaskDescription);
+        mTaskDate.setText(extraTaskDate);
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -104,7 +113,7 @@ public class EditTaskActivity extends AppCompatActivity {
             mTaskDescription.setText(extraTaskDescription);
 
             AlertDialog.Builder builder;
-            builder = new AlertDialog.Builder(EditTaskActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+            builder = new AlertDialog.Builder(EditTaskActivity.this);
             builder.setTitle("Delete Task")
                     .setMessage("Are you sure you want to delete task?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

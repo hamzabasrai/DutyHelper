@@ -51,7 +51,6 @@ public class NewTaskActivity extends AppCompatActivity {
     private List<String> appUsersID;
     ArrayList<String> assignedUsers;
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -219,6 +218,7 @@ public class NewTaskActivity extends AppCompatActivity {
         String description = mTaskDescription.getText().toString().trim();
         String dueDate = mTaskDueDate.getText().toString();
         String status = "incomplete";
+
         if (mTaskStatus.getCheckedRadioButtonId() == R.id.radio_in_progress) {
             status = "in progress";
         }

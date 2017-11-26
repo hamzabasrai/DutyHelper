@@ -1,6 +1,6 @@
 package com.uottawa.dutyhelper;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,23 +9,23 @@ import java.util.List;
 
 
 public class Group {
-    private List<User> users;
-    private List<Task> tasks;
+    private List<String> users;
+    private List<String> tasks;
     private String groupName;
 
-    public Group(String groupName){
+    public Group(String groupName) {
 
-        this.users = new LinkedList<User>();
-        this.tasks = new LinkedList<Task>();
+        this.users = new ArrayList<>();
+        this.tasks = new ArrayList<>();
         this.groupName = groupName;
 
     }
 
-    public List<User> getUsers() {
+    public List<String> getUsers() {
         return users;
     }
 
-    public List<Task> getTasks() {
+    public List<String> getTasks() {
         return tasks;
     }
 
@@ -33,11 +33,11 @@ public class Group {
         return groupName;
     }
 
-    public void setUsers(LinkedList<User> users) {
+    public void setUsers(List<String> users) {
         this.users = users;
     }
 
-    public void setTasks(LinkedList<Task> tasks) {
+    public void setTasks(List<String> tasks) {
         this.tasks = tasks;
     }
 

@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,13 +86,13 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String taskId = tasks.get(position).getId();
-                Log.d("id:", taskId);
-                String taskName = tasks.get(position).getTitle();
-                Log.d("id:", taskName);
-                String taskDesc = tasks.get(position).getDescription();
-                Log.d("id:", taskDesc);
-                Intent intent = EditTaskActivity.newIntent(TaskListActivity.this, taskId, taskName, taskDesc);
+                Task selected = tasks.get(position);
+                String taskId = selected.getId();
+                String taskName = selected.getTitle();
+                String taskDesc = selected.getDescription();
+                String taskDate = selected.getDueDate();
+
+                Intent intent = EditTaskActivity.newIntent(TaskListActivity.this, taskId, taskName, taskDesc, taskDate);
                 startActivity(intent);
             }
         });
@@ -106,7 +105,7 @@ public class TaskListActivity extends AppCompatActivity {
                 final int position = pos;
 
                 AlertDialog.Builder builder;
-                builder = new AlertDialog.Builder(TaskListActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+                builder = new AlertDialog.Builder(TaskListActivity.this);
                 builder.setTitle("Delete Task")
                         .setMessage("Are you sure you want to delete task?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -170,8 +169,7 @@ public class TaskListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_group) {
-            Intent addMemberToGroup = new Intent(TaskListActivity.this, addUserToGroup.class);
-            startActivity(addMemberToGroup);
+
         }
         if (id == R.id.action_settings) {
             Intent sendToSettings = new Intent(TaskListActivity.this, ProfileSettingActivity.class);
@@ -201,6 +199,4 @@ public class TaskListActivity extends AppCompatActivity {
         mFAB.setImageResource(R.drawable.ic_cancel);
         subMenuExpanded = true;
     }
-
-
 }
