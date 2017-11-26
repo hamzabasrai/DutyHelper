@@ -29,7 +29,6 @@ public class NewTaskActivity extends AppCompatActivity {
     private RadioGroup mTaskStatus;
     private DatePicker mDatePicker;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -104,6 +103,7 @@ public class NewTaskActivity extends AppCompatActivity {
         String description = mTaskDescription.getText().toString().trim();
         String dueDate = mTaskDueDate.getText().toString();
         String status = "incomplete";
+
         if (mTaskStatus.getCheckedRadioButtonId() == R.id.radio_in_progress) {
             status = "in progress";
         }

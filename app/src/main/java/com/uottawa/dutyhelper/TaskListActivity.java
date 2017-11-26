@@ -106,7 +106,7 @@ public class TaskListActivity extends AppCompatActivity {
                 final int position = pos;
 
                 AlertDialog.Builder builder;
-                builder = new AlertDialog.Builder(TaskListActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+                builder = new AlertDialog.Builder(TaskListActivity.this);
                 builder.setTitle("Delete Task")
                         .setMessage("Are you sure you want to delete task?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
