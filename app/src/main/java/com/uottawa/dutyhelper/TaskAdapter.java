@@ -27,6 +27,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
     private final List<Task> mTaskList;
 
     private DatabaseReference mDatabaseTasks;
+    private DatabaseReference mDatabaseStatus;
 
     public TaskAdapter(Context context, List<Task> taskList) {
         super(context, R.layout.task_list_item_view, taskList);
@@ -49,6 +50,8 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         taskIcon.setImageResource(R.drawable.splash_icon);
         taskTitle.setText(task.getTitle());
         taskDescription.setText(task.getDescription());
+
+        checkBox.setChecked(task.getStatus().equals("complete"));
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
