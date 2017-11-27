@@ -12,7 +12,10 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +27,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private static final String EXTRA_TASK_NAME = "com.uottawa.dutyhelper.task_name";
     private static final String EXTRA_TASK_DESC = "com.uottawa.dutyhelper.task_desc";
     private static final String EXTRA_TASK_DATE = "com.uottawa.dutyhelper.task_date";
-    private static final String EXTRA_TASK_STATUS = "com.uottawa.dutyhelper.task_status";
+    private static final String EXTRA_TASK_STATUS = "com.uottawa.dutyhelper.taskStatus";
 
 
     private EditText mTaskName;
@@ -40,14 +43,22 @@ public class EditTaskActivity extends AppCompatActivity {
     private String extraTaskDescription;
     private String extraTaskDate;
 
+    private RadioGroup radioGroup;
+    private RadioButton incomplete;
+    private RadioButton inprogress;
+    private RadioButton complete;
+    private String mstatus;
 
 
-    public static Intent newIntent(Context packageContext, String taskId, String taskName, String taskDescription, String taskDate) {
+    public static Intent newIntent(Context packageContext, String taskId,
+                                   String taskName, String taskDescription,
+                                   String taskDate, String status) {
         Intent intent = new Intent(packageContext, EditTaskActivity.class);
         intent.putExtra(EXTRA_TASK_ID, taskId);
         intent.putExtra(EXTRA_TASK_NAME, taskName);
         intent.putExtra(EXTRA_TASK_DESC, taskDescription);
         intent.putExtra(EXTRA_TASK_DATE, taskDate);
+        intent.putExtra(EXTRA_TASK_STATUS, status);
         return intent;
     }
 
@@ -62,6 +73,7 @@ public class EditTaskActivity extends AppCompatActivity {
         extraTaskName = getIntent().getStringExtra(EXTRA_TASK_NAME);
         extraTaskDescription = getIntent().getStringExtra(EXTRA_TASK_DESC);
         extraTaskDate = getIntent().getStringExtra(EXTRA_TASK_DATE);
+        mstatus = getIntent().getStringExtra(EXTRA_TASK_STATUS);
 
         mTaskName = (EditText) findViewById(R.id.edit_task_name);
         mTaskDescription = (EditText) findViewById(R.id.edit_task_description);
@@ -72,6 +84,18 @@ public class EditTaskActivity extends AppCompatActivity {
         mTaskName.setText(extraTaskName);
         mTaskDescription.setText(extraTaskDescription);
         mTaskDate.setText(extraTaskDate);
+
+        radioGroup = (RadioGroup) findViewById(R.id.status_radio_group);
+        incomplete = (RadioButton) findViewById(R.id.radio_incomplete);
+        inprogress = (RadioButton)findViewById(R.id.radio_in_progress);
+        complete = (RadioButton)findViewById(R.id.radio_complete);
+
+
+        fillButtons();
+        radioListener();
+
+
+
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -134,7 +158,7 @@ public class EditTaskActivity extends AppCompatActivity {
             if (isValidForm()) {
                 String taskName = mTaskName.getText().toString();
                 String taskDescription = mTaskDescription.getText().toString();
-                updateTask(extraTaskId, taskName, taskDescription);
+                updateTask(extraTaskId, taskName, taskDescription, mstatus);
                 Toast.makeText(this, "Task Updated", Toast.LENGTH_SHORT).show();
                 startActivity(goBack);
             }
@@ -142,9 +166,9 @@ public class EditTaskActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateTask(String id, String name, String description) {
+    private void updateTask(String id, String name, String description, String status) {
         DatabaseReference dR = databaseTasks.child(id);
-        Task updatedTask = new Task(id, name, description, "");
+        Task updatedTask = new Task(id, name, description, "", status);
         dR.setValue(updatedTask);
     }
 
@@ -169,5 +193,40 @@ public class EditTaskActivity extends AppCompatActivity {
             isValid = false;
         }
         return isValid;
+    }
+    public void radioListener() {
+
+        incomplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mstatus="incomplete";
+            }
+        });
+        inprogress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mstatus="inprogress";
+            }
+        });
+        complete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mstatus="complete";
+            }
+        });
+
+
+
+    }
+    public void fillButtons(){
+
+        if(mstatus.equals("incomplete")){
+            incomplete.toggle();
+        }else if(mstatus.equals("inprogress")){
+            inprogress.toggle();
+        }else if (mstatus.equals("complete")){
+            complete.toggle();
+        }
+
     }
 }
