@@ -216,9 +216,13 @@ public class EditTaskActivity extends AppCompatActivity {
     public void fillButtons() {
         if(mstatus.equals("incomplete")){
             incomplete.toggle();
-        }else if(mstatus.equals("inprogress")){
+        }
+
+        if(mstatus.equals("inprogress")){
             inprogress.toggle();
-        }else if (mstatus.equals("complete")){
+        }
+
+        if (mstatus.equals("complete")){
             complete.toggle();
         }
     }
