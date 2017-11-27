@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -232,6 +231,7 @@ public class NewTaskActivity extends AppCompatActivity {
             task.setDueDate(dueDate);
             task.setStatus(status);
             mDatabaseTasks.child(id).setValue(task);
+
             //assigning task to user
             for(String UserID: assignedUsers){
                 ArrayList<String> toAdd = new ArrayList<>();

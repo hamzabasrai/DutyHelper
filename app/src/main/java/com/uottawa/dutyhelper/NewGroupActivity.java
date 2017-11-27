@@ -2,7 +2,6 @@ package com.uottawa.dutyhelper;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,11 +21,14 @@ import java.util.List;
 public class NewGroupActivity extends AppCompatActivity {
 
     private EditText mGroupName;
+    private Button mCreateGroupBtn;
     private ListView mUserList;
     private ArrayAdapter<String> mAdapter;
+
     private DatabaseReference mDatabaseUsers;
-    private List<String> mUsers;
-    private Button mCreateGroupBtn;
+
+    private List<String> mUserNames;
+    private List<String> mUserIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +39,13 @@ public class NewGroupActivity extends AppCompatActivity {
         mUserList = (ListView) findViewById(R.id.user_list);
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
 
-        mUsers = new ArrayList<>();
+        mUserNames = new ArrayList<>();
+        mUserIds = new ArrayList<>();
         mCreateGroupBtn = (Button) findViewById(R.id.btn_create_group);
         mCreateGroupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SparseBooleanArray checked = mUserList.getCheckedItemPositions();
-                for (int i = 0; i < checked.size(); i++) {
-                    Log.d("NewGroupAct", String.valueOf(checked.get(i)));
-                }
-                ArrayList<String> selectedItems = new ArrayList<>();
+                createGroup();
             }
         });
 
@@ -59,13 +58,14 @@ public class NewGroupActivity extends AppCompatActivity {
         mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mUsers.clear();
+                mUserNames.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     User user = postSnapshot.getValue(User.class);
                     String name = user.getFirstName() + " " + user.getLastName();
-                    mUsers.add(name);
+                    mUserIds.add(user.getId());
+                    mUserNames.add(name);
                 }
-                mAdapter = new ArrayAdapter<String>(NewGroupActivity.this, android.R.layout.simple_list_item_multiple_choice, mUsers);
+                mAdapter = new ArrayAdapter<String>(NewGroupActivity.this, android.R.layout.simple_list_item_multiple_choice, mUserNames);
                 mUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 mUserList.setAdapter(mAdapter);
             }
@@ -75,5 +75,31 @@ public class NewGroupActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void createGroup() {
+
+        String name = mGroupName.getText().toString();
+
+        SparseBooleanArray checked = mUserList.getCheckedItemPositions();
+        ArrayList<String> selectedUsers = new ArrayList<>();
+        for (int i = 0; i < checked.size(); i++) {
+            if (checked.get(i)) {
+                String userId = mUserIds.get(i);
+                selectedUsers.add(userId);
+            }
+        }
+
+        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("groups");
+        String groupId = dR.push().getKey();
+
+        Group newGroup = new Group(name);
+        newGroup.setUsers(selectedUsers);
+
+        dR.child(groupId).setValue(newGroup);
+
+        for (String id: selectedUsers) {
+            mDatabaseUsers.child(id).child("group").setValue(groupId);
+        }
     }
 }

@@ -94,9 +94,6 @@ public class EditTaskActivity extends AppCompatActivity {
         fillButtons();
         radioListener();
 
-
-
-
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -194,8 +191,8 @@ public class EditTaskActivity extends AppCompatActivity {
         }
         return isValid;
     }
-    public void radioListener() {
 
+    public void radioListener() {
         incomplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,12 +211,9 @@ public class EditTaskActivity extends AppCompatActivity {
                 mstatus="complete";
             }
         });
-
-
-
     }
-    public void fillButtons(){
 
+    public void fillButtons() {
         if(mstatus.equals("incomplete")){
             incomplete.toggle();
         }else if(mstatus.equals("inprogress")){
@@ -227,6 +221,5 @@ public class EditTaskActivity extends AppCompatActivity {
         }else if (mstatus.equals("complete")){
             complete.toggle();
         }
-
     }
 }
