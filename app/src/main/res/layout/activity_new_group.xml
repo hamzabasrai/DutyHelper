@@ -29,8 +29,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/group_name_layout"
-        app:layout_constraintBottom_toTopOf="@id/btn_create_group"/>
+        app:layout_constraintTop_toBottomOf="@id/group_name_layout"/>
 
     <Button
         android:id="@+id/btn_create_group"

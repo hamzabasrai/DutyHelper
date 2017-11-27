@@ -12,6 +12,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String group;
     private int points;
     private List<String> assignedTasks;
 
@@ -20,6 +21,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.group = null;
         this.points = 0;
         this.assignedTasks = new ArrayList<>();
     }
@@ -58,6 +60,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public int getPoints() {
