@@ -37,4 +37,5 @@
     <string name="btn_add_items">Add Items</string>
     <string name="btn_assign">Assign</string>
     <string name="radio_complete">Complete</string>
+    <string name="title_new_group_activity">New Group</string>
 </resources>

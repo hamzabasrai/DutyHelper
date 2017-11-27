@@ -34,10 +34,8 @@
             android:label="@string/title_activity_task_list"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".addUserToGroup"/>
-        <activity
             android:name=".NewGroupActivity"
-            android:label="@string/title_activity_settings"/>
+            android:label="@string/title_new_group_activity"/>
         <activity
             android:name=".ProfileSettingActivity"
             android:label="@string/title_activity_profile_settings"/>

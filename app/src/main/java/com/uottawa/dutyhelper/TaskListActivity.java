@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -78,7 +77,8 @@ public class TaskListActivity extends AppCompatActivity {
         newGroupFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TaskListActivity.this, "Will lead to new page", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(TaskListActivity.this, NewGroupActivity.class);
+                startActivity(intent);
             }
         });
 
