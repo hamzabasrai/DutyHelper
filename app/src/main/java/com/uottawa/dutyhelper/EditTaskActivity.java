@@ -94,9 +94,6 @@ public class EditTaskActivity extends AppCompatActivity {
         fillButtons();
         radioListener();
 
-
-
-
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -222,9 +219,13 @@ public class EditTaskActivity extends AppCompatActivity {
 
         if(mstatus.equals("incomplete")){
             incomplete.toggle();
-        }else if(mstatus.equals("inprogress")){
+        }
+
+        if(mstatus.equals("inprogress")){
             inprogress.toggle();
-        }else if (mstatus.equals("complete")){
+        }
+
+        if (mstatus.equals("complete")){
             complete.toggle();
         }
 
