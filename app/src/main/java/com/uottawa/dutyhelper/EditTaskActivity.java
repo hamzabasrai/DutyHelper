@@ -86,7 +86,7 @@ public class EditTaskActivity extends AppCompatActivity {
         mTaskDate.setText(extraTaskDate);
 
         radioGroup = (RadioGroup) findViewById(R.id.status_radio_group);
-        incomplete = (RadioButton) findViewById(R.id.radio_in_progress);
+        incomplete = (RadioButton) findViewById(R.id.radio_incomplete);
         inprogress = (RadioButton)findViewById(R.id.radio_in_progress);
         complete = (RadioButton)findViewById(R.id.radio_complete);
 
