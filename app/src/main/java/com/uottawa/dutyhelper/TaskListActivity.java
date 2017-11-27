@@ -91,8 +91,9 @@ public class TaskListActivity extends AppCompatActivity {
                 String taskName = selected.getTitle();
                 String taskDesc = selected.getDescription();
                 String taskDate = selected.getDueDate();
+                String taskStatus = selected.getStatus();
 
-                Intent intent = EditTaskActivity.newIntent(TaskListActivity.this, taskId, taskName, taskDesc, taskDate);
+                Intent intent = EditTaskActivity.newIntent(TaskListActivity.this, taskId, taskName, taskDesc, taskDate,taskStatus);
                 startActivity(intent);
             }
         });

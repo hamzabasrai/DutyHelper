@@ -156,6 +156,7 @@ public class NewTaskActivity extends AppCompatActivity {
                 });
                 AlertDialog mDialog = builder.create();
                 mDialog.show();
+
             }
         });
 
