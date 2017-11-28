@@ -36,7 +36,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
     private CircularImageView mProfileImage;
     private TextView mNameTextView;
     private TextView mEmailTextView;
-
+    private TextView mPoints;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +48,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
 
         mNameTextView = (TextView) findViewById(R.id.user_name);
         mEmailTextView = (TextView) findViewById(R.id.user_email);
+        mPoints = (TextView) findViewById((R.id.Points));
 
         mProfileImage = (CircularImageView) findViewById(R.id.profile_image);
         mProfileImage.setOnClickListener(new View.OnClickListener() {
@@ -67,9 +68,12 @@ public class ProfileSettingActivity extends AppCompatActivity {
                 String name = dataSnapshot.child("firstName").getValue(String.class) + " ";
                 name += dataSnapshot.child("lastName").getValue(String.class);
                 String email = dataSnapshot.child("email").getValue(String.class);
+                String points = "Points: "+Integer.toString(
+                        dataSnapshot.child("points").getValue(Integer.class));
 
                 mNameTextView.setText(name);
                 mEmailTextView.setText(email);
+                mPoints.setText(points);
             }
 
             @Override
