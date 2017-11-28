@@ -9,16 +9,24 @@ import java.util.List;
 
 
 public class Group {
+    private String id;
     private List<String> users;
     private List<String> tasks;
     private String groupName;
 
     public Group(String groupName) {
-
+        this.id = new String();
         this.users = new ArrayList<>();
         this.tasks = new ArrayList<>();
         this.groupName = groupName;
+    }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public List<String> getUsers() {
