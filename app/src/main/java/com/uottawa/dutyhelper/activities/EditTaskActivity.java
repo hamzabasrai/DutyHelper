@@ -1,4 +1,4 @@
-package com.uottawa.dutyhelper;
+package com.uottawa.dutyhelper.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +25,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.uottawa.dutyhelper.R;
+import com.uottawa.dutyhelper.model.Task;
+import com.uottawa.dutyhelper.model.User;
 
 public class EditTaskActivity extends AppCompatActivity {
 

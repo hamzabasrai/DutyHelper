@@ -1,4 +1,4 @@
-package com.uottawa.dutyhelper;
+package com.uottawa.dutyhelper.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,6 +23,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.uottawa.dutyhelper.R;
 
 
 public class ProfileSettingActivity extends AppCompatActivity {

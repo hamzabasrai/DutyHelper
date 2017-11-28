@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -25,22 +25,22 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity"/>
+        <activity android:name=".activities.SignUpActivity"/>
         <activity
-            android:name=".NewTaskActivity"
+            android:name=".activities.NewTaskActivity"
             android:label="@string/title_activity_new_task"/>
         <activity
-            android:name=".TaskListActivity"
+            android:name=".activities.TaskListActivity"
             android:label="@string/title_activity_task_list"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".NewGroupActivity"
+            android:name=".activities.NewGroupActivity"
             android:label="@string/title_new_group_activity"/>
         <activity
-            android:name=".ProfileSettingActivity"
+            android:name=".activities.ProfileSettingActivity"
             android:label="@string/title_activity_profile_settings"/>
         <activity
-            android:name=".EditTaskActivity"
+            android:name=".activities.EditTaskActivity"
             android:label="@string/title_activity_edit_task"/>
 
     </application>

@@ -1,4 +1,4 @@
-package com.uottawa.dutyhelper;
+package com.uottawa.dutyhelper.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +21,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.uottawa.dutyhelper.util.DBHandler;
+import com.uottawa.dutyhelper.R;
+import com.uottawa.dutyhelper.model.Task;
+import com.uottawa.dutyhelper.model.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;

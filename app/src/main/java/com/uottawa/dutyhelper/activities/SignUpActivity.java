@@ -1,4 +1,4 @@
-package com.uottawa.dutyhelper;
+package com.uottawa.dutyhelper.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.uottawa.dutyhelper.R;
+import com.uottawa.dutyhelper.model.User;
 
 public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";

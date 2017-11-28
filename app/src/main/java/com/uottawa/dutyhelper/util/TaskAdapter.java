@@ -1,9 +1,8 @@
-package com.uottawa.dutyhelper;
+package com.uottawa.dutyhelper.util;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,10 +19,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.uottawa.dutyhelper.R;
+import com.uottawa.dutyhelper.model.Task;
+import com.uottawa.dutyhelper.model.User;
 
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Hamza on 11/12/2017.

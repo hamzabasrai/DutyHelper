@@ -1,4 +1,4 @@
-package com.uottawa.dutyhelper;
+package com.uottawa.dutyhelper.model;
 
 import java.util.ArrayList;
 import java.util.List;

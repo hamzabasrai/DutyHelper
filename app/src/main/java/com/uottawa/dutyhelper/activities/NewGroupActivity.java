@@ -1,4 +1,4 @@
-package com.uottawa.dutyhelper;
+package com.uottawa.dutyhelper.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +14,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.uottawa.dutyhelper.R;
+import com.uottawa.dutyhelper.model.Group;
+import com.uottawa.dutyhelper.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
