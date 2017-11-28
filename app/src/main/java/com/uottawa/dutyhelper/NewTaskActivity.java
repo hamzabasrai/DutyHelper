@@ -3,9 +3,12 @@ package com.uottawa.dutyhelper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +34,10 @@ public class NewTaskActivity extends AppCompatActivity {
     private RadioGroup mTaskStatus;
     private Button mBtnAssignUser;
 
+    private TextInputLayout mTitleLayout;
+    private TextInputLayout mDescLayout;
+    private TextInputLayout mDueDateLayout;
+
     private DatePicker mDatePicker;
     private ListView mUserListView;
     private ArrayAdapter<String> mUserListAdapter;
@@ -53,9 +60,35 @@ public class NewTaskActivity extends AppCompatActivity {
 
         mTaskTitle = (EditText) findViewById(R.id.task_name);
         mTaskDescription = (EditText) findViewById(R.id.task_description);
-        mTaskDueDate = (EditText) findViewById(R.id.due_date);
+        mTaskDueDate = (EditText) findViewById(R.id.task_due_date);
         mTaskStatus = (RadioGroup) findViewById(R.id.status_radio_group);
         mBtnAssignUser = (Button) findViewById(R.id.btn_assign_user);
+
+        mTitleLayout = (TextInputLayout) findViewById(R.id.task_name_layout);
+        mDescLayout = (TextInputLayout) findViewById(R.id.task_description_layout);
+        mDueDateLayout = (TextInputLayout) findViewById(R.id.task_due_date_layout);
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mTitleLayout.setError(null);
+                mDescLayout.setError(null);
+                mDueDateLayout.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        mTaskTitle.addTextChangedListener(textWatcher);
+        mTaskDueDate.addTextChangedListener(textWatcher);
+        mTaskDescription.addTextChangedListener(textWatcher);
 
         mTaskDueDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +105,7 @@ public class NewTaskActivity extends AppCompatActivity {
                                 int year = mDatePicker.getYear();
                                 int month = mDatePicker.getMonth() + 1;
                                 int day = mDatePicker.getDayOfMonth();
-                                String date = String.format("%o/%o/%o", day, month, year);
+                                String date = String.format("%s/%s/%s", day, month, year);
                                 mTaskDueDate.setText(date);
 
                             }
@@ -85,7 +118,6 @@ public class NewTaskActivity extends AppCompatActivity {
                         .show();
             }
         });
-
 
         mBtnAssignUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,13 +193,16 @@ public class NewTaskActivity extends AppCompatActivity {
         if (id == R.id.action_cancel) {
             startActivity(goBack);
         } else if (id == R.id.action_save_new) {
-            addTask();
-            startActivity(goBack);
+            if (isValidTask()) {
+                addTask();
+                startActivity(goBack);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void addTask() {
+    private void addTask() {
+
         String name = mTaskTitle.getText().toString().trim();
         String description = mTaskDescription.getText().toString().trim();
         String dueDate = mTaskDueDate.getText().toString();
@@ -178,18 +213,38 @@ public class NewTaskActivity extends AppCompatActivity {
             status = "in progress";
         }
 
-        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(description) && !TextUtils.isEmpty(dueDate)) {
+        Task task = new Task();
+        task.setTitle(name);
+        task.setDescription(description);
+        task.setDueDate(dueDate);
+        task.setStatus(status);
+        task.setAssignedUsers(mAssignedUserIds);
 
-            Task task = new Task();
-            task.setTitle(name);
-            task.setDescription(description);
-            task.setDueDate(dueDate);
-            task.setStatus(status);
-            task.setAssignedUsers(mAssignedUserIds);
+        DBHandler.get().addTask(task);
+        Toast.makeText(this, "Task Added", Toast.LENGTH_LONG).show();
+    }
 
-            DBHandler.get().addTask(task);
-            
-            Toast.makeText(this, "Task Added", Toast.LENGTH_LONG).show();
+    private boolean isValidTask() {
+
+        boolean isValid = true;
+
+        String name = mTaskTitle.getText().toString().trim();
+        String description = mTaskDescription.getText().toString().trim();
+        String dueDate = mTaskDueDate.getText().toString();
+
+        if (TextUtils.isEmpty(name)) {
+            mTitleLayout.setError("Required Field");
+            isValid = false;
         }
+        if (TextUtils.isEmpty(description)) {
+            mDescLayout.setError("Required Field");
+            isValid = false;
+        }
+        if (TextUtils.isEmpty(dueDate)) {
+            mDueDateLayout.setError("Required Field");
+            isValid = false;
+        }
+
+        return isValid;
     }
 }

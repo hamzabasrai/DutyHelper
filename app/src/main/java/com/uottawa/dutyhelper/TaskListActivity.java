@@ -41,7 +41,7 @@ public class TaskListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-        mDatabaseTasks = FirebaseDatabase.getInstance().getReference("Tasks");
+        mDatabaseTasks = FirebaseDatabase.getInstance().getReference("tasks");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
