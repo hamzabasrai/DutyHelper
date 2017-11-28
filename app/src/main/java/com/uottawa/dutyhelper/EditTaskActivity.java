@@ -18,8 +18,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class EditTaskActivity extends AppCompatActivity {
 
@@ -37,6 +42,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private TextInputLayout mTaskDescLayout;
 
     private DatabaseReference databaseTasks;
+    private DatabaseReference databaseUsers;
 
     private String extraTaskId;
     private String extraTaskName;
@@ -48,6 +54,10 @@ public class EditTaskActivity extends AppCompatActivity {
     private RadioButton inprogress;
     private RadioButton complete;
     private String mstatus;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private int points;
 
 
     public static Intent newIntent(Context packageContext, String taskId,
@@ -68,6 +78,9 @@ public class EditTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_task);
 
         databaseTasks = FirebaseDatabase.getInstance().getReference("Tasks");
+        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
+
+        mAuth = FirebaseAuth.getInstance();
 
         extraTaskId = getIntent().getStringExtra(EXTRA_TASK_ID);
         extraTaskName = getIntent().getStringExtra(EXTRA_TASK_NAME);
@@ -89,6 +102,34 @@ public class EditTaskActivity extends AppCompatActivity {
         incomplete = (RadioButton) findViewById(R.id.radio_incomplete);
         inprogress = (RadioButton)findViewById(R.id.radio_in_progress);
         complete = (RadioButton)findViewById(R.id.radio_complete);
+
+        currentUser= mAuth.getCurrentUser();
+
+        databaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for(DataSnapshot child: children){
+                    User user = child.getValue(User.class);
+                    //Toast.makeText(getApplicationContext(),user.getId() , Toast.LENGTH_LONG).show();
+                    if(user.getId().equals(currentUser.getUid()))
+                    points = child.getValue(User.class).getPoints();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+
+
 
 
         fillButtons();
@@ -156,6 +197,7 @@ public class EditTaskActivity extends AppCompatActivity {
                 String taskName = mTaskName.getText().toString();
                 String taskDescription = mTaskDescription.getText().toString();
                 updateTask(extraTaskId, taskName, taskDescription, mstatus);
+
                 Toast.makeText(this, "Task Updated", Toast.LENGTH_SHORT).show();
                 startActivity(goBack);
             }
@@ -197,18 +239,21 @@ public class EditTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mstatus="incomplete";
+                databaseUsers.child(currentUser.getUid()).child("points").setValue(points-100);
             }
         });
         inprogress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mstatus="inprogress";
+                databaseUsers.child(currentUser.getUid()).child("points").setValue(points-100);
             }
         });
         complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mstatus="complete";
+                databaseUsers.child(currentUser.getUid()).child("points").setValue(points+100);
             }
         });
     }
@@ -216,6 +261,7 @@ public class EditTaskActivity extends AppCompatActivity {
     public void fillButtons() {
         if(mstatus.equals("incomplete")){
             incomplete.toggle();
+            //databaseUsers.child(currentUser.getUid()).child("points").setValue(points-100);
         }
 
         if(mstatus.equals("inprogress")){
@@ -224,6 +270,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
         if (mstatus.equals("complete")){
             complete.toggle();
+
         }
     }
 }

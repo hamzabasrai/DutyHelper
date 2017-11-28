@@ -41,4 +41,5 @@
     <string name="btn_assign">Assign</string>
     <string name="radio_complete">Complete</string>
     <string name="title_new_group_activity">New Group</string>
+    <string name="points">+100 Points</string>
 </resources>

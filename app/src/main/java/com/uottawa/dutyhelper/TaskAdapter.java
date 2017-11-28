@@ -3,6 +3,7 @@ package com.uottawa.dutyhelper;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,19 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Hamza on 11/12/2017.
@@ -27,7 +36,11 @@ public class TaskAdapter extends ArrayAdapter<Task> {
     private final List<Task> mTaskList;
 
     private DatabaseReference mDatabaseTasks;
-    private DatabaseReference mDatabaseStatus;
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private DatabaseReference databaseUsers;
+    //private DatabaseReference mDatabaseStatus;
+    private int points;
 
     public TaskAdapter(Context context, List<Task> taskList) {
         super(context, R.layout.task_list_item_view, taskList);
@@ -41,6 +54,29 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         View rowView = LayoutInflater.from(getContext()).inflate(R.layout.task_list_item_view, parent, false);
         final Task task = mTaskList.get(position);
         mDatabaseTasks = FirebaseDatabase.getInstance().getReference("Tasks");
+        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        mAuth = FirebaseAuth.getInstance();
+        currentUser= mAuth.getCurrentUser();
+
+        databaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                for(DataSnapshot child: children){
+                    User user = child.getValue(User.class);
+                    //Toast.makeText(getApplicationContext(),user.getId() , Toast.LENGTH_LONG).show();
+                    if(user.getId().equals(currentUser.getUid()))
+                        points = child.getValue(User.class).getPoints();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         ImageView taskIcon = (ImageView) rowView.findViewById(R.id.task_icon);
         TextView taskTitle = (TextView) rowView.findViewById(R.id.task_title);
@@ -60,13 +96,17 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 String taskId = task.getId();
                 DatabaseReference dR = mDatabaseTasks.child(taskId);
                 if (isChecked){
-                    dR.child("status").setValue("complete");
+                    //getCurrentPointFromUser();
+                    databaseUsers.child(currentUser.getUid()).child("points").setValue(points+100);
+
                 } else {
                     dR.child("status").setValue("incomplete");
+                    databaseUsers.child(currentUser.getUid()).child("points").setValue(points-100);
                 }
             }
         });
 
         return rowView;
     }
+
 }
