@@ -87,6 +87,12 @@ public class EditTaskActivity extends AppCompatActivity {
         databaseUsers = FirebaseDatabase.getInstance().getReference("users");
         databaseTasks = FirebaseDatabase.getInstance().getReference("tasks");
 
+        radioGroup = (RadioGroup) findViewById(R.id.status_radio_group) ;
+        for(int i = 0; i < radioGroup.getChildCount(); i++){
+            ((RadioButton)radioGroup.getChildAt(i)).setEnabled(false);
+        }
+        radioGroup.setEnabled(false);
+
         mAuth = FirebaseAuth.getInstance();
 
         extraTaskId = getIntent().getStringExtra(EXTRA_TASK_ID);
@@ -137,7 +143,32 @@ public class EditTaskActivity extends AppCompatActivity {
 
             }
         });
+        databaseUsers.child(mAuth.getCurrentUser().getUid()).child("assignedTasks")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean valider;
+                        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                        for(DataSnapshot child: children){
+                            String taskId = child.getValue(String.class);
+                            //Toast.makeText(getApplicationContext(),user.getId() , Toast.LENGTH_LONG).show();
+                            if(taskId.equals(extraTaskId)){
+                                //Toast.makeText(getApplicationContext(), "jo", Toast.LENGTH_LONG).show();
+                                radioGroup.setEnabled(true);
+                                for(int i = 0; i < radioGroup.getChildCount(); i++){
+                                    ((RadioButton)radioGroup.getChildAt(i)).setEnabled(true);
+                                }
+                            }
 
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
 
 
@@ -222,7 +253,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
     private void updateTask(String id, String name, String description, String status) {
         DatabaseReference dR = databaseTasks.child(id);
-        Task updatedTask = new Task(id, name, description, "", status,currentUser.getUid());
+        Task updatedTask = new Task(id, name, description, "", status,extraCreator);
         dR.setValue(updatedTask);
     }
 
@@ -288,4 +319,5 @@ public class EditTaskActivity extends AppCompatActivity {
 
         }
     }
+
 }

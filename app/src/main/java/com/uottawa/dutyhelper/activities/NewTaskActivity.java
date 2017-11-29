@@ -283,7 +283,7 @@ public class NewTaskActivity extends AppCompatActivity {
 
         for (String userId : mAssignedUserIds) {
             for (User user : mUsers) {
-                if (user.getId().equals(userId)) {
+                if (user.getId().equals(userId) && user.getAssignedTasks() != null) {
                     List<String> assignedTasks = user.getAssignedTasks();
                     assignedTasks.add(taskId);
                     user.setAssignedTasks(assignedTasks);
