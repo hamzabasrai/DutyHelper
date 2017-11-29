@@ -40,7 +40,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private List<Task> mTasks = new ArrayList<>();
     private List<User> mUsers = new ArrayList<>();
     private Task mTask = new Task();
-    private User mUser = new User();
+    private User mUser;
 
     private EditText mTaskName;
     private EditText mTaskDescription;
@@ -49,12 +49,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private TextInputLayout mTaskDescLayout;
     private RadioGroup mRadioGroup;
 
-
-
-    private String mstatus;
     private String extraTaskId;
-
-
 
     public static Intent newIntent(Context packageContext, String taskId) {
         Intent intent = new Intent(packageContext, EditTaskActivity.class);
@@ -139,6 +134,9 @@ public class EditTaskActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
                     mUsers.add(user);
+                    if (user.getId().equals(mAuth.getCurrentUser().getUid())) {
+                        mUser = user;
+                    }
                 }
             }
 
