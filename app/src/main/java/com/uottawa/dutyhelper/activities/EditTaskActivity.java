@@ -85,6 +85,7 @@ public class EditTaskActivity extends AppCompatActivity {
             mTaskName.setFocusable(false);
             mTaskDescription.setFocusable(false);
             mTaskDate.setFocusable(false);
+            mRadioGroup.setEnabled(false);
         }
 
         TextWatcher textWatcher = new TextWatcher() {
@@ -195,6 +196,7 @@ public class EditTaskActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     private void populateTask() {
         mTaskName.setText(mTask.getTitle());
         mTaskDescription.setText(mTask.getDescription());
@@ -213,8 +215,8 @@ public class EditTaskActivity extends AppCompatActivity {
             default:
                 break;
         }
-
     }
+
 
     private void updateTask() {
         String userId  = mUser.getId();
@@ -285,5 +287,4 @@ public class EditTaskActivity extends AppCompatActivity {
         }
         return isValid;
     }
-
 }
