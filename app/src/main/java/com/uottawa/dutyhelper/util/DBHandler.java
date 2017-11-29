@@ -109,11 +109,13 @@ public class DBHandler {
         String taskId = mDatabaseTasks.push().getKey();
         task.setId(taskId);
         mDatabaseTasks.child(taskId).setValue(task);
+        if(task.getAssignedUsers()!=null){
+            for (String assigneeId : task.getAssignedUsers()) {
+                User user = getUser(assigneeId);
+                user.getAssignedTasks().add(taskId);
+                mDatabaseUsers.child(assigneeId).setValue(user);
+        }
 
-        for (String assigneeId : task.getAssignedUsers()) {
-            User user = getUser(assigneeId);
-            user.getAssignedTasks().add(taskId);
-            mDatabaseUsers.child(assigneeId).setValue(user);
         }
     }
 
@@ -182,6 +184,7 @@ public class DBHandler {
         }
         return null;
     }
+
 
 
 }

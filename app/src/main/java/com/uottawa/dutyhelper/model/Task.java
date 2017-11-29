@@ -16,6 +16,7 @@ public class Task {
     private String mStatus;
     private List<String> mAssignedUsers;
     private List<String> mItemsNeeded;
+    private String mCreatorId;
 
     public Task() {
         //necessary blank constructor
@@ -30,7 +31,7 @@ public class Task {
         mAssignedUsers = new ArrayList<>();
         mItemsNeeded = new ArrayList<>();
     }
-    public Task(String id, String title, String description, String dueDate, String status) {
+    public Task(String id, String title, String description, String dueDate, String status, String creator) {
         mId = id;
         mTitle = title;
         mDescription = description;
@@ -38,6 +39,8 @@ public class Task {
         mStatus = status;
         mAssignedUsers = new ArrayList<>();
         mItemsNeeded = new ArrayList<>();
+        mCreatorId = creator;
+
     }
 
     public String getId() {
@@ -94,5 +97,13 @@ public class Task {
 
     public void setItemsNeeded(List<String> itemsNeeded) {
         mItemsNeeded = itemsNeeded;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.mCreatorId = creatorId;
+    }
+
+    public String getCreatorId() {
+        return mCreatorId;
     }
 }

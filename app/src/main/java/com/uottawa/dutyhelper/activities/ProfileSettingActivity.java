@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,10 +39,14 @@ public class ProfileSettingActivity extends AppCompatActivity {
     private TextView mNameTextView;
     private TextView mEmailTextView;
     private TextView mPoints;
+
+    private Button mSignout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_setting);
+
+        mSignout = (Button) findViewById(R.id.btn_sign_out);
 
         mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mUserData = FirebaseDatabase.getInstance().getReference("users").child(mUserId);
@@ -58,10 +63,23 @@ public class ProfileSettingActivity extends AppCompatActivity {
                 Intent selectPicture = new Intent(Intent.ACTION_PICK);
                 selectPicture.setType("image/*");
                 startActivityForResult(selectPicture, GALLERY_INTENT);
+
             }
         });
 
         loadPicture();
+
+        mSignout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(ProfileSettingActivity.this,LoginActivity.class);
+                finishAffinity();
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_LONG).show();
+
+            }
+        });
 
         mUserData.addValueEventListener(new ValueEventListener() {
             @Override

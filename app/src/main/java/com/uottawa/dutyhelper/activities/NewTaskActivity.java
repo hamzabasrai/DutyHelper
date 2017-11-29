@@ -22,6 +22,8 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.uottawa.dutyhelper.util.DBHandler;
 import com.uottawa.dutyhelper.R;
 import com.uottawa.dutyhelper.model.Task;
@@ -30,7 +32,6 @@ import com.uottawa.dutyhelper.model.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 public class NewTaskActivity extends AppCompatActivity {
 
     private EditText mTaskTitle;
@@ -49,6 +50,9 @@ public class NewTaskActivity extends AppCompatActivity {
 
     private List<String> mAssignedUserIds;
     private SparseBooleanArray mCheckedUsers;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
 
     @Override
@@ -72,6 +76,10 @@ public class NewTaskActivity extends AppCompatActivity {
         mTitleLayout = (TextInputLayout) findViewById(R.id.task_name_layout);
         mDescLayout = (TextInputLayout) findViewById(R.id.task_description_layout);
         mDueDateLayout = (TextInputLayout) findViewById(R.id.task_due_date_layout);
+
+
+        mAuth= FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -224,6 +232,7 @@ public class NewTaskActivity extends AppCompatActivity {
         task.setDueDate(dueDate);
         task.setStatus(status);
         task.setAssignedUsers(mAssignedUserIds);
+        task.setCreatorId(currentUser.getUid());
 
         DBHandler.get().addTask(task);
         Toast.makeText(this, "Task Added", Toast.LENGTH_LONG).show();

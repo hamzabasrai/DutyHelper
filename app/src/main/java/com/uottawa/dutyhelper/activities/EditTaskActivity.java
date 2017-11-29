@@ -26,8 +26,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.uottawa.dutyhelper.R;
+import com.uottawa.dutyhelper.model.Group;
 import com.uottawa.dutyhelper.model.Task;
 import com.uottawa.dutyhelper.model.User;
+
+import com.uottawa.dutyhelper.util.DBHandler;
+
+import java.util.List;
 
 public class EditTaskActivity extends AppCompatActivity {
 
@@ -36,6 +41,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private static final String EXTRA_TASK_DESC = "com.uottawa.dutyhelper.task_desc";
     private static final String EXTRA_TASK_DATE = "com.uottawa.dutyhelper.task_date";
     private static final String EXTRA_TASK_STATUS = "com.uottawa.dutyhelper.taskStatus";
+    private static final String EXTRA_TASK_CREATOR = "com.uottawa.dutyhelper.creator";
 
 
     private EditText mTaskName;
@@ -51,6 +57,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private String extraTaskName;
     private String extraTaskDescription;
     private String extraTaskDate;
+    private String extraCreator;
 
     private RadioGroup radioGroup;
     private RadioButton incomplete;
@@ -63,15 +70,17 @@ public class EditTaskActivity extends AppCompatActivity {
     private int points;
 
 
+
     public static Intent newIntent(Context packageContext, String taskId,
                                    String taskName, String taskDescription,
-                                   String taskDate, String status) {
+                                   String taskDate, String status, String creator) {
         Intent intent = new Intent(packageContext, EditTaskActivity.class);
         intent.putExtra(EXTRA_TASK_ID, taskId);
         intent.putExtra(EXTRA_TASK_NAME, taskName);
         intent.putExtra(EXTRA_TASK_DESC, taskDescription);
         intent.putExtra(EXTRA_TASK_DATE, taskDate);
         intent.putExtra(EXTRA_TASK_STATUS, status);
+        intent.putExtra(EXTRA_TASK_CREATOR,creator);
         return intent;
     }
 
@@ -80,8 +89,8 @@ public class EditTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
 
-        databaseTasks = FirebaseDatabase.getInstance().getReference("Tasks");
         databaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        databaseTasks = FirebaseDatabase.getInstance().getReference("tasks");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -90,6 +99,8 @@ public class EditTaskActivity extends AppCompatActivity {
         extraTaskDescription = getIntent().getStringExtra(EXTRA_TASK_DESC);
         extraTaskDate = getIntent().getStringExtra(EXTRA_TASK_DATE);
         mstatus = getIntent().getStringExtra(EXTRA_TASK_STATUS);
+        extraCreator= getIntent().getStringExtra(EXTRA_TASK_CREATOR);
+
 
         mTaskName = (EditText) findViewById(R.id.edit_task_name);
         mTaskDescription = (EditText) findViewById(R.id.edit_task_description);
@@ -107,6 +118,12 @@ public class EditTaskActivity extends AppCompatActivity {
         complete = (RadioButton)findViewById(R.id.radio_complete);
 
         currentUser= mAuth.getCurrentUser();
+
+        if(!currentUser.getUid().equals(extraCreator)){
+            mTaskName.setFocusable(false);
+            mTaskDescription.setFocusable(false);
+            mTaskDate.setFocusable(false);
+        }
 
         databaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
@@ -210,7 +227,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
     private void updateTask(String id, String name, String description, String status) {
         DatabaseReference dR = databaseTasks.child(id);
-        Task updatedTask = new Task(id, name, description, "", status);
+        Task updatedTask = new Task(id, name, description, "", status,currentUser.getUid());
         dR.setValue(updatedTask);
     }
 
