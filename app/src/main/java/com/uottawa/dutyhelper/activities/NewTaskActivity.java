@@ -81,6 +81,7 @@ public class NewTaskActivity extends AppCompatActivity {
 
         mUsers = new ArrayList<>();
         mTasks = new ArrayList<>();
+        mAssignedUserIds = new ArrayList<>();
 
         mTaskTitle = (EditText) findViewById(R.id.task_name);
         mTaskDescription = (EditText) findViewById(R.id.task_description);
@@ -147,14 +148,11 @@ public class NewTaskActivity extends AppCompatActivity {
         mBtnAssignUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 List<String> userNames = new ArrayList<>();
                 for (User user : mUsers) {
                     String name = user.getFirstName() + " " + user.getLastName();
                     userNames.add(name);
                 }
-
-                mAssignedUserIds = new ArrayList<>();
 
                 View dialogAssignView = LayoutInflater.from(NewTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
                 mUserListView = (ListView) dialogAssignView.findViewById(R.id.users_list_view);
@@ -204,6 +202,7 @@ public class NewTaskActivity extends AppCompatActivity {
         mDatabaseTasks.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mTasks.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Task task = snapshot.getValue(Task.class);
                     mTasks.add(task);
@@ -219,6 +218,7 @@ public class NewTaskActivity extends AppCompatActivity {
         mDatabaseUsers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mUsers.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
                     mUsers.add(user);
@@ -284,7 +284,10 @@ public class NewTaskActivity extends AppCompatActivity {
         for (String userId : mAssignedUserIds) {
             for (User user : mUsers) {
                 if (user.getId().equals(userId)) {
-                    List<String> assignedTasks = user.getAssignedTasks();
+                    List<String> assignedTasks = new ArrayList<>();
+                    if (user.getAssignedTasks() != null) {
+                        assignedTasks = user.getAssignedTasks();
+                    }
                     assignedTasks.add(taskId);
                     user.setAssignedTasks(assignedTasks);
                     mDatabaseUsers.child(user.getId()).setValue(user);

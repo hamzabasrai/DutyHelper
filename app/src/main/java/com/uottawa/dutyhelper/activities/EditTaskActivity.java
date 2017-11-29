@@ -12,14 +12,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,53 +26,39 @@ import com.uottawa.dutyhelper.R;
 import com.uottawa.dutyhelper.model.Task;
 import com.uottawa.dutyhelper.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EditTaskActivity extends AppCompatActivity {
 
     private static final String EXTRA_TASK_ID = "com.uottawa.dutyhelper.task_id";
-    private static final String EXTRA_TASK_NAME = "com.uottawa.dutyhelper.task_name";
-    private static final String EXTRA_TASK_DESC = "com.uottawa.dutyhelper.task_desc";
-    private static final String EXTRA_TASK_DATE = "com.uottawa.dutyhelper.task_date";
-    private static final String EXTRA_TASK_STATUS = "com.uottawa.dutyhelper.taskStatus";
-    private static final String EXTRA_TASK_CREATOR = "com.uottawa.dutyhelper.creator";
 
+    private DatabaseReference mDatabaseUsers;
+    private DatabaseReference mDatabaseTasks;
+    private FirebaseAuth mAuth;
+
+    private List<Task> mTasks = new ArrayList<>();
+    private List<User> mUsers = new ArrayList<>();
+    private Task mTask = new Task();
+    private User mUser = new User();
 
     private EditText mTaskName;
     private EditText mTaskDescription;
     private EditText mTaskDate;
     private TextInputLayout mTaskNameLayout;
     private TextInputLayout mTaskDescLayout;
+    private RadioGroup mRadioGroup;
 
-    private DatabaseReference databaseTasks;
-    private DatabaseReference databaseUsers;
 
-    private String extraTaskId;
-    private String extraTaskName;
-    private String extraTaskDescription;
-    private String extraTaskDate;
-    private String extraCreator;
 
-    private RadioGroup radioGroup;
-    private RadioButton incomplete;
-    private RadioButton inprogress;
-    private RadioButton complete;
     private String mstatus;
-
-    private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
-    private int points;
+    private String extraTaskId;
 
 
 
-    public static Intent newIntent(Context packageContext, String taskId,
-                                   String taskName, String taskDescription,
-                                   String taskDate, String status, String creator) {
+    public static Intent newIntent(Context packageContext, String taskId) {
         Intent intent = new Intent(packageContext, EditTaskActivity.class);
         intent.putExtra(EXTRA_TASK_ID, taskId);
-        intent.putExtra(EXTRA_TASK_NAME, taskName);
-        intent.putExtra(EXTRA_TASK_DESC, taskDescription);
-        intent.putExtra(EXTRA_TASK_DATE, taskDate);
-        intent.putExtra(EXTRA_TASK_STATUS, status);
-        intent.putExtra(EXTRA_TASK_CREATOR,creator);
         return intent;
     }
 
@@ -84,18 +67,11 @@ public class EditTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
 
-        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
-        databaseTasks = FirebaseDatabase.getInstance().getReference("tasks");
-
-        mAuth = FirebaseAuth.getInstance();
-
         extraTaskId = getIntent().getStringExtra(EXTRA_TASK_ID);
-        extraTaskName = getIntent().getStringExtra(EXTRA_TASK_NAME);
-        extraTaskDescription = getIntent().getStringExtra(EXTRA_TASK_DESC);
-        extraTaskDate = getIntent().getStringExtra(EXTRA_TASK_DATE);
-        mstatus = getIntent().getStringExtra(EXTRA_TASK_STATUS);
-        extraCreator= getIntent().getStringExtra(EXTRA_TASK_CREATOR);
 
+        mDatabaseTasks = FirebaseDatabase.getInstance().getReference("tasks");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        mAuth = FirebaseAuth.getInstance();
 
         mTaskName = (EditText) findViewById(R.id.edit_task_name);
         mTaskDescription = (EditText) findViewById(R.id.edit_task_description);
@@ -103,52 +79,13 @@ public class EditTaskActivity extends AppCompatActivity {
         mTaskNameLayout = (TextInputLayout) findViewById(R.id.edit_task_name_layout);
         mTaskDescLayout = (TextInputLayout) findViewById(R.id.edit_task_description_layout);
 
-        mTaskName.setText(extraTaskName);
-        mTaskDescription.setText(extraTaskDescription);
-        mTaskDate.setText(extraTaskDate);
+        mRadioGroup = (RadioGroup) findViewById(R.id.status_radio_group);
 
-        radioGroup = (RadioGroup) findViewById(R.id.status_radio_group);
-        incomplete = (RadioButton) findViewById(R.id.radio_incomplete);
-        inprogress = (RadioButton)findViewById(R.id.radio_in_progress);
-        complete = (RadioButton)findViewById(R.id.radio_complete);
-
-        currentUser= mAuth.getCurrentUser();
-
-        if(!currentUser.getUid().equals(extraCreator)){
+        if (!mAuth.getCurrentUser().getUid().equals(mTask.getCreatorId())) {
             mTaskName.setFocusable(false);
             mTaskDescription.setFocusable(false);
             mTaskDate.setFocusable(false);
         }
-
-        databaseUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                for(DataSnapshot child: children){
-                    User user = child.getValue(User.class);
-                    //Toast.makeText(getApplicationContext(),user.getId() , Toast.LENGTH_LONG).show();
-                    if(user.getId().equals(currentUser.getUid()))
-                    points = child.getValue(User.class).getPoints();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-
-
-
-
-
-
-
-        fillButtons();
-        radioListener();
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -173,6 +110,45 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        mDatabaseTasks.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Task task = snapshot.getValue(Task.class);
+                    mTasks.add(task);
+                    if (task.getId().equals(extraTaskId)) {
+                        mTask = task;
+                    }
+                }
+                populateTask();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    mUsers.add(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit_task, menu);
         return true;
@@ -186,8 +162,8 @@ public class EditTaskActivity extends AppCompatActivity {
 
         if (id == R.id.action_delete) {
 
-            mTaskName.setText(extraTaskName);
-            mTaskDescription.setText(extraTaskDescription);
+            mTaskName.setText(mTask.getTitle());
+            mTaskDescription.setText(mTask.getDescription());
 
             AlertDialog.Builder builder;
             builder = new AlertDialog.Builder(EditTaskActivity.this);
@@ -208,10 +184,9 @@ public class EditTaskActivity extends AppCompatActivity {
                     .show();
         } else if (id == R.id.action_save_edit) {
 
-            if (isValidForm()) {
-                String taskName = mTaskName.getText().toString();
-                String taskDescription = mTaskDescription.getText().toString();
-                updateTask(extraTaskId, taskName, taskDescription, mstatus);
+            if (isValidTask()) {
+
+                updateTask();
 
                 Toast.makeText(this, "Task Updated", Toast.LENGTH_SHORT).show();
                 startActivity(goBack);
@@ -220,18 +195,80 @@ public class EditTaskActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateTask(String id, String name, String description, String status) {
-        DatabaseReference dR = databaseTasks.child(id);
-        Task updatedTask = new Task(id, name, description, "", status,currentUser.getUid());
-        dR.setValue(updatedTask);
+    private void populateTask() {
+        mTaskName.setText(mTask.getTitle());
+        mTaskDescription.setText(mTask.getDescription());
+        mTaskDate.setText(mTask.getDueDate());
+
+        switch (mTask.getStatus()) {
+            case "incomplete":
+                mRadioGroup.check(R.id.radio_incomplete);
+                break;
+            case "in progress":
+                mRadioGroup.check(R.id.radio_in_progress);
+                break;
+            case "complete":
+                mRadioGroup.check(R.id.radio_complete);
+                break;
+            default:
+                break;
+        }
+
     }
 
-    private void deleteTask(String id) {
-        DatabaseReference dR = databaseTasks.child(id);
-        dR.removeValue();
+    private void updateTask() {
+        String userId  = mUser.getId();
+        int userPoints = mUser.getPoints();
+
+        String id = mTask.getId();
+        String name = mTaskName.getText().toString();
+        String description = mTaskDescription.getText().toString();
+        String dueDate = mTaskDate.getText().toString();
+        String status = "";
+        String oldStatus = mTask.getStatus();
+
+        switch (mRadioGroup.getCheckedRadioButtonId()) {
+            case R.id.radio_incomplete:
+                status = "incomplete";
+                if (oldStatus.equals("complete")) {
+                    mDatabaseUsers.child(userId).child("points").setValue(userPoints - 100);
+                }
+                break;
+            case R.id.radio_in_progress:
+                status = "in progress";
+                if (oldStatus.equals("complete")) {
+                    mDatabaseUsers.child(userId).child("points").setValue(userPoints - 100);
+                }
+                break;
+            case R.id.radio_complete:
+                status = "complete";
+                if (oldStatus.equals("incomplete") || oldStatus.equals("in progress")) {
+                    mDatabaseUsers.child(userId).child("points").setValue(userPoints + 100);
+                }
+                break;
+            default:
+                break;
+        }
+
+        String creator = mTask.getCreatorId();
+
+        Task task = new Task();
+        task.setId(id);
+        task.setTitle(name);
+        task.setDescription(description);
+        task.setDueDate(dueDate);
+        task.setStatus(status);
+        task.setAssignedUsers(new ArrayList<String>());
+        task.setCreatorId(creator);
+
+        mDatabaseTasks.child(id).setValue(task);
     }
 
-    private boolean isValidForm() {
+    private void deleteTask(String taskId) {
+        mDatabaseTasks.child(taskId).removeValue();
+    }
+
+    private boolean isValidTask() {
 
         boolean isValid = true;
 
@@ -249,43 +286,4 @@ public class EditTaskActivity extends AppCompatActivity {
         return isValid;
     }
 
-    public void radioListener() {
-        incomplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mstatus="incomplete";
-                databaseUsers.child(currentUser.getUid()).child("points").setValue(points-100);
-            }
-        });
-        inprogress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mstatus="inprogress";
-                databaseUsers.child(currentUser.getUid()).child("points").setValue(points-100);
-            }
-        });
-        complete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mstatus="complete";
-                databaseUsers.child(currentUser.getUid()).child("points").setValue(points+100);
-            }
-        });
-    }
-
-    public void fillButtons() {
-        if(mstatus.equals("incomplete")){
-            incomplete.toggle();
-            //databaseUsers.child(currentUser.getUid()).child("points").setValue(points-100);
-        }
-
-        if(mstatus.equals("inprogress")){
-            inprogress.toggle();
-        }
-
-        if (mstatus.equals("complete")){
-            complete.toggle();
-
-        }
-    }
 }
