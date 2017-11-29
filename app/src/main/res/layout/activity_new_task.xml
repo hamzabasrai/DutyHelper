@@ -3,46 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.constraint.Guideline
-        android:id="@+id/start_edge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp"/>
-
-    <android.support.constraint.Guideline
-        android:id="@+id/end_edge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp"/>
-
-    <android.support.constraint.Guideline
-        android:id="@+id/top_edge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="16dp"/>
-
-    <android.support.constraint.Guideline
-        android:id="@+id/bottom_edge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="16dp"/>
-
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/task_name_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@id/task_description_layout"
-        app:layout_constraintEnd_toEndOf="@id/end_edge"
-        app:layout_constraintStart_toStartOf="@id/start_edge">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/task_name"
@@ -60,8 +31,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="@id/end_edge"
-        app:layout_constraintStart_toStartOf="@id/start_edge"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/task_name_layout">
 
         <EditText
@@ -76,8 +47,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:errorEnabled="true"
-        app:layout_constraintStart_toStartOf="@id/start_edge"
-        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/task_description_layout">
 
         <EditText
@@ -94,8 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@id/start_edge"
-        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/task_due_date_layout">
 
         <RadioButton
@@ -112,26 +83,14 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/btn_add_items"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_add_items"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@android:color/white"
-        app:layout_constraintStart_toStartOf="@id/start_edge"
-        app:layout_constraintEnd_toStartOf="@id/btn_assign_user"
-        app:layout_constraintTop_toBottomOf="@id/status_radio_group"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_edge"/>
-
-    <Button
         android:id="@+id/btn_assign_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_assign"
+        android:text="@string/btn_assign_users"
         android:backgroundTint="@color/colorAccent"
         android:textColor="@android:color/white"
-        app:layout_constraintStart_toEndOf="@id/btn_add_items"
-        app:layout_constraintEnd_toEndOf="@id/end_edge"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/status_radio_group"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_edge"/>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>

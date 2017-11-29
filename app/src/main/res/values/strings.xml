@@ -18,7 +18,7 @@
     <string name="btn_Add_task">Add Task</string>
     <string name="btn_sign_out">Sign Out</string>
     <string name="btn_add_items">Add Items</string>
-    <string name="btn_assign">Assign</string>
+    <string name="btn_assign_users">Assign Users</string>
 
     <!--Text Input Hints & Labels-->
     <string name="hint_first_name">First Name</string>
