@@ -7,6 +7,7 @@
     <string name="title_activity_new_task">Add Task</string>
     <string name="title_activity_profile_settings">Profile</string>
     <string name="title_activity_edit_task">Edit Task</string>
+    <string name="title_activity_new_group">New Group</string>
 
     <!-- Arrays -->
     <string-array name="appUsers"> appUsers </string-array>
@@ -15,8 +16,11 @@
     <string name="btn_sign_up">Sign Up</string>
     <string name="btn_login">Login</string>
     <string name="btn_Add_task">Add Task</string>
+    <string name="btn_sign_out">Sign Out</string>
+    <string name="btn_add_items">Add Items</string>
+    <string name="btn_assign">Assign</string>
 
-    <!--Text Input Hints-->
+    <!--Text Input Hints & Labels-->
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
     <string name="hint_email">Email</string>
@@ -24,6 +28,10 @@
     <string name="hint_confirm_password">Confirm Password</string>
     <string name="hint_task_name">Task Name</string>
     <string name="hint_task_description">Task Description</string>
+    <string name="hint_due_date">Due Date</string>
+    <string name="label_incomplete">Incomplete</string>
+    <string name="label_in_progress">In Progress</string>
+    <string name="label_complete">Complete</string>
 
     <!--Content Descriptions-->
     <string name="description_profile_picture">Profile Picture</string>
@@ -34,14 +42,7 @@
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_show_group">Show Group</string>
-    <string name="hint_due_date">Due Date</string>
-    <string name="label_incomplete">Incomplete</string>
-    <string name="label_in_progress">In Progress</string>
-    <string name="btn_add_items">Add Items</string>
-    <string name="btn_assign">Assign</string>
-    <string name="radio_complete">Complete</string>
-    <string name="title_new_group_activity">New Group</string>
     <string name="points">+100 Points</string>
     <string name="Points">Points:</string>
-    <string name="signout">Sign out</string>
+
 </resources>

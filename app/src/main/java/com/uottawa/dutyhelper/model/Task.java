@@ -31,6 +31,7 @@ public class Task {
         mAssignedUsers = new ArrayList<>();
         mItemsNeeded = new ArrayList<>();
     }
+
     public Task(String id, String title, String description, String dueDate, String status, String creator) {
         mId = id;
         mTitle = title;

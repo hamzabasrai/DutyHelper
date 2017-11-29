@@ -35,7 +35,7 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.NewGroupActivity"
-            android:label="@string/title_new_group_activity"/>
+            android:label="@string/title_activity_new_group"/>
         <activity
             android:name=".activities.ProfileSettingActivity"
             android:label="@string/title_activity_profile_settings"/>

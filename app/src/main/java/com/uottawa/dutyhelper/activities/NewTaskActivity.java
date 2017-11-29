@@ -23,8 +23,11 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.uottawa.dutyhelper.util.DBHandler;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.uottawa.dutyhelper.R;
 import com.uottawa.dutyhelper.model.Task;
 import com.uottawa.dutyhelper.model.User;
@@ -32,7 +35,15 @@ import com.uottawa.dutyhelper.model.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 public class NewTaskActivity extends AppCompatActivity {
+
+    private DatabaseReference mDatabaseTasks;
+    private DatabaseReference mDatabaseUsers;
+    private FirebaseAuth mAuth;
+
+    private List<Task> mTasks;
+    private List<User> mUsers;
 
     private EditText mTaskTitle;
     private EditText mTaskDescription;
@@ -51,9 +62,6 @@ public class NewTaskActivity extends AppCompatActivity {
     private List<String> mAssignedUserIds;
     private SparseBooleanArray mCheckedUsers;
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,13 @@ public class NewTaskActivity extends AppCompatActivity {
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        mDatabaseTasks = FirebaseDatabase.getInstance().getReference("tasks");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        mAuth = FirebaseAuth.getInstance();
+
+        mUsers = new ArrayList<>();
+        mTasks = new ArrayList<>();
+
         mTaskTitle = (EditText) findViewById(R.id.task_name);
         mTaskDescription = (EditText) findViewById(R.id.task_description);
         mTaskDueDate = (EditText) findViewById(R.id.task_due_date);
@@ -76,10 +91,6 @@ public class NewTaskActivity extends AppCompatActivity {
         mTitleLayout = (TextInputLayout) findViewById(R.id.task_name_layout);
         mDescLayout = (TextInputLayout) findViewById(R.id.task_description_layout);
         mDueDateLayout = (TextInputLayout) findViewById(R.id.task_due_date_layout);
-
-
-        mAuth= FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -99,6 +110,7 @@ public class NewTaskActivity extends AppCompatActivity {
 
             }
         };
+
         mTaskTitle.addTextChangedListener(textWatcher);
         mTaskDueDate.addTextChangedListener(textWatcher);
         mTaskDescription.addTextChangedListener(textWatcher);
@@ -136,9 +148,8 @@ public class NewTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final List<User> users = DBHandler.get().getUsers();
                 List<String> userNames = new ArrayList<>();
-                for (User user : users) {
+                for (User user : mUsers) {
                     String name = user.getFirstName() + " " + user.getLastName();
                     userNames.add(name);
                 }
@@ -168,7 +179,7 @@ public class NewTaskActivity extends AppCompatActivity {
                                 mCheckedUsers = mUserListView.getCheckedItemPositions();
                                 for (int i = 0; i < mCheckedUsers.size(); i++) {
                                     if (mCheckedUsers.get(i)) {
-                                        mAssignedUserIds.add(users.get(i).getId());
+                                        mAssignedUserIds.add(mUsers.get(i).getId());
                                     }
                                 }
                             }
@@ -177,7 +188,9 @@ public class NewTaskActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mAssignedUserIds.clear();
-                                mCheckedUsers.clear();
+                                if (mCheckedUsers != null) {
+                                    mCheckedUsers.clear();
+                                }
                             }
                         })
                         .show();
@@ -188,6 +201,35 @@ public class NewTaskActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        mDatabaseTasks.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Task task = snapshot.getValue(Task.class);
+                    mTasks.add(task);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    mUsers.add(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
@@ -226,15 +268,30 @@ public class NewTaskActivity extends AppCompatActivity {
             status = "in progress";
         }
 
+        String taskId = mDatabaseTasks.push().getKey();
+
         Task task = new Task();
+        task.setId(taskId);
         task.setTitle(name);
         task.setDescription(description);
         task.setDueDate(dueDate);
         task.setStatus(status);
         task.setAssignedUsers(mAssignedUserIds);
-        task.setCreatorId(currentUser.getUid());
+        task.setCreatorId(mAuth.getCurrentUser().getUid());
 
-        DBHandler.get().addTask(task);
+        mDatabaseTasks.child(taskId).setValue(task);
+
+        for (String userId : mAssignedUserIds) {
+            for (User user : mUsers) {
+                if (user.getId().equals(userId)) {
+                    List<String> assignedTasks = user.getAssignedTasks();
+                    assignedTasks.add(taskId);
+                    user.setAssignedTasks(assignedTasks);
+                    mDatabaseUsers.child(user.getId()).setValue(user);
+                }
+            }
+        }
+
         Toast.makeText(this, "Task Added", Toast.LENGTH_LONG).show();
     }
 
@@ -258,7 +315,6 @@ public class NewTaskActivity extends AppCompatActivity {
             mDueDateLayout.setError("Required Field");
             isValid = false;
         }
-
         return isValid;
     }
 }

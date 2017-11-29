@@ -23,12 +23,14 @@ import java.util.List;
 
 public class NewGroupActivity extends AppCompatActivity {
 
+    private DatabaseReference mDatabaseUsers;
+    private DatabaseReference mDatabaseGroups;
+
     private EditText mGroupName;
     private Button mCreateGroupBtn;
     private ListView mUserList;
     private ArrayAdapter<String> mAdapter;
 
-    private DatabaseReference mDatabaseUsers;
 
     private List<String> mUserNames;
     private List<String> mUserIds;
@@ -38,9 +40,11 @@ public class NewGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_group);
 
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        mDatabaseGroups = FirebaseDatabase.getInstance().getReference("groups");
+
         mGroupName = (EditText) findViewById(R.id.group_name);
         mUserList = (ListView) findViewById(R.id.user_list);
-        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
 
         mUserNames = new ArrayList<>();
         mUserIds = new ArrayList<>();
@@ -68,7 +72,7 @@ public class NewGroupActivity extends AppCompatActivity {
                     mUserIds.add(user.getId());
                     mUserNames.add(name);
                 }
-                mAdapter = new ArrayAdapter<String>(NewGroupActivity.this, android.R.layout.simple_list_item_multiple_choice, mUserNames);
+                mAdapter = new ArrayAdapter<>(NewGroupActivity.this, android.R.layout.simple_list_item_multiple_choice, mUserNames);
                 mUserList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                 mUserList.setAdapter(mAdapter);
             }
@@ -92,14 +96,13 @@ public class NewGroupActivity extends AppCompatActivity {
                 selectedUsers.add(userId);
             }
         }
-
-        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("groups");
-        String groupId = dR.push().getKey();
+        String groupId = mDatabaseGroups.push().getKey();
 
         Group newGroup = new Group(name);
+        newGroup.setId(groupId);
         newGroup.setUsers(selectedUsers);
 
-        dR.child(groupId).setValue(newGroup);
+        mDatabaseGroups.child(groupId).setValue(newGroup);
 
         for (String id: selectedUsers) {
             mDatabaseUsers.child(id).child("group").setValue(groupId);

@@ -25,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.uottawa.dutyhelper.R;
+import com.uottawa.dutyhelper.model.User;
 
 
 public class ProfileSettingActivity extends AppCompatActivity {
@@ -54,7 +55,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
 
         mNameTextView = (TextView) findViewById(R.id.user_name);
         mEmailTextView = (TextView) findViewById(R.id.user_email);
-        mPoints = (TextView) findViewById((R.id.Points));
+        mPoints = (TextView) findViewById((R.id.user_points));
 
         mProfileImage = (CircularImageView) findViewById(R.id.profile_image);
         mProfileImage.setOnClickListener(new View.OnClickListener() {
@@ -80,19 +81,24 @@ public class ProfileSettingActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         mUserData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("firstName").getValue(String.class) + " ";
-                name += dataSnapshot.child("lastName").getValue(String.class);
-                String email = dataSnapshot.child("email").getValue(String.class);
-                String points = "Points: "+Integer.toString(
-                        dataSnapshot.child("points").getValue(Integer.class));
+                User user = dataSnapshot.getValue(User.class);
+
+                String name = user.getFirstName() + " " + user.getLastName();
+                String email = user.getEmail();
+                int points = user.getPoints();
 
                 mNameTextView.setText(name);
                 mEmailTextView.setText(email);
-                mPoints.setText(points);
+                mPoints.setText(String.valueOf(points));
             }
 
             @Override
@@ -130,5 +136,4 @@ public class ProfileSettingActivity extends AppCompatActivity {
                 .centerCrop()
                 .into(mProfileImage);
     }
-
 }

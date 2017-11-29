@@ -26,13 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.uottawa.dutyhelper.R;
-import com.uottawa.dutyhelper.model.Group;
 import com.uottawa.dutyhelper.model.Task;
 import com.uottawa.dutyhelper.model.User;
-
-import com.uottawa.dutyhelper.util.DBHandler;
-
-import java.util.List;
 
 public class EditTaskActivity extends AppCompatActivity {
 

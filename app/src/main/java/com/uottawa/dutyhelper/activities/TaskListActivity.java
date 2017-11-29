@@ -37,7 +37,7 @@ public class TaskListActivity extends AppCompatActivity {
     private ListView mTasksListView;
     private boolean subMenuExpanded = false;
 
-    private List<Task> tasks;
+    private List<Task> mTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class TaskListActivity extends AppCompatActivity {
         addTaskLayout = (LinearLayout) findViewById(R.id.layout_add_task);
         newGroupLayout = (LinearLayout) findViewById(R.id.layout_new_group);
 
-        tasks = new ArrayList<>();
+        mTasks = new ArrayList<>();
 
         mFAB = (FloatingActionButton) findViewById(R.id.main_fab);
         mFAB.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +89,7 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Task selected = tasks.get(position);
+                Task selected = mTasks.get(position);
                 String taskId = selected.getId();
                 String taskName = selected.getTitle();
                 String taskDesc = selected.getDescription();
@@ -116,7 +116,7 @@ public class TaskListActivity extends AppCompatActivity {
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //deletes entry from database
-                                String taskId = tasks.get(position).getId();
+                                String taskId = mTasks.get(position).getId();
                                 DatabaseReference dR = mDatabaseTasks.child(taskId);
                                 dR.removeValue();
 
@@ -143,12 +143,12 @@ public class TaskListActivity extends AppCompatActivity {
         mDatabaseTasks.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                tasks.clear();
+                mTasks.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Task task = postSnapshot.getValue(Task.class);
-                    tasks.add(task);
+                    mTasks.add(task);
                 }
-                TaskAdapter adapter = new TaskAdapter(TaskListActivity.this, tasks);
+                TaskAdapter adapter = new TaskAdapter(TaskListActivity.this, mTasks);
                 mTasksListView.setAdapter(adapter);
             }
 

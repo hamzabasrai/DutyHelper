@@ -39,7 +39,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputLayout mLastNameLayout;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mDataBaseUsers;
+    private DatabaseReference mDatabaseUsers;
 
 
     private Button mSignUp;
@@ -50,7 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         mAuth = FirebaseAuth.getInstance();
-        mDataBaseUsers = FirebaseDatabase.getInstance().getReference("users");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
 
 
         mFirstName = (EditText) findViewById(R.id.first_name_edit_text);
@@ -119,7 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
                         //Add user to database
                         String id = mAuth.getCurrentUser().getUid();
                         User user = new User(id, firstName, lastName, email);
-                        mDataBaseUsers.child(id).setValue(user);
+                        mDatabaseUsers.child(id).setValue(user);
 
                         //Send user to task list
                         Intent sendToCurrentTaskList = new Intent(SignUpActivity.this, TaskListActivity.class);
