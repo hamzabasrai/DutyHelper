@@ -11,15 +11,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.uottawa.dutyhelper.R;
+import com.uottawa.dutyhelper.model.User;
 import com.uottawa.dutyhelper.util.TaskAdapter;
 import com.uottawa.dutyhelper.model.Task;
 
@@ -29,6 +35,8 @@ import java.util.List;
 public class TaskListActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabaseTasks;
+    private DatabaseReference mUsertasks;
+    private FirebaseAuth mAuth;
 
     private FloatingActionButton mFAB;
     private LinearLayout addTaskLayout;
@@ -38,13 +46,21 @@ public class TaskListActivity extends AppCompatActivity {
     private boolean subMenuExpanded = false;
 
     private List<Task> mTasks;
+    private List<String> mUsertaskList;
+    private List<Task> mFilter;
+    private Switch mSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
+        mAuth = FirebaseAuth.getInstance();
 
         mDatabaseTasks = FirebaseDatabase.getInstance().getReference("tasks");
+        mUsertasks = FirebaseDatabase.getInstance().
+                getReference("users").
+                child(mAuth.getCurrentUser().getUid());
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,6 +70,101 @@ public class TaskListActivity extends AppCompatActivity {
         newGroupLayout = (LinearLayout) findViewById(R.id.layout_new_group);
 
         mTasks = new ArrayList<>();
+        mSwitch = (Switch) findViewById(R.id.switch3);
+        mUsertaskList = new ArrayList<>();
+        mFilter= new ArrayList<>();
+
+
+
+
+
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+                mDatabaseTasks.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        mTasks.clear();
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                            Task task = postSnapshot.getValue(Task.class);
+                            mTasks.add(task);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                if(isChecked) {
+                    mTasksListView.setAdapter(null);
+                    mUsertaskList.clear();
+                    mFilter.clear();
+                    mUsertasks.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot) {
+                                        if (snapshot.hasChild("assignedTasks")) {
+                                            mUsertasks.child("assignedTasks").
+                                                    addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                                            GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+                                                            List<String> messages = dataSnapshot.getValue(t);
+
+                                                            mUsertaskList= new ArrayList<>(messages);
+                                                            for (String id: mUsertaskList){
+                                                                for(Task task: mTasks){
+                                                                    if(id.equals(task.getId())){
+                                                                        mFilter.add(task);
+                                                                    }
+                                                                }
+                                                            }
+                                                            TaskAdapter adapter = new TaskAdapter(TaskListActivity.this, mFilter);
+                                                            mTasksListView.setAdapter(adapter);
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+
+                                                        }
+
+                                                    });
+
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+
+                }else{
+                    mDatabaseTasks.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            mTasks.clear();
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                Task task = postSnapshot.getValue(Task.class);
+                                mTasks.add(task);
+                            }
+                            TaskAdapter adapter = new TaskAdapter(TaskListActivity.this, mTasks);
+                            mTasksListView.setAdapter(adapter);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
+        }
+    });
+
+
 
         mFAB = (FloatingActionButton) findViewById(R.id.main_fab);
         mFAB.setOnClickListener(new View.OnClickListener() {

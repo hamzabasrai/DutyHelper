@@ -44,5 +44,6 @@
     <string name="action_show_group">Show Group</string>
     <string name="points">+100 Points</string>
     <string name="Points">Points:</string>
+    <string name="taskviewswitch">View My Tasks</string>
 
 </resources>
