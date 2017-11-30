@@ -56,6 +56,7 @@ public class NewTaskActivity extends AppCompatActivity {
     private TextInputLayout mDueDateLayout;
 
     private DatePicker mDatePicker;
+    private View mDialogAssignView;
     private ListView mUserListView;
     private ArrayAdapter<String> mUserListAdapter;
 
@@ -154,10 +155,6 @@ public class NewTaskActivity extends AppCompatActivity {
                     userNames.add(name);
                 }
 
-                View dialogAssignView = LayoutInflater.from(NewTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
-                mUserListView = (ListView) dialogAssignView.findViewById(R.id.users_list_view);
-                mUserListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
                 mUserListAdapter = new ArrayAdapter<>(NewTaskActivity.this, android.R.layout.simple_list_item_multiple_choice, userNames);
                 mUserListView.setAdapter(mUserListAdapter);
 
@@ -169,13 +166,13 @@ public class NewTaskActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewTaskActivity.this);
                 builder.setTitle("Assign Users")
-                        .setView(dialogAssignView)
+                        .setView(mDialogAssignView)
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mCheckedUsers = mUserListView.getCheckedItemPositions();
-                                for (int i = 0; i < mCheckedUsers.size(); i++) {
+                                for (int i = 0; i < mCheckedUsers.size() + 1; i++) {
                                     if (mCheckedUsers.get(i)) {
                                         mAssignedUserIds.add(mUsers.get(i).getId());
                                     }
@@ -230,6 +227,10 @@ public class NewTaskActivity extends AppCompatActivity {
 
             }
         });
+
+        mDialogAssignView = LayoutInflater.from(NewTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
+        mUserListView = (ListView) mDialogAssignView.findViewById(R.id.users_list_view);
+        mUserListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
 
 
@@ -316,6 +317,10 @@ public class NewTaskActivity extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(dueDate)) {
             mDueDateLayout.setError("Required Field");
+            isValid = false;
+        }
+        if (mAssignedUserIds.isEmpty()) {
+            Toast.makeText(NewTaskActivity.this, "Must assign at least 1 user", Toast.LENGTH_SHORT).show();
             isValid = false;
         }
         return isValid;

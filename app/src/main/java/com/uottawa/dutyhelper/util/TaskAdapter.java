@@ -75,8 +75,6 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             }
         });
 
-
-
         ImageView taskIcon = (ImageView) rowView.findViewById(R.id.task_icon);
         TextView taskTitle = (TextView) rowView.findViewById(R.id.task_title);
         TextView taskDescription = (TextView) rowView.findViewById(R.id.task_description);
@@ -107,5 +105,4 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
         return rowView;
     }
-
 }

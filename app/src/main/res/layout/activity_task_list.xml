@@ -26,9 +26,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize">
-        
+
         <Switch
-            android:id="@+id/switch3"
+            android:id="@+id/task_switch"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:paddingStart="10dp"

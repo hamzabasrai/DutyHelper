@@ -60,6 +60,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private RadioGroup mRadioGroup;
     private Button mBtnAssignUser;
     private ListView mUserListView;
+    private View mDialogAssignView;
     private SparseBooleanArray mCheckedUsers;
 
     private String extraTaskId;
@@ -149,13 +150,13 @@ public class EditTaskActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(EditTaskActivity.this);
                 builder.setTitle("Assign Users")
-                        .setView(dialogAssignView)
+                        .setView(mDialogAssignView)
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mCheckedUsers = mUserListView.getCheckedItemPositions();
-                                for (int i = 0; i < mCheckedUsers.size(); i++) {
+                                for (int i = 0; i < mCheckedUsers.size() + 1; i++) {
                                     if (mCheckedUsers.get(i)) {
                                         mAssignedUserIds.add(mUsers.get(i).getId());
                                     }
@@ -248,6 +249,10 @@ public class EditTaskActivity extends AppCompatActivity {
 
             }
         });
+
+        mDialogAssignView = LayoutInflater.from(EditTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
+        mUserListView = (ListView) mDialogAssignView.findViewById(R.id.users_list_view);
+        mUserListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
 
     @Override
@@ -422,6 +427,10 @@ public class EditTaskActivity extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(dueDate)) {
             mTaskDateLayout.setError("Required Field");
+            isValid = false;
+        }
+        if (mAssignedUserIds.isEmpty()) {
+            Toast.makeText(EditTaskActivity.this, "Must assign at least 1 user", Toast.LENGTH_SHORT).show();
             isValid = false;
         }
         return isValid;
