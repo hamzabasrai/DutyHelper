@@ -36,6 +36,7 @@ public class TaskListActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseUsers;
     private FirebaseAuth mAuth;
     private List<Task> mTasks;
+    private List<User> mUsers;
     private List<Task> mUserTasks;
     private User mCurrentUser;
 
@@ -68,6 +69,7 @@ public class TaskListActivity extends AppCompatActivity {
         mTaskSwitch = (Switch) findViewById(R.id.task_switch);
 
         mTasks = new ArrayList<>();
+        mUsers = new ArrayList<>();
         mUserTasks = new ArrayList<>();
 
         mTaskSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -148,14 +150,12 @@ public class TaskListActivity extends AppCompatActivity {
                                 if (userTasksOnly) {
                                     toDelete = mUserTasks.get(position);
                                     mTasks.remove(toDelete);
-                                }
-                                if (mUserTasks.contains(toDelete)) {
                                     mUserTasks.remove(toDelete);
                                 }
-                                String taskId = toDelete.getId();
-                                DatabaseReference dR = mDatabaseTasks.child(taskId);
-                                dR.removeValue();
-
+                                if (!userTasksOnly && mUserTasks.contains(toDelete)) {
+                                    mUserTasks.remove(toDelete);
+                                }
+                                deleteTask(toDelete);
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -200,6 +200,7 @@ public class TaskListActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
+                    mUsers.add(user);
                     if (user.getId().equals(mAuth.getCurrentUser().getUid())) {
                         mCurrentUser = user;
                     }
@@ -249,6 +250,20 @@ public class TaskListActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_task_list, menu);
         return true;
+    }
+
+    private void deleteTask(Task task) {
+        for (String deleteId : task.getAssignedUsers()) {
+            for (User user : mUsers) {
+                if (user.getId().equals(deleteId) && user.getAssignedTasks() != null) {
+                    List<String> assignedTasks = user.getAssignedTasks();
+                    assignedTasks.remove(task.getId());
+                    user.setAssignedTasks(assignedTasks);
+                    mDatabaseUsers.child(user.getId()).setValue(user);
+                }
+            }
+        }
+        mDatabaseTasks.child(task.getId()).removeValue();
     }
 
     private void closeSubMenu() {

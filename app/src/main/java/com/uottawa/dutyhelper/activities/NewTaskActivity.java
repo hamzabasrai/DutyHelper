@@ -175,6 +175,7 @@ public class NewTaskActivity extends AppCompatActivity {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                mAssignedUserIds.clear();
                                 mCheckedUsers = mUserListView.getCheckedItemPositions();
                                 for (int i = 0; i < mCheckedUsers.size() + 1; i++) {
                                     if (mCheckedUsers.get(i)) {

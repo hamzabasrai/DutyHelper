@@ -155,6 +155,7 @@ public class EditTaskActivity extends AppCompatActivity {
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                mAssignedUserIds.clear();
                                 mCheckedUsers = mUserListView.getCheckedItemPositions();
                                 for (int i = 0; i < mCheckedUsers.size() + 1; i++) {
                                     if (mCheckedUsers.get(i)) {
@@ -271,7 +272,7 @@ public class EditTaskActivity extends AppCompatActivity {
                     .setMessage("Are you sure you want to delete task?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            deleteTask(extraTaskId);
+                            deleteTask(mTask);
                             Toast.makeText(EditTaskActivity.this, "Task Deleted", Toast.LENGTH_SHORT).show();
                             startActivity(goBack);
                         }
@@ -401,9 +402,20 @@ public class EditTaskActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteTask(String taskId) {
-        mDatabaseTasks.child(taskId).removeValue();
+    private void deleteTask(Task task) {
+        for (String deleteId : task.getAssignedUsers()) {
+            for (User user : mUsers) {
+                if (user.getId().equals(deleteId) && user.getAssignedTasks() != null) {
+                    List<String> assignedTasks = user.getAssignedTasks();
+                    assignedTasks.remove(task.getId());
+                    user.setAssignedTasks(assignedTasks);
+                    mDatabaseUsers.child(user.getId()).setValue(user);
+                }
+            }
+        }
+        mDatabaseTasks.child(task.getId()).removeValue();
     }
+
 
     private boolean isValidTask() {
 
