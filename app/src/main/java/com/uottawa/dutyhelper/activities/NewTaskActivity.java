@@ -155,6 +155,10 @@ public class NewTaskActivity extends AppCompatActivity {
                     userNames.add(name);
                 }
 
+                mDialogAssignView = LayoutInflater.from(NewTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
+                mUserListView = (ListView) mDialogAssignView.findViewById(R.id.users_list_view);
+                mUserListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
                 mUserListAdapter = new ArrayAdapter<>(NewTaskActivity.this, android.R.layout.simple_list_item_multiple_choice, userNames);
                 mUserListView.setAdapter(mUserListAdapter);
 
@@ -227,10 +231,6 @@ public class NewTaskActivity extends AppCompatActivity {
 
             }
         });
-
-        mDialogAssignView = LayoutInflater.from(NewTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
-        mUserListView = (ListView) mDialogAssignView.findViewById(R.id.users_list_view);
-        mUserListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
 
 

@@ -135,8 +135,8 @@ public class EditTaskActivity extends AppCompatActivity {
                     userNames.add(name);
                 }
 
-                View dialogAssignView = LayoutInflater.from(EditTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
-                mUserListView = (ListView) dialogAssignView.findViewById(R.id.users_list_view);
+                mDialogAssignView = LayoutInflater.from(EditTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
+                mUserListView = (ListView) mDialogAssignView.findViewById(R.id.users_list_view);
                 mUserListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
                 ArrayAdapter adapter = new ArrayAdapter<>(EditTaskActivity.this, android.R.layout.simple_list_item_multiple_choice, userNames);
@@ -218,9 +218,6 @@ public class EditTaskActivity extends AppCompatActivity {
                     mTasks.add(task);
                     if (task.getId().equals(extraTaskId)) {
                         mTask = task;
-                        if (mTask.getAssignedUsers() != null) {
-                            mAssignedUserIds = mTask.getAssignedUsers();
-                        }
                     }
                 }
                 populateTask();
@@ -249,10 +246,6 @@ public class EditTaskActivity extends AppCompatActivity {
 
             }
         });
-
-        mDialogAssignView = LayoutInflater.from(EditTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
-        mUserListView = (ListView) mDialogAssignView.findViewById(R.id.users_list_view);
-        mUserListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     }
 
     @Override
@@ -326,10 +319,7 @@ public class EditTaskActivity extends AppCompatActivity {
         int userPoints = mUser.getPoints();
 
         String taskId = mTask.getId();
-        List<String> existingAssignees = new ArrayList<>();
-        if (mTask.getAssignedUsers() != null) {
-            existingAssignees = mTask.getAssignedUsers();
-        }
+        List<String> existingAssignees = mTask.getAssignedUsers();
 
         String name = mTaskName.getText().toString();
         String description = mTaskDescription.getText().toString();
@@ -372,6 +362,10 @@ public class EditTaskActivity extends AppCompatActivity {
         task.setCreatorId(creator);
 
         mDatabaseTasks.child(taskId).setValue(task);
+        updateAssignedUsers(existingAssignees, taskId);
+    }
+
+    private void updateAssignedUsers(List<String> existingAssignees, String taskId) {
 
         for (String assignId : mAssignedUserIds) {
             if (!existingAssignees.contains(assignId)) {
@@ -392,7 +386,7 @@ public class EditTaskActivity extends AppCompatActivity {
         for (String deleteId : existingAssignees) {
             if (!mAssignedUserIds.contains(deleteId)) {
                 for (User user : mUsers) {
-                    if (user.getId().equals(deleteId)) {
+                    if (user.getId().equals(deleteId) && user.getAssignedTasks() != null) {
                         List<String> assignedTasks = user.getAssignedTasks();
                         assignedTasks.remove(taskId);
                         user.setAssignedTasks(assignedTasks);
@@ -401,8 +395,6 @@ public class EditTaskActivity extends AppCompatActivity {
                 }
             }
         }
-
-
     }
 
     private void deleteTask(String taskId) {
