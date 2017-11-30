@@ -76,15 +76,15 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    userTasksOnly = true;
                     mTaskAdapter = new TaskAdapter(TaskListActivity.this, mUserTasks);
                     mTasksListView.setAdapter(mTaskAdapter);
                     mTaskAdapter.notifyDataSetChanged();
-                    userTasksOnly = true;
                 } else {
+                    userTasksOnly = false;
                     mTaskAdapter = new TaskAdapter(TaskListActivity.this, mTasks);
                     mTasksListView.setAdapter(mTaskAdapter);
                     mTaskAdapter.notifyDataSetChanged();
-                    userTasksOnly = false;
                 }
             }
         });
@@ -142,7 +142,7 @@ public class TaskListActivity extends AppCompatActivity {
                 AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(TaskListActivity.this);
                 builder.setTitle("Delete Task")
-                        .setMessage("Are you sure you want to delete task?")
+                        .setMessage("Are you sure you want to delete this task?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //deletes entry from database
@@ -184,8 +184,10 @@ public class TaskListActivity extends AppCompatActivity {
                     Task task = postSnapshot.getValue(Task.class);
                     mTasks.add(task);
                 }
-                mTaskAdapter = new TaskAdapter(TaskListActivity.this, mTasks);
-                mTasksListView.setAdapter(mTaskAdapter);
+                if (!userTasksOnly) {
+                    mTaskAdapter = new TaskAdapter(TaskListActivity.this, mTasks);
+                    mTasksListView.setAdapter(mTaskAdapter);
+                }
                 mTaskAdapter.notifyDataSetChanged();
             }
 
