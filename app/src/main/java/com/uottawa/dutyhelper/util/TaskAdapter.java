@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,19 +30,17 @@ import java.util.List;
 
 public class TaskAdapter extends ArrayAdapter<Task> {
 
-    private final Context mContext;
     private final List<Task> mTaskList;
 
     private DatabaseReference mDatabaseTasks;
+    private DatabaseReference mDatabaseUsers;
     private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
-    private DatabaseReference databaseUsers;
-    //private DatabaseReference mDatabaseStatus;
-    private int points;
+
+    private String mUserId;
+    private int mUserPoints;
 
     public TaskAdapter(Context context, List<Task> taskList) {
         super(context, R.layout.task_list_item_view, taskList);
-        mContext = context;
         mTaskList = taskList;
     }
 
@@ -51,29 +48,13 @@ public class TaskAdapter extends ArrayAdapter<Task> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View rowView = LayoutInflater.from(getContext()).inflate(R.layout.task_list_item_view, parent, false);
+
         final Task task = mTaskList.get(position);
-        mDatabaseTasks = FirebaseDatabase.getInstance().getReference("Tasks");
-        databaseUsers = FirebaseDatabase.getInstance().getReference("users");
+
+        mDatabaseTasks = FirebaseDatabase.getInstance().getReference("tasks");
+        mDatabaseUsers = FirebaseDatabase.getInstance().getReference("users");
         mAuth = FirebaseAuth.getInstance();
-        currentUser= mAuth.getCurrentUser();
-
-        databaseUsers.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                for(DataSnapshot child: children){
-                    User user = child.getValue(User.class);
-                    //Toast.makeText(getApplicationContext(),user.getId() , Toast.LENGTH_LONG).show();
-                    if(user.getId().equals(currentUser.getUid()))
-                        points = child.getValue(User.class).getPoints();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        mUserId = mAuth.getCurrentUser().getUid();
 
         ImageView taskIcon = (ImageView) rowView.findViewById(R.id.task_icon);
         TextView taskTitle = (TextView) rowView.findViewById(R.id.task_title);
@@ -83,23 +64,36 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         taskIcon.setImageResource(R.drawable.splash_icon);
         taskTitle.setText(task.getTitle());
         taskDescription.setText(task.getDescription());
-
         checkBox.setChecked(task.getStatus().equals("complete"));
-
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String taskId = task.getId();
                 DatabaseReference dR = mDatabaseTasks.child(taskId);
-                if (isChecked){
-                    //getCurrentPointFromUser();
-                    databaseUsers.child(currentUser.getUid()).child("points").setValue(points+100);
+                if (isChecked) {
+                    mDatabaseTasks.child(taskId).child("status").setValue("complete");
+                    mDatabaseUsers.child(mUserId).child("points").setValue(mUserPoints + 100);
 
                 } else {
                     dR.child("status").setValue("incomplete");
-                    databaseUsers.child(currentUser.getUid()).child("points").setValue(points-100);
+                    mDatabaseUsers.child(mUserId).child("points").setValue(mUserPoints - 100);
                 }
+            }
+        });
+
+        mDatabaseUsers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    if (user.getId().equals(mUserId))
+                        mUserPoints = user.getPoints();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
