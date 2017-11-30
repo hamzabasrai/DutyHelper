@@ -358,7 +358,11 @@ public class EditTaskActivity extends AppCompatActivity {
         task.setDescription(description);
         task.setDueDate(dueDate);
         task.setStatus(status);
-        task.setAssignedUsers(mAssignedUserIds);
+        if (mAssignedUserIds.isEmpty()) {
+            task.setAssignedUsers(mTask.getAssignedUsers());
+        } else {
+            task.setAssignedUsers(mAssignedUserIds);
+        }
         task.setCreatorId(creator);
 
         mDatabaseTasks.child(taskId).setValue(task);
