@@ -37,7 +37,7 @@
             android:name=".activities.NewGroupActivity"
             android:label="@string/title_activity_new_group"/>
         <activity
-            android:name=".activities.ProfileSettingActivity"
+            android:name=".activities.ProfileActivity"
             android:label="@string/title_activity_profile_settings"/>
         <activity
             android:name=".activities.EditTaskActivity"

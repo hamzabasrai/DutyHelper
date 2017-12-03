@@ -28,7 +28,7 @@ import com.uottawa.dutyhelper.R;
 import com.uottawa.dutyhelper.model.User;
 
 
-public class ProfileSettingActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     private static final int GALLERY_INTENT = 2;
 
@@ -45,7 +45,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_setting);
+        setContentView(R.layout.activity_profile);
 
         mSignout = (Button) findViewById(R.id.btn_sign_out);
 
@@ -74,7 +74,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(ProfileSettingActivity.this,LoginActivity.class);
+                Intent intent = new Intent(ProfileActivity.this,LoginActivity.class);
                 finishAffinity();
                 startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_LONG).show();
@@ -119,7 +119,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     loadPicture();
-                    Toast.makeText(ProfileSettingActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                 }
             });
         }

@@ -149,12 +149,12 @@ public class TaskListActivity extends AppCompatActivity {
                                 Task toDelete = mTasks.get(position);
                                 if (userTasksOnly) {
                                     toDelete = mUserTasks.get(position);
-                                    mTasks.remove(toDelete);
                                     mUserTasks.remove(toDelete);
                                 }
                                 if (!userTasksOnly && mUserTasks.contains(toDelete)) {
                                     mUserTasks.remove(toDelete);
                                 }
+                                mTasks.remove(toDelete);
                                 deleteTask(toDelete);
                             }
                         })
@@ -240,7 +240,7 @@ public class TaskListActivity extends AppCompatActivity {
 
         }
         if (id == R.id.action_settings) {
-            Intent sendToSettings = new Intent(TaskListActivity.this, ProfileSettingActivity.class);
+            Intent sendToSettings = new Intent(TaskListActivity.this, ProfileActivity.class);
             startActivity(sendToSettings);
 
         }

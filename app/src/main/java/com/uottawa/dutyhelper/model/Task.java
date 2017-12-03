@@ -1,6 +1,5 @@
 package com.uottawa.dutyhelper.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,33 +14,11 @@ public class Task {
     private String mDueDate;
     private String mStatus;
     private List<String> mAssignedUsers;
-    private List<String> mItemsNeeded;
+    private List<String> mResources;
     private String mCreatorId;
 
     public Task() {
         //necessary blank constructor
-    }
-
-    public Task(String id, String title, String description, String dueDate) {
-        mId = id;
-        mTitle = title;
-        mDescription = description;
-        mDueDate = dueDate;
-        mStatus = "incomplete";
-        mAssignedUsers = new ArrayList<>();
-        mItemsNeeded = new ArrayList<>();
-    }
-
-    public Task(String id, String title, String description, String dueDate, String status, String creator) {
-        mId = id;
-        mTitle = title;
-        mDescription = description;
-        mDueDate = dueDate;
-        mStatus = status;
-        mAssignedUsers = new ArrayList<>();
-        mItemsNeeded = new ArrayList<>();
-        mCreatorId = creator;
-
     }
 
     public String getId() {
@@ -92,12 +69,12 @@ public class Task {
         mAssignedUsers = assignedUsers;
     }
 
-    public List<String> getItemsNeeded() {
-        return mItemsNeeded;
+    public List<String> getResources() {
+        return mResources;
     }
 
-    public void setItemsNeeded(List<String> itemsNeeded) {
-        mItemsNeeded = itemsNeeded;
+    public void setResources(List<String> resources) {
+        mResources = resources;
     }
 
     public void setCreatorId(String creatorId) {
