@@ -32,6 +32,7 @@ import com.uottawa.dutyhelper.R;
 import com.uottawa.dutyhelper.model.Task;
 import com.uottawa.dutyhelper.model.User;
 
+import java.nio.channels.AlreadyBoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -50,6 +51,7 @@ public class NewTaskActivity extends AppCompatActivity {
     private EditText mTaskDueDate;
     private RadioGroup mTaskStatus;
     private Button mBtnAssignUser;
+    private Button mBtnAssignResources;
 
     private TextInputLayout mTitleLayout;
     private TextInputLayout mDescLayout;
@@ -60,8 +62,14 @@ public class NewTaskActivity extends AppCompatActivity {
     private ListView mUserListView;
     private ArrayAdapter<String> mUserListAdapter;
 
+    private View mDialogAssignResourcesView;
+    private ListView mResourcesListView;
+    private ArrayAdapter<String> mResourcesListAdapter;
+
     private List<String> mAssignedUserIds;
+    private List<String> mAssignedResources;
     private SparseBooleanArray mCheckedUsers;
+    private SparseBooleanArray mCheckedResources;
 
 
     @Override
@@ -83,12 +91,14 @@ public class NewTaskActivity extends AppCompatActivity {
         mUsers = new ArrayList<>();
         mTasks = new ArrayList<>();
         mAssignedUserIds = new ArrayList<>();
+        mAssignedResources = new ArrayList<>();
 
         mTaskTitle = (EditText) findViewById(R.id.task_name);
         mTaskDescription = (EditText) findViewById(R.id.task_description);
         mTaskDueDate = (EditText) findViewById(R.id.task_due_date);
         mTaskStatus = (RadioGroup) findViewById(R.id.status_radio_group);
         mBtnAssignUser = (Button) findViewById(R.id.btn_assign_user);
+        mBtnAssignResources = (Button) findViewById(R.id.btn_assign_resources);
 
         mTitleLayout = (TextInputLayout) findViewById(R.id.task_name_layout);
         mDescLayout = (TextInputLayout) findViewById(R.id.task_description_layout);
@@ -196,6 +206,55 @@ public class NewTaskActivity extends AppCompatActivity {
                         .show();
             }
         });
+
+
+        mBtnAssignResources.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] resources = {"Shovel", "Vaccum Cleaner", "Spoon"};
+                mDialogAssignResourcesView = LayoutInflater.from(NewTaskActivity.this).inflate(R.layout.dialog_assign_resources, null);
+                mResourcesListView = (ListView) mDialogAssignResourcesView.findViewById(R.id.resourcesListView);
+                mResourcesListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                mResourcesListAdapter =new ArrayAdapter<String>(NewTaskActivity.this, android.R.layout.simple_list_item_multiple_choice, resources);
+                mResourcesListView.setAdapter(mResourcesListAdapter);
+                if(mCheckedResources != null){
+                    for(int i =0; i < mCheckedResources.size() + 1; i++){
+                        mResourcesListView.setItemChecked(i, mCheckedResources.get(i));
+
+                    }
+
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(NewTaskActivity.this);
+                builder.setTitle("Assign Reources")
+                        .setView(mDialogAssignResourcesView)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                mCheckedResources = mResourcesListView.getCheckedItemPositions();
+                                for(int i =0; i< mCheckedResources.size()+1 ; i++){
+                                    if(mCheckedResources.get(i)){
+                                        mAssignedResources.add(resources[i]);
+                                    }
+
+
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                mAssignedResources.clear();
+                                if(mCheckedResources != null){
+                                    mCheckedResources.clear();
+                                }
+                            }
+                        })
+                        .show();
+
+
+            }
+        });
     }
 
     @Override
@@ -279,6 +338,7 @@ public class NewTaskActivity extends AppCompatActivity {
         task.setDueDate(dueDate);
         task.setStatus(status);
         task.setAssignedUsers(mAssignedUserIds);
+        task.setResources(mAssignedResources);
         task.setCreatorId(mAuth.getCurrentUser().getUid());
 
         mDatabaseTasks.child(taskId).setValue(task);

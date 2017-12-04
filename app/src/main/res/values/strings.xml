@@ -19,6 +19,7 @@
     <string name="btn_sign_out">Sign Out</string>
     <string name="btn_add_items">Add Items</string>
     <string name="btn_assign_users">Assign Users</string>
+    <string name="btn_assign_resources"> Assign Resources </string>
 
     <!--Text Input Hints & Labels-->
     <string name="hint_first_name">First Name</string>
@@ -45,5 +46,6 @@
     <string name="points">+100 Points</string>
     <string name="Points">Points:</string>
     <string name="taskviewswitch">View My Tasks</string>
+
 
 </resources>
