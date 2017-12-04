@@ -45,5 +45,6 @@
     <string name="points">+100 Points</string>
     <string name="Points">Points:</string>
     <string name="taskviewswitch">View My Tasks</string>
+    <string name="btn_add_resources">Add Resources</string>
 
 </resources>
