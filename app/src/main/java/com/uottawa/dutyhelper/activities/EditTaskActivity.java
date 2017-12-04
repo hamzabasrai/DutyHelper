@@ -59,6 +59,13 @@ public class EditTaskActivity extends AppCompatActivity {
     private TextInputLayout mTaskDateLayout;
     private RadioGroup mRadioGroup;
     private Button mBtnAssignUser;
+    private Button mBtnAssignResources;
+    private View mDialogAssignResourcesView;
+    private ListView mResourcesListView;
+    private ArrayAdapter<String> mResourcesListAdapter;
+    private List<String> mAssignedResources;
+    private SparseBooleanArray mCheckedResources;
+
     private ListView mUserListView;
     private View mDialogAssignView;
     private SparseBooleanArray mCheckedUsers;
@@ -96,6 +103,57 @@ public class EditTaskActivity extends AppCompatActivity {
         mTaskDateLayout = (TextInputLayout) findViewById(R.id.edit_due_date_layout);
         mRadioGroup = (RadioGroup) findViewById(R.id.edit_status_radio_group);
         mBtnAssignUser = (Button) findViewById(R.id.edit_btn_assign_user);
+
+        //Assigning Resources
+        mAssignedResources = new ArrayList<>();
+        mBtnAssignResources = (Button) findViewById(R.id.edit_btn_assign_resources);
+        mBtnAssignResources.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] resources = {"Shovel", "Vaccum Cleaner", "Spoon"};
+                mDialogAssignResourcesView = LayoutInflater.from(EditTaskActivity.this).inflate(R.layout.dialog_assign_resources, null);
+                mResourcesListView = (ListView) mDialogAssignResourcesView.findViewById(R.id.resourcesListView);
+                mResourcesListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                mResourcesListAdapter =new ArrayAdapter<String>(EditTaskActivity.this, android.R.layout.simple_list_item_multiple_choice, resources);
+                mResourcesListView.setAdapter(mResourcesListAdapter);
+                if(mCheckedResources != null){
+                    for(int i =0; i < mCheckedResources.size() + 1; i++){
+                        mResourcesListView.setItemChecked(i, mCheckedResources.get(i));
+
+                    }
+
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditTaskActivity.this);
+                builder.setTitle("Assign Reources")
+                        .setView(mDialogAssignResourcesView)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                mCheckedResources = mResourcesListView.getCheckedItemPositions();
+                                for(int i =0; i< mCheckedResources.size()+1 ; i++){
+                                    if(mCheckedResources.get(i)){
+                                        mAssignedResources.add(resources[i]);
+                                    }
+
+
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                mAssignedResources.clear();
+                                if(mCheckedResources != null){
+                                    mCheckedResources.clear();
+                                }
+                            }
+                        })
+                        .show();
+
+
+            }
+        });
 
         mTaskDueDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -359,6 +417,7 @@ public class EditTaskActivity extends AppCompatActivity {
         task.setDescription(description);
         task.setDueDate(dueDate);
         task.setStatus(status);
+        task.setResources(mAssignedResources);
         if (mAssignedUserIds.isEmpty()) {
             task.setAssignedUsers(mTask.getAssignedUsers());
         } else {
