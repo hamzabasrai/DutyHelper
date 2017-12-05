@@ -191,7 +191,7 @@ public class EditTaskActivity extends AppCompatActivity {
                 mResourcesListView.setAdapter(adapter);
 
                 if (mCheckedResources != null) {
-                    for (int i = 0; i < mCheckedResources.size() + 1; i++) {
+                    for (int i = 0; i < mCheckedResources.size(); i++) {
                         mResourcesListView.setItemChecked(i, mCheckedResources.get(i));
                     }
 
@@ -206,7 +206,7 @@ public class EditTaskActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 mAssignedResources.clear();
                                 mCheckedResources = mResourcesListView.getCheckedItemPositions();
-                                for (int i = 0; i < mCheckedResources.size() + 1; i++) {
+                                for (int i = 0; i < mCheckedResources.size(); i++) {
                                     if (mCheckedResources.get(i)) {
                                         mAssignedResources.add(resources[i]);
                                     }

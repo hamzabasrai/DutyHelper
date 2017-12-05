@@ -225,7 +225,7 @@ public class NewTaskActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 mAssignedResources.clear();
                                 mCheckedResources = mResourcesListView.getCheckedItemPositions();
-                                for (int i = 0; i < mCheckedResources.size() + 1; i++) {
+                                for (int i = 0; i < mCheckedResources.size(); i++) {
                                     if (mCheckedResources.get(i)) {
                                         mAssignedResources.add(resources[i]);
                                     }
