@@ -38,7 +38,6 @@ public class TaskListActivity extends AppCompatActivity {
     private List<Task> mTasks;
     private List<User> mUsers;
     private List<Task> mUserTasks;
-    private User mCurrentUser;
 
     private FloatingActionButton mFAB;
     private LinearLayout mAddTaskLayout;
@@ -180,10 +179,15 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mTasks.clear();
+                mUserTasks.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Task task = postSnapshot.getValue(Task.class);
                     mTasks.add(task);
+                    if (task.getAssignedUsers().contains(mAuth.getCurrentUser().getUid())) {
+                        mUserTasks.add(task);
+                    }
                 }
+
                 if (!userTasksOnly) {
                     mTaskAdapter = new TaskAdapter(TaskListActivity.this, mTasks);
                     mTasksListView.setAdapter(mTaskAdapter);
@@ -203,15 +207,6 @@ public class TaskListActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
                     mUsers.add(user);
-                    if (user.getId().equals(mAuth.getCurrentUser().getUid())) {
-                        mCurrentUser = user;
-                    }
-                }
-
-                for (Task task : mTasks) {
-                    if (task.getAssignedUsers().contains(mCurrentUser.getId())) {
-                        mUserTasks.add(task);
-                    }
                 }
             }
 
