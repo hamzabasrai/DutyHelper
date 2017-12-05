@@ -141,9 +141,9 @@ public class TaskListActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder;
                 builder = new AlertDialog.Builder(TaskListActivity.this);
-                builder.setTitle("Delete Task")
-                        .setMessage("Are you sure you want to delete this task?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.dialog_title_delete_task)
+                        .setMessage(R.string.dialog_message_delete_task)
+                        .setPositiveButton(R.string.dialog_btn_ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //deletes entry from database
                                 Task toDelete = mTasks.get(position);
@@ -158,7 +158,7 @@ public class TaskListActivity extends AppCompatActivity {
                                 deleteTask(toDelete);
                             }
                         })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.dialog_btn_cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // do nothing
                             }
@@ -236,9 +236,6 @@ public class TaskListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_group) {
-
-        }
         if (id == R.id.action_profile) {
             Intent sendToSettings = new Intent(TaskListActivity.this, ProfileActivity.class);
             startActivity(sendToSettings);

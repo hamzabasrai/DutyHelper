@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DutyHelper</string>
+    <string name="app_name">Duty Helper</string>
 
     <!--Activity Titles-->
     <string name="title_activity_task_list">Task List</string>
@@ -41,6 +41,7 @@
     <string name="label_incomplete">Incomplete</string>
     <string name="label_in_progress">In Progress</string>
     <string name="label_complete">Complete</string>
+    <string name="label_task_view_switch">View My Tasks</string>
 
     <!--Content Descriptions-->
     <string name="description_profile_picture">Profile Picture</string>
@@ -50,8 +51,31 @@
     <string name="action_delete">Delete</string>
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
-    <string name="action_show_group">Show Group</string>
     <string name="points">+100 Points</string>
-    <string name="task_view_switch">View My Tasks</string>
+
+    <!--Dialog Boxes-->
+    <string name="dialog_title_delete_task">Delete Task</string>
+    <string name="dialog_title_add_resources">Add Resources</string>
+    <string name="dialog_title_assign_users">Assign Users</string>
+    <string name="dialog_title_due_date">Set Due Date</string>
+    <string name="dialog_message_delete_task">Are you sure you want to delete this task?</string>
+    <string name="dialog_btn_ok">OK</string>
+    <string name="dialog_btn_cancel">CANCEL</string>
+
+    <!--Errors Messages-->
+    <string name="error_required_field">Required Field</string>
+    <string name="error_assign_user">Must assign at least 1 user</string>
+    <string name="error_password_mismatch">Passwords do not match</string>
+    <string name="error_password_length">Must be longer than 8 characters</string>
+    <string name="error_invalid_email">Invalid Email</string>
+    <string name="error_invalid_login">Incorrect Email or Password</string>
+
+    <!--Toast Messages-->
+    <string name="toast_task_added">Task Added</string>
+    <string name="toast_task_updated">Task Updated</string>
+    <string name="toast_task_deleted">Task Deleted</string>
+    <string name="toast_sign_up_failed">Sign up process has failed</string>
+    <string name="toast_signed_out">Signed out</string>
+    <string name="toast_profile_updated">Profile Updated</string>
 
 </resources>

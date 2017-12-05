@@ -109,7 +109,7 @@ public class EditTaskActivity extends AppCompatActivity {
                 datePicker.init(year, month, day, null);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(EditTaskActivity.this);
-                builder.setTitle("Set Due Date")
+                builder.setTitle(R.string.dialog_title_due_date)
                         .setView(dialogDatePicker)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -153,10 +153,10 @@ public class EditTaskActivity extends AppCompatActivity {
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(EditTaskActivity.this);
-                builder.setTitle("Assign Users")
+                builder.setTitle(R.string.dialog_title_assign_users)
                         .setView(dialogUsers)
                         .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.dialog_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mAssignedUserIds.clear();
@@ -168,7 +168,7 @@ public class EditTaskActivity extends AppCompatActivity {
                                 }
                             }
                         })
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.dialog_btn_cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -198,10 +198,10 @@ public class EditTaskActivity extends AppCompatActivity {
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(EditTaskActivity.this);
-                builder.setTitle("Add Resources")
+                builder.setTitle(R.string.dialog_title_add_resources)
                         .setView(dialogResources)
                         .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.dialog_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 mAssignedResources.clear();
@@ -213,7 +213,7 @@ public class EditTaskActivity extends AppCompatActivity {
                                 }
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.dialog_btn_cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -316,12 +316,12 @@ public class EditTaskActivity extends AppCompatActivity {
 
             AlertDialog.Builder builder;
             builder = new AlertDialog.Builder(EditTaskActivity.this);
-            builder.setTitle("Delete Task")
-                    .setMessage("Are you sure you want to delete task?")
+            builder.setTitle(R.string.dialog_title_delete_task)
+                    .setMessage(R.string.dialog_message_delete_task)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             deleteTask(mTask);
-                            Toast.makeText(EditTaskActivity.this, "Task Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditTaskActivity.this, R.string.toast_task_deleted, Toast.LENGTH_SHORT).show();
                             startActivity(goBack);
                         }
                     })
@@ -334,7 +334,7 @@ public class EditTaskActivity extends AppCompatActivity {
         } else if (id == R.id.action_save_edit) {
             if (isValidTask()) {
                 updateTask();
-                Toast.makeText(this, "Task Updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toast_task_updated, Toast.LENGTH_SHORT).show();
                 startActivity(goBack);
             }
         }
@@ -502,19 +502,19 @@ public class EditTaskActivity extends AppCompatActivity {
         String dueDate = mTaskDueDate.getText().toString();
 
         if (TextUtils.isEmpty(name)) {
-            mTaskNameLayout.setError("Required Field");
+            mTaskNameLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (TextUtils.isEmpty(description)) {
-            mTaskDescLayout.setError("Required Field");
+            mTaskDescLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (TextUtils.isEmpty(dueDate)) {
-            mTaskDateLayout.setError("Required Field");
+            mTaskDateLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (mAssignedUserIds.isEmpty()) {
-            Toast.makeText(EditTaskActivity.this, "Must assign at least 1 user", Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditTaskActivity.this, R.string.error_assign_user, Toast.LENGTH_SHORT).show();
             isValid = false;
         }
         return isValid;

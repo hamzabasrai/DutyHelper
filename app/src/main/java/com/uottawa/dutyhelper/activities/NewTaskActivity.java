@@ -127,7 +127,7 @@ public class NewTaskActivity extends AppCompatActivity {
                 mDatePicker.init(year, month, day, null);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewTaskActivity.this);
-                builder.setTitle("Set Due Date")
+                builder.setTitle(R.string.dialog_title_due_date)
                         .setView(dialogDatePicker)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -171,10 +171,10 @@ public class NewTaskActivity extends AppCompatActivity {
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewTaskActivity.this);
-                builder.setTitle("Assign Users")
+                builder.setTitle(R.string.dialog_title_assign_users)
                         .setView(dialogUsers)
                         .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.dialog_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mAssignedUserIds.clear();
@@ -186,7 +186,7 @@ public class NewTaskActivity extends AppCompatActivity {
                                 }
                             }
                         })
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.dialog_btn_cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -217,10 +217,10 @@ public class NewTaskActivity extends AppCompatActivity {
 
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(NewTaskActivity.this);
-                builder.setTitle("Assign Resources")
+                builder.setTitle(R.string.dialog_title_add_resources)
                         .setView(dialogResources)
                         .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.dialog_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 mAssignedResources.clear();
@@ -234,7 +234,7 @@ public class NewTaskActivity extends AppCompatActivity {
                                 }
                             }
                         })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.dialog_btn_cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -347,7 +347,7 @@ public class NewTaskActivity extends AppCompatActivity {
             }
         }
 
-        Toast.makeText(this, "Task Added", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.toast_task_added, Toast.LENGTH_LONG).show();
     }
 
     private boolean isValidTask() {
@@ -359,19 +359,19 @@ public class NewTaskActivity extends AppCompatActivity {
         String dueDate = mTaskDueDate.getText().toString();
 
         if (TextUtils.isEmpty(name)) {
-            mTitleLayout.setError("Required Field");
+            mTitleLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (TextUtils.isEmpty(description)) {
-            mDescLayout.setError("Required Field");
+            mDescLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (TextUtils.isEmpty(dueDate)) {
-            mDueDateLayout.setError("Required Field");
+            mDueDateLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (mAssignedUserIds.isEmpty()) {
-            Toast.makeText(NewTaskActivity.this, "Must assign at least 1 user", Toast.LENGTH_SHORT).show();
+            Toast.makeText(NewTaskActivity.this, R.string.error_assign_user, Toast.LENGTH_SHORT).show();
             isValid = false;
         }
         return isValid;

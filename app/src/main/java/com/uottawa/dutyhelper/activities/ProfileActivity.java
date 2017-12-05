@@ -77,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(ProfileActivity.this,LoginActivity.class);
                 finishAffinity();
                 startActivity(intent);
-                Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.toast_signed_out, Toast.LENGTH_LONG).show();
 
             }
         });
@@ -119,7 +119,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     loadPicture();
-                    Toast.makeText(ProfileActivity.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, R.string.toast_profile_updated, Toast.LENGTH_SHORT).show();
                 }
             });
         }

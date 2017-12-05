@@ -110,8 +110,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         updateUI();
                     } else {
-                        mEmailLayout.setError("Incorrect Email or Password");
-                        mPasswordLayout.setError("Incorrect Email or Password");
+                        mEmailLayout.setError(getString(R.string.error_invalid_login));
+                        mPasswordLayout.setError(getString(R.string.error_invalid_login));
                     }
                 }
             });
@@ -123,15 +123,15 @@ public class LoginActivity extends AppCompatActivity {
         String password = mPasswordField.getText().toString();
         String email = mEmailField.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            mEmailLayout.setError("Required Field");
+            mEmailLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches() && !TextUtils.isEmpty(email)) {
-            mEmailLayout.setError("Invalid Email");
+            mEmailLayout.setError(getString(R.string.error_invalid_email));
             isValid = false;
         }
         if (TextUtils.isEmpty(password)) {
-            mPasswordLayout.setError("Required Field");
+            mPasswordLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         return isValid;

@@ -33,7 +33,7 @@
             android:layout_height="45dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:text="@string/task_view_switch"
+            android:text="@string/label_task_view_switch"
             android:textAlignment="textStart"/>
 
         <ListView

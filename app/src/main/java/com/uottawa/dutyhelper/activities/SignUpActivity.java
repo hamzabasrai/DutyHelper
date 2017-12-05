@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -128,8 +127,7 @@ public class SignUpActivity extends AppCompatActivity {
                         finish();
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                        Toast.makeText(SignUpActivity.this, "Sign up process has failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, R.string.toast_sign_up_failed, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -147,33 +145,33 @@ public class SignUpActivity extends AppCompatActivity {
         String lastName = mLastName.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
-            mEmailLayout.setError("Required field");
+            mEmailLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (TextUtils.isEmpty(firstName)) {
-            mFirstNameLayout.setError("Required field");
+            mFirstNameLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (TextUtils.isEmpty(lastName)) {
-            mLastNameLayout.setError("Required field");
+            mLastNameLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (TextUtils.isEmpty(password)) {
-            mPasswordLayout.setError("Required field");
+            mPasswordLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (TextUtils.isEmpty(passwordConfirm)) {
-            mPasswordConfirmLayout.setError("Required field");
+            mPasswordConfirmLayout.setError(getString(R.string.error_required_field));
             isValid = false;
         }
         if (password.length() < 8) {
-            mPasswordLayout.setError("Must be longer than 8 characters");
-            mPasswordConfirmLayout.setError("Must be longer than 8 characters");
+            mPasswordLayout.setError(getString(R.string.error_password_length));
+            mPasswordConfirmLayout.setError(getString(R.string.error_password_length));
             isValid = false;
         }
         if (!password.equals(passwordConfirm)) {
-            mPasswordLayout.setError("Passwords do not match");
-            mPasswordConfirmLayout.setError("Passwords do not match");
+            mPasswordLayout.setError(getString(R.string.error_password_mismatch));
+            mPasswordConfirmLayout.setError(getString(R.string.error_password_mismatch));
             isValid = false;
         }
 
