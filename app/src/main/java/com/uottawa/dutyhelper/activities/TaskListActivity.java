@@ -239,7 +239,7 @@ public class TaskListActivity extends AppCompatActivity {
         if (id == R.id.action_group) {
 
         }
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_profile) {
             Intent sendToSettings = new Intent(TaskListActivity.this, ProfileActivity.class);
             startActivity(sendToSettings);
 

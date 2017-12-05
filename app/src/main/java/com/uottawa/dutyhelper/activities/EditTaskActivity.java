@@ -99,7 +99,7 @@ public class EditTaskActivity extends AppCompatActivity {
         mTaskDateLayout = (TextInputLayout) findViewById(R.id.edit_due_date_layout);
         mRadioGroup = (RadioGroup) findViewById(R.id.edit_status_radio_group);
         mBtnAssignUser = (Button) findViewById(R.id.edit_btn_assign_user);
-        mBtnAssignResources = (Button) findViewById(R.id.edit_btn_assign_resources);
+        mBtnAssignResources = (Button) findViewById(R.id.edit_btn_add_resources);
 
         mTaskDueDate.setOnClickListener(new View.OnClickListener() {
             @Override

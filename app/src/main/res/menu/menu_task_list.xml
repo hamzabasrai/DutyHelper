@@ -2,15 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_profile"
         android:orderInCategory="100"
         android:icon="@drawable/ic_settings"
-        android:title="@string/action_settings"
+        android:title="@string/action_profile"
         app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/action_group"
-        android:icon="@drawable/ic_group"
-        android:title="@string/action_show_group"
-        app:showAsAction="always"/>
 </menu>
