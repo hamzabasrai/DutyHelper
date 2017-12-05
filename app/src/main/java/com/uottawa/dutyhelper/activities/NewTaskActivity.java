@@ -165,7 +165,7 @@ public class NewTaskActivity extends AppCompatActivity {
                 mUserListView.setAdapter(adapter);
 
                 if (mCheckedUsers != null) {
-                    for (int i = 0; i < mCheckedUsers.size(); i++) {
+                    for (int i = 0; i < mUserListView.getCount(); i++) {
                         mUserListView.setItemChecked(i, mCheckedUsers.get(i));
                     }
                 }
@@ -179,7 +179,7 @@ public class NewTaskActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 mAssignedUserIds.clear();
                                 mCheckedUsers = mUserListView.getCheckedItemPositions();
-                                for (int i = 0; i < mCheckedUsers.size(); i++) {
+                                for (int i = 0; i < mUserListView.getCount(); i++) {
                                     if (mCheckedUsers.get(i)) {
                                         mAssignedUserIds.add(mUsers.get(i).getId());
                                     }
@@ -210,7 +210,7 @@ public class NewTaskActivity extends AppCompatActivity {
                 mResourcesListView.setAdapter(adapter);
 
                 if (mCheckedResources != null) {
-                    for (int i = 0; i < mCheckedResources.size(); i++) {
+                    for (int i = 0; i < mResourcesListView.getCount(); i++) {
                         mResourcesListView.setItemChecked(i, mCheckedResources.get(i));
 
                     }
@@ -225,7 +225,7 @@ public class NewTaskActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int which) {
                                 mAssignedResources.clear();
                                 mCheckedResources = mResourcesListView.getCheckedItemPositions();
-                                for (int i = 0; i < mCheckedResources.size(); i++) {
+                                for (int i = 0; i < mResourcesListView.getCount(); i++) {
                                     if (mCheckedResources.get(i)) {
                                         mAssignedResources.add(resources[i]);
                                     }

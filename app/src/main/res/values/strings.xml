@@ -42,9 +42,11 @@
     <string name="label_in_progress">In Progress</string>
     <string name="label_complete">Complete</string>
     <string name="label_task_view_switch">View My Tasks</string>
+    <string name="label_total_points">Total Points</string>
 
     <!--Content Descriptions-->
     <string name="description_profile_picture">Profile Picture</string>
+    <string name="description_task_icon">Task Icon</string>
 
     <!--Menu Item Labels-->
     <string name="action_profile">Profile</string>

@@ -130,7 +130,7 @@ public class ProfileActivity extends AppCompatActivity {
         Glide.with(getApplicationContext())
                 .using(new FirebaseImageLoader())
                 .load(filepath)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .signature(new MediaStoreSignature("image/*", System.currentTimeMillis(), 0))
                 .error(R.drawable.default_avatar)
                 .centerCrop()

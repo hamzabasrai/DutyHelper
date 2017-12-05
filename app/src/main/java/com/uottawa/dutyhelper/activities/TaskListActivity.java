@@ -232,8 +232,8 @@ public class TaskListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_profile) {
-            Intent sendToSettings = new Intent(TaskListActivity.this, ProfileActivity.class);
-            startActivity(sendToSettings);
+            Intent intent = new Intent(TaskListActivity.this, ProfileActivity.class);
+            startActivity(intent);
 
         }
         return true;

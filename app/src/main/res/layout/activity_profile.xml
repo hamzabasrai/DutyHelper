@@ -11,55 +11,65 @@
 
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/profile_image"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:contentDescription="@string/description_profile_picture"
         app:civ_border_color="@color/colorAccent"
         app:civ_border_width="4dp"
-        tools:src="@drawable/default_avatar"
-        android:contentDescription="@string/description_profile_picture"
+        app:layout_constraintEnd_toStartOf="@id/user_name"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/label_layout"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <LinearLayout
-        android:id="@+id/label_layout"
-        android:layout_width="0dp"
-        android:layout_height="128dp"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/profile_image"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-            android:textSize="32sp"
-            tools:text="Joker Man"/>
-
-        <TextView
-            android:id="@+id/user_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            tools:text="jokerman@gmail.com"/>
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/default_avatar"/>
 
 
     <TextView
-        android:id="@+id/user_points"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-        android:textColor="@android:color/holo_green_light"
-        android:textSize="32sp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@id/user_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/profile_image"
+        app:layout_constraintTop_toTopOf="@id/profile_image"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Miguel Garzon"/>
+
+    <TextView
+        android:id="@+id/user_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        app:layout_constraintBottom_toBottomOf="@id/profile_image"
+        app:layout_constraintStart_toStartOf="@id/user_name"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        tools:text="mgarzon@uottawa.ca"/>
+
+
+    <TextView
+        android:id="@+id/points_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textSize="24sp"
+        android:text="@string/label_total_points"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/user_points"/>
+
+    <TextView
+        android:id="@+id/user_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image"
-        tools:text="@string/Points" />
+        app:layout_constraintBottom_toTopOf="@id/btn_sign_out"
+        tools:text="100"/>
 
     <Button
         android:id="@+id/btn_sign_out"
@@ -70,6 +80,6 @@
         android:text="@string/btn_sign_out"
         android:theme="@style/PrimaryFlatButton"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>
