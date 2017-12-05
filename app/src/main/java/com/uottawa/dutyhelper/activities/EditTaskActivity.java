@@ -48,6 +48,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private List<Task> mTasks = new ArrayList<>();
     private List<User> mUsers = new ArrayList<>();
     private List<String> mAssignedUserIds = new ArrayList<>();
+    private List<String> mAssignedResources = new ArrayList<>();
     private Task mTask = new Task();
     private User mUser;
 
@@ -60,14 +61,9 @@ public class EditTaskActivity extends AppCompatActivity {
     private RadioGroup mRadioGroup;
     private Button mBtnAssignUser;
     private Button mBtnAssignResources;
-    private View mDialogAssignResourcesView;
     private ListView mResourcesListView;
-    private ArrayAdapter<String> mResourcesListAdapter;
-    private List<String> mAssignedResources;
-    private SparseBooleanArray mCheckedResources;
-
     private ListView mUserListView;
-    private View mDialogAssignView;
+    private SparseBooleanArray mCheckedResources;
     private SparseBooleanArray mCheckedUsers;
 
     private String extraTaskId;
@@ -103,57 +99,7 @@ public class EditTaskActivity extends AppCompatActivity {
         mTaskDateLayout = (TextInputLayout) findViewById(R.id.edit_due_date_layout);
         mRadioGroup = (RadioGroup) findViewById(R.id.edit_status_radio_group);
         mBtnAssignUser = (Button) findViewById(R.id.edit_btn_assign_user);
-
-        //Assigning Resources
-        mAssignedResources = new ArrayList<>();
         mBtnAssignResources = (Button) findViewById(R.id.edit_btn_assign_resources);
-        mBtnAssignResources.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final String[] resources = {"Shovel", "Vaccum Cleaner", "Spoon"};
-                mDialogAssignResourcesView = LayoutInflater.from(EditTaskActivity.this).inflate(R.layout.dialog_assign_resources, null);
-                mResourcesListView = (ListView) mDialogAssignResourcesView.findViewById(R.id.resourcesListView);
-                mResourcesListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                mResourcesListAdapter =new ArrayAdapter<String>(EditTaskActivity.this, android.R.layout.simple_list_item_multiple_choice, resources);
-                mResourcesListView.setAdapter(mResourcesListAdapter);
-                if(mCheckedResources != null){
-                    for(int i =0; i < mCheckedResources.size() + 1; i++){
-                        mResourcesListView.setItemChecked(i, mCheckedResources.get(i));
-
-                    }
-
-                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(EditTaskActivity.this);
-                builder.setTitle("Assign Reources")
-                        .setView(mDialogAssignResourcesView)
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                mCheckedResources = mResourcesListView.getCheckedItemPositions();
-                                for(int i =0; i< mCheckedResources.size()+1 ; i++){
-                                    if(mCheckedResources.get(i)){
-                                        mAssignedResources.add(resources[i]);
-                                    }
-
-
-                                }
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                mAssignedResources.clear();
-                                if(mCheckedResources != null){
-                                    mCheckedResources.clear();
-                                }
-                            }
-                        })
-                        .show();
-
-
-            }
-        });
 
         mTaskDueDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,8 +139,8 @@ public class EditTaskActivity extends AppCompatActivity {
                     userNames.add(name);
                 }
 
-                mDialogAssignView = LayoutInflater.from(EditTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
-                mUserListView = (ListView) mDialogAssignView.findViewById(R.id.users_list_view);
+                View dialogUsers = LayoutInflater.from(EditTaskActivity.this).inflate(R.layout.dialog_assign_user, null);
+                mUserListView = (ListView) dialogUsers.findViewById(R.id.users_list_view);
                 mUserListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
                 ArrayAdapter adapter = new ArrayAdapter<>(EditTaskActivity.this, android.R.layout.simple_list_item_multiple_choice, userNames);
@@ -208,7 +154,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(EditTaskActivity.this);
                 builder.setTitle("Assign Users")
-                        .setView(mDialogAssignView)
+                        .setView(dialogUsers)
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -225,10 +171,52 @@ public class EditTaskActivity extends AppCompatActivity {
                         .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mAssignedUserIds.clear();
-                                if (mCheckedUsers != null) {
-                                    mCheckedUsers.clear();
+
+                            }
+                        })
+                        .show();
+            }
+        });
+
+        mBtnAssignResources.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] resources = getResources().getStringArray(R.array.task_resources);
+
+                View dialogResources = LayoutInflater.from(EditTaskActivity.this).inflate(R.layout.dialog_assign_resources, null);
+                mResourcesListView = (ListView) dialogResources.findViewById(R.id.resourcesListView);
+                mResourcesListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(EditTaskActivity.this, android.R.layout.simple_list_item_multiple_choice, resources);
+                mResourcesListView.setAdapter(adapter);
+
+                if (mCheckedResources != null) {
+                    for (int i = 0; i < mCheckedResources.size() + 1; i++) {
+                        mResourcesListView.setItemChecked(i, mCheckedResources.get(i));
+                    }
+
+                }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditTaskActivity.this);
+                builder.setTitle("Add Resources")
+                        .setView(dialogResources)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                mAssignedResources.clear();
+                                mCheckedResources = mResourcesListView.getCheckedItemPositions();
+                                for (int i = 0; i < mCheckedResources.size() + 1; i++) {
+                                    if (mCheckedResources.get(i)) {
+                                        mAssignedResources.add(resources[i]);
+                                    }
                                 }
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
                             }
                         })
                         .show();
@@ -277,6 +265,7 @@ public class EditTaskActivity extends AppCompatActivity {
                     mTasks.add(task);
                     if (task.getId().equals(extraTaskId)) {
                         mTask = task;
+                        mAssignedUserIds = task.getAssignedUsers();
                     }
                 }
                 populateTask();
@@ -298,6 +287,7 @@ public class EditTaskActivity extends AppCompatActivity {
                         mUser = user;
                     }
                 }
+                populateUserDialog();
             }
 
             @Override
@@ -369,6 +359,33 @@ public class EditTaskActivity extends AppCompatActivity {
                 break;
             default:
                 break;
+        }
+
+        if (mTask.getResources() != null) {
+            String[] allResources = getResources().getStringArray(R.array.task_resources);
+            mCheckedResources = new SparseBooleanArray(allResources.length);
+            List<String> resources = mTask.getResources();
+            for (int i = 0; i < allResources.length; i++) {
+                String current = allResources[i];
+                if (resources.contains(current)) {
+                    mCheckedResources.put(i, true);
+                } else {
+                    mCheckedResources.put(i, false);
+                }
+            }
+        }
+    }
+
+    private void populateUserDialog() {
+        mCheckedUsers = new SparseBooleanArray(mUsers.size());
+        List<String> assignedUsers = mTask.getAssignedUsers();
+        for (int i = 0; i < mUsers.size(); i++) {
+            String current = mUsers.get(i).getId();
+            if (assignedUsers.contains(current)) {
+                mCheckedUsers.put(i, true);
+            } else {
+                mCheckedUsers.put(i, false);
+            }
         }
     }
 

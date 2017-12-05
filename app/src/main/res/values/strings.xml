@@ -48,5 +48,16 @@
     <string name="taskviewswitch">View My Tasks</string>
     <string name="btn_add_resources">Add Resources</string>
 
+    <string-array name="task_resources">
+        <item>Vacuum</item>
+        <item>Mop</item>
+        <item>Garbage Bags</item>
+        <item>Cleaning Supplies</item>
+        <item>Hand Tools</item>
+        <item>Sponge</item>
+        <item>Bucket</item>
+        <item>Ladder</item>
+    </string-array>
+
 
 </resources>
