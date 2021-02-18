@@ -1,2 +1,2 @@
 # DutyHelper
-SEG2105 Andriod Project
+SEG2105 Android Project
